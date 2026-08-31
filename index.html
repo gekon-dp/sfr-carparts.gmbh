@@ -1,15 +1,718 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SFR Carparts GmbH — Оптовые и розничные поставки автозапчастей</title>
+  <meta name="description"
+    content="Оптовая и розничная продажа автозапчастей с гарантией и быстрой доставкой по ЕС и СНГ. SFR Carparts GmbH." />
+
+  <!-- Favicon Pack -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="assets/icons/icon.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- SEO Hreflang (ЕС / Германия) -->
+  <link rel="alternate" hreflang="ru" href="https://sfr-carparts.de/ru/" />
+  <link rel="alternate" hreflang="de" href="https://sfr-carparts.de/de/" />
+  <link rel="alternate" hreflang="x-default" href="https://sfr-carparts.de/" />
+
+  <!-- CSS (Локальные шрифты подключаются внутри style.css) -->
   <link rel="stylesheet" href="styles/styles.css" />
-  <title>Document</title>
 </head>
 
-<body>
+<body data-theme="light">
+  <!-- ==================== STICKY HEADER ==================== -->
+  <header class="header">
+    <div class="container header__container">
+      <div class="logo">
+        <strong>SFR Carparts</strong>
+      </div>
+
+      <!-- Навигация по секциям -->
+      <nav class="header__nav">
+        <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
+        <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
+        <a href="#brands" data-lang-key="nav_brands">Бренды</a>
+        <a href="#reviews" data-lang-key="nav_reviews">Отзывы</a>
+        <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <div class="lang-switcher">
+          <button type="button" class="lang-btn active" data-lang="ru">RU</button>
+          <button type="button" class="lang-btn" data-lang="de">DE</button>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
+          <span class="theme-toggle__icon">🌙</span>
+        </button>
+
+        <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
+          data-lang-key="btn_callback">
+          Заказать звонок
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SLIDER ==================== -->
+  <section class="hero-slider">
+    <div class="hero-slider__wrapper">
+      <!-- Slide 1 -->
+      <div class="hero-slide active">
+        <div class="container hero-slide__container">
+          <div class="hero-slide__content">
+            <h1 data-lang-key="hero_slide1_title">Качественные автозапчасти для вашего авто</h1>
+            <p data-lang-key="hero_slide1_desc">
+              Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.
+            </p>
+            <div class="hero-slide__actions">
+              <button class="btn btn--primary" data-open-modal="orderModal" data-lang-key="btn_catalog">
+                Перейти в каталог
+              </button>
+            </div>
+          </div>
+          <div class="hero-slide__image">
+            <img src="images/hero-1.jpg" alt="Car parts" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero-slide">
+        <div class="container hero-slide__container">
+          <div class="hero-slide__content">
+            <h1 data-lang-key="hero_slide2_title">Оперативная доставка по всей стране</h1>
+            <p data-lang-key="hero_slide2_desc">
+              Гибкая логистика и надежные партнеры для транспортировки любых деталей.
+            </p>
+            <div class="hero-slide__actions">
+              <button class="btn btn--primary" data-open-modal="orderModal" data-lang-key="btn_contact">
+                Связаться с нами
+              </button>
+            </div>
+          </div>
+          <div class="hero-slide__image">
+            <img src="images/hero-2.jpg" alt="Logistics and delivery" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопки управления -->
+    <button class="hero-slider__btn hero-slider__btn--prev" aria-label="Previous Slide">❮</button>
+    <button class="hero-slider__btn hero-slider__btn--next" aria-label="Next Slide">❯</button>
+
+    <!-- Точки (Dots) -->
+    <div class="hero-slider__dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+    </div>
+  </section>
+
+  <!-- ==================== TRUST COUNTERS ==================== -->
+  <section class="counters-section">
+    <div class="container">
+      <div class="counters-grid">
+        <div class="counter-card">
+          <div class="counter-card__number">10+</div>
+          <div class="counter-card__label" data-lang-key="counter_1">лет опыта на рынке</div>
+        </div>
+
+        <div class="counter-card">
+          <div class="counter-card__number">15 000+</div>
+          <div class="counter-card__label" data-lang-key="counter_2">запчастей в наличии</div>
+        </div>
+
+        <div class="counter-card">
+          <div class="counter-card__number">98%</div>
+          <div class="counter-card__label" data-lang-key="counter_3">довольных клиентов</div>
+        </div>
+
+        <div class="counter-card">
+          <div class="counter-card__number">24/7</div>
+          <div class="counter-card__label" data-lang-key="counter_4">поддержка и консультация</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONDITIONS CARDS ==================== -->
+  <section class="conditions-section" id="conditions">
+    <div class="container">
+      <h2 class="conditions-title" data-lang-key="conditions_title">Условия работы и преимущества</h2>
+
+      <div class="conditions-grid">
+        <!-- Card 1 -->
+        <div class="condition-card">
+          <div class="condition-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+          <h3 data-lang-key="condition_1_title">Быстрая доставка</h3>
+          <p data-lang-key="condition_1_desc">
+            Отправляем заказы в день обращения. Доставка по всей стране с проверенными логистическими компаниями.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="condition-card">
+          <div class="condition-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 data-lang-key="condition_2_title">Гарантия качества</h3>
+          <p data-lang-key="condition_2_desc">
+            Все детали проходят предпродажную проверку. Предоставляем официальную гарантию от производителя.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="condition-card">
+          <div class="condition-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <h3 data-lang-key="condition_3_title">Гибкая система скидок</h3>
+          <p data-lang-key="condition_3_desc">
+            Специальные цены для оптовых покупателей и постоянных клиентов. Индивидуальный расчет под каждый заказ.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="condition-card">
+          <div class="condition-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">
+              </path>
+            </svg>
+          </div>
+          <h3 data-lang-key="condition_4_title">Подбор по VIN-коду</h3>
+          <p data-lang-key="condition_4_desc">
+            Наши специалисты точно подберут 100% подходящую деталь для вашей марки и модели авто.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TIMELINE (WORKFLOW) ==================== -->
+  <section class="timeline-section" id="timeline">
+    <div class="container">
+      <h2 class="timeline-title" data-lang-key="timeline_title">Как мы работаем</h2>
+
+      <div class="horizontal-timeline">
+        <!-- Step 1 -->
+        <div class="timeline-item timeline-item--blue">
+          <span class="timeline-item__label">01</span>
+          <div class="timeline-item__node"></div>
+          <div class="timeline-item__content">
+            <h3 data-lang-key="step_1_title">Заявка</h3>
+            <p data-lang-key="step_1_desc">Оставляете заявку на сайте или связываетесь с нами по телефону</p>
+            <div class="timeline-item__underline"></div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-item timeline-item--red">
+          <span class="timeline-item__label">02</span>
+          <div class="timeline-item__node"></div>
+          <div class="timeline-item__content">
+            <h3 data-lang-key="step_2_title">Подбор</h3>
+            <p data-lang-key="step_2_desc">Точно подбираем деталь по VIN-коду и согласуем стоимость</p>
+            <div class="timeline-item__underline"></div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-item timeline-item--green">
+          <span class="timeline-item__label">03</span>
+          <div class="timeline-item__node"></div>
+          <div class="timeline-item__content">
+            <h3 data-lang-key="step_3_title">Оплата</h3>
+            <p data-lang-key="step_3_desc">Удобные способы оплаты на выбор — онлайн или при получении</p>
+            <div class="timeline-item__underline"></div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-item timeline-item--orange">
+          <span class="timeline-item__label">04</span>
+          <div class="timeline-item__node"></div>
+          <div class="timeline-item__content">
+            <h3 data-lang-key="step_4_title">Доставка</h3>
+            <p data-lang-key="step_4_desc">Быстро отправляем заказ и передаем вам трек-номер для отслеживания</p>
+            <div class="timeline-item__underline"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BRANDS CAROUSEL ==================== -->
+  <section class="brands-section" id="brands">
+    <div class="container">
+      <h2 class="brands-title" data-lang-key="brands_title">Наши партнеры</h2>
+      <div class="brands-carousel">
+        <div class="brands-track">
+          <!-- Набор 1 -->
+          <div class="brand-item"><img src="images/brands/bosch.svg" alt="Bosch" /></div>
+          <div class="brand-item"><img src="images/brands/brembo.svg" alt="Brembo" /></div>
+          <div class="brand-item"><img src="images/brands/kyb.svg" alt="KYB" /></div>
+          <div class="brand-item"><img src="images/brands/mann.svg" alt="Mann Filter" /></div>
+          <div class="brand-item"><img src="images/brands/sachs.svg" alt="Sachs" /></div>
+          <div class="brand-item"><img src="images/brands/lemforder.svg" alt="Lemforder" /></div>
+
+          <!-- Дубликат для бесконечной ленты -->
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/bosch.svg" alt="Bosch" /></div>
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/brembo.svg" alt="Brembo" /></div>
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/kyb.svg" alt="KYB" /></div>
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/mann.svg" alt="Mann Filter" /></div>
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/sachs.svg" alt="Sachs" /></div>
+          <div class="brand-item" aria-hidden="true"><img src="images/brands/lemforder.svg" alt="Lemforder" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== REVIEWS SECTION ==================== -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <h2 class="reviews-title" data-lang-key="reviews_title">Отзывы наших клиентов</h2>
+
+      <div class="reviews-slider">
+        <!-- На ПК стрелка Слева -->
+        <button class="reviews-slider__btn reviews-slider__btn--prev desktop-only" aria-label="Previous">‹</button>
+
+        <div class="reviews-slider__track-container">
+          <div class="reviews-slider__track">
+            <!-- Review 1 -->
+            <div class="review-card">
+              <div class="review-card__header">
+                <div class="review-card__avatar">АМ</div>
+                <div class="review-card__meta">
+                  <div class="review-card__author">Алексей Михайлов</div>
+                  <div class="review-card__date">12 августа 2026</div>
+                  <div class="review-card__rating">★★★★★</div>
+                </div>
+              </div>
+              <p class="review-card__text" data-lang-key="review_1_text">
+                Заказывал редкие детали подвески. Помогли точно подобрать по VIN-коду, отправили в тот же день. Всё
+                пришло аккуратно упакованное, качество супер!
+              </p>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="review-card">
+              <div class="review-card__header">
+                <div class="review-card__avatar">ЕК</div>
+                <div class="review-card__meta">
+                  <div class="review-card__author">Елена Ковалёва</div>
+                  <div class="review-card__date">03 августа 2026</div>
+                  <div class="review-card__rating">★★★★★</div>
+                </div>
+              </div>
+              <p class="review-card__text" data-lang-key="review_2_text">
+                Отличный сервис и приятные цены. Менеджер проконсультировал по всем альтернативным брендам и помог
+                сэкономить без потери качества. Рекомендую!
+              </p>
+            </div>
+            <!-- Review 3 -->
+            <div class="review-card">
+              <div class="review-card__header">
+                <div class="review-card__avatar">ДВ</div>
+                <div class="review-card__meta">
+                  <div class="review-card__author">Дмитрий Волков</div>
+                  <div class="review-card__date">25 июля 2026</div>
+                  <div class="review-card__rating">★★★★★</div>
+                </div>
+              </div>
+              <p class="review-card__text" data-lang-key="review_3_text">
+                Работаем с ребятами оптом уже более года. Поставки без задержек, гарантийные вопросы решаются
+                мгновенно. Надежный партнер для автосервиса.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- На ПК стрелка Справа -->
+        <button class="reviews-slider__btn reviews-slider__btn--next desktop-only" aria-label="Next">›</button>
+      </div>
+
+      <!-- Блок действий и мобильной навигации -->
+      <div class="reviews-action">
+        <div class="reviews-mobile-controls">
+          <button class="reviews-slider__btn reviews-slider__btn--prev" aria-label="Previous">‹</button>
+          <button class="reviews-slider__btn reviews-slider__btn--next" aria-label="Next">›</button>
+        </div>
+
+        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="google-reviews-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4" />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853" />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              fill="#FBBC05" />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              fill="#EA4335" />
+          </svg>
+          <span data-lang-key="google_reviews_btn">Читать все отзывы на Google</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ SECTION ==================== -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <h2 class="faq-title" data-lang-key="faq_title">Часто задаваемые вопросы</h2>
+
+      <div class="faq-list">
+        <!-- Item 1 -->
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span class="faq-item__question" data-lang-key="faq_q1">
+              Как правильно подобрать запчасть по VIN-коду?
+            </span>
+            <span class="faq-item__icon"></span>
+          </button>
+          <div class="faq-item__content">
+            <div class="faq-item__body">
+              <p data-lang-key="faq_a1">
+                Оставьте заявку с 17-значным VIN-кодом вашего автомобиля. Наши специалисты бесплатно подберут 100%
+                совместимые оригинальные детали и проверенные качественные аналоги.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span class="faq-item__question" data-lang-key="faq_q2">Какая гарантия предоставляется на детали?</span>
+            <span class="faq-item__icon"></span>
+          </button>
+          <div class="faq-item__content">
+            <div class="faq-item__body">
+              <p data-lang-key="faq_a2">
+                На все оригинальные комплектующие и сертифицированные аналоги действует гарантия от производителя от
+                12 до 24 месяцев при установке на нашем или авторизованном СТО.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span class="faq-item__question" data-lang-key="faq_q3">Что делать, если деталь не подошла?</span>
+            <span class="faq-item__icon"></span>
+          </button>
+          <div class="faq-item__content">
+            <div class="faq-item__body">
+              <p data-lang-key="faq_a3">
+                Вы можете обменять или вернуть товар в течение 14 дней с момента получения, если сохранен товарный
+                вид, упаковочные ярлыки и нет следов установки.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span class="faq-item__question" data-lang-key="faq_q4">
+              Работаете ли вы с юридическими лицами и оптом?
+            </span>
+            <span class="faq-item__icon"></span>
+          </button>
+          <div class="faq-item__content">
+            <div class="faq-item__body">
+              <p data-lang-key="faq_a4">
+                Да, мы работаем с автосервисами, автопарками и юрлицами по безналичному расчету с НДС. Для постоянных
+                оптовых партнеров действует гибкая система скидок.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER & BRANCHES ==================== -->
+  <footer class="footer-section" id="contacts">
+    <div class="container">
+      <!-- Верхняя часть: Заголовок и переключатель филиалов на всю ширину -->
+      <div class="footer-header">
+        <h2 class="footer-title" data-lang-key="contacts_title">Наши филиалы</h2>
+
+        <!-- Табы выбора филиала -->
+        <div class="branch-tabs" role="tablist">
+          <button class="branch-tab active" data-branch="berlin" role="tab" aria-selected="true"
+            data-lang-key="branch_berlin">
+            Берлин
+          </button>
+          <button class="branch-tab" data-branch="munich" role="tab" aria-selected="false"
+            data-lang-key="branch_munich">
+            Мюнхен
+          </button>
+        </div>
+      </div>
+
+      <!-- Основная сетка: Контакты слева, Карта справа -->
+      <div class="footer-grid">
+        <!-- Левая колонка: Детали филиалов -->
+        <div class="branch-details">
+          <!-- Берлин -->
+          <div class="branch-panel active" id="branch-berlin">
+            <div class="info-item">
+              <span class="info-item__icon">📍</span>
+              <div>
+                <strong data-lang-key="address_label">Адрес:</strong>
+                <p>Alexanderplatz 1, 10178 Berlin, Deutschland</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">📞</span>
+              <div>
+                <strong data-lang-key="phone_label">Телефон:</strong>
+                <p><a href="tel:+493012345678">+49 30 12345678</a></p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">⏰</span>
+              <div>
+                <strong data-lang-key="hours_label">Режим работы:</strong>
+                <p data-lang-key="hours_value">Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Мюнхен -->
+          <div class="branch-panel" id="branch-munich">
+            <div class="info-item">
+              <span class="info-item__icon">📍</span>
+              <div>
+                <strong data-lang-key="address_label">Адрес:</strong>
+                <p>Marienplatz 8, 80331 München, Deutschland</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">📞</span>
+              <div>
+                <strong data-lang-key="phone_label">Телефон:</strong>
+                <p><a href="tel:+498987654321">+49 89 87654321</a></p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">⏰</span>
+              <div>
+                <strong data-lang-key="hours_label">Режим работы:</strong>
+                <p data-lang-key="hours_value">Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка: Интерактивная карта -->
+        <div class="footer-map">
+          <iframe id="branch-map"
+            src="https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%" height="100%" style="border: 0" allowfullscreen="" loading="lazy"
+            title="Branch Location Map"></iframe>
+        </div>
+      </div>
+
+      <!-- Нижняя полоса: Копирайт и юридические ссылки -->
+      <div class="footer-bottom">
+        <p class="copyright">© 2026 SFR Carparts GmbH. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="#" class="legal-link" id="btn-impressum" data-open-modal="orderModal" data-lang-key="link_impressum">
+            Impressum
+          </a>
+          <span class="legal-separator">•</span>
+          <a href="#" class="legal-link" id="btn-datenschutz" data-open-modal="modal-datenschutz"
+            data-lang-key="link_datenschutz">
+            Datenschutz
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- ==================== MODALS ==================== -->
+  <!-- ==================== MODAL ORDER FORM ==================== -->
+  <div class="modal" id="orderModal" aria-hidden="true">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+      <button class="modal-close" aria-label="Закрыть" data-close>&times;</button>
+
+      <div class="form-container">
+        <!-- Блок менеджера -->
+        <div class="manager-badge">
+          <div class="manager-avatar">
+            <img src="assets/images/userpic.jpg" alt="Alex">
+          </div>
+          <div class="manager-info">
+            <span class="manager-name" data-lang-key="manager_name">John Wick</span>
+            <span class="manager-status" data-lang-key="manager_status">● Онлайн. Подберу запчасти за 10 минут</span>
+          </div>
+        </div>
+
+        <form id="orderForm">
+          <!-- ОБЩИЕ ПОЛЯ -->
+          <div class="form-section">
+            <div class="form-group">
+              <textarea id="partsList" required
+                placeholder="Список необходимых запчастей (например: передние колодки, масляный фильтр)"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="text" id="clientName" required placeholder="Ваше имя">
+            </div>
+          </div>
+
+          <!-- РАДИОКНОПКИ -->
+          <div class="selection-method">
+            <span class="selection-title" data-lang-key="select_method_title">Указать данные автомобиля через:</span>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="carSpecification" value="by-car" checked>
+                <span data-lang-key="method_car">Марку и модель</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="carSpecification" value="by-vin">
+                <span data-lang-key="method_vin">VIN / Frame код</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- ДИНАМИЧЕСКИЕ ПОЛЯ -->
+          <div class="dynamic-fields-bottom">
+            <!-- Блок Марка / Модель / Год -->
+            <div id="carFieldsBlock" class="animated-field-block ">
+              <div class="car-inputs-grid">
+                <div class="form-group suggestion-wrapper">
+                  <input type="text" id="carMake" placeholder="Марка (напр. BMW)" autocomplete="off">
+                  <div id="makeSuggestions" class="suggestions-box"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="carModel" placeholder="Модель (напр. X5)" autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="carYear" placeholder="Год (напр. 2020)" maxlength="4">
+                </div>
+              </div>
+            </div>
+
+            <!-- Блок VIN -->
+            <div id="vinFieldsBlock" class="animated-field-block is-hidden">
+              <div class="form-group">
+                <input type="text" id="vinCode" placeholder="Введите VIN-код (17 знаков)" maxlength="17">
+              </div>
+            </div>
+          </div>
+
+          <!-- ЧЕКБОКС GDPR -->
+          <div class="privacy-agreement">
+            <label class="checkbox-label">
+              <input type="checkbox" id="privacyCheckbox">
+              <span class="privacy-text">Ich stimme der Datenschutzerklärung zu / Согласен с Политикой
+                конфиденциальности</span>
+            </label>
+          </div>
+
+          <!-- КНОПКА ОТПРАВКИ -->
+          <button type="button" id="submitBtn" class="btn btn--primary submit-btn" disabled>
+            <span data-lang-key="btn_text">Отправить список в WhatsApp</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Callback -->
+  <!-- <div id="modal-callback" class="modal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
+      <h3 data-lang-key="modal_callback_title">Заказать обратный звонок</h3>
+      <form id="callback-form">
+        <label for="callback-phone" data-lang-key="label_phone">Телефон *</label>
+        <input type="tel" id="callback-phone" required placeholder="+49 ..." />
+        <button type="submit" class="btn btn--primary" data-lang-key="btn_send">Отправить</button>
+      </form>
+    </div>
+  </div> -->
+
+  <!-- Modal Impressum -->
+  <!-- <div id="modal-impressum" class="modal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
+      <h2>Impressum</h2>
+      <p>
+        SFR Carparts GmbH
+        <br />
+        Musterstraße 123, 10115 Berlin
+        <br />
+        E-Mail: info@sfr-carparts.de
+      </p>
+    </div>
+  </div> -->
+
+  <!-- Modal Datenschutz -->
+  <!-- <div id="modal-datenschutz" class="modal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
+      <h2>Datenschutzerklärung</h2>
+      <p>
+        Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Die Nutzung unserer Webseite ist in der Regel ohne
+        Angabe personenbezogener Daten möglich.
+      </p>
+    </div>
+  </div> -->
+
+  <!-- ==================== COOKIE BANNER ==================== -->
+  <!-- <div id="cookie-banner" class="cookie-banner">
+    <p data-lang-key="cookie_text">Мы используем файлы cookie для улучшения работы сайта.</p>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept-btn" class="btn btn--small" data-lang-key="cookie_accept">Akzeptieren</button>
+      <button id="cookie-reject-btn" class="btn btn--small btn--outline" data-lang-key="cookie_reject">
+        Ablehnen
+      </button>
+    </div>
+  </div> -->
+
+  <!-- Back to top button -->
+  <button id="back-to-top-btn" class="back-to-top" type="button" aria-label="Up">↑</button>
+
+  <script src="scripts/scripts.js"></script>
 </body>
-<script src="scripts/script.js"></script>
 
 </html>
