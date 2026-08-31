@@ -549,7 +549,8 @@
       <div class="footer-bottom">
         <p class="copyright">© 2026 SFR Carparts GmbH. All rights reserved.</p>
         <div class="legal-links">
-          <a href="#" class="legal-link" id="btn-impressum" data-open-modal="orderModal" data-lang-key="link_impressum">
+          <a href="#" class="legal-link" id="btn-impressum" data-open-modal="modal-impressum"
+            data-lang-key="link_impressum">
             Impressum
           </a>
           <span class="legal-separator">•</span>
@@ -681,44 +682,64 @@
   </div>
 
   <!-- Modal Impressum -->
-  <!-- <div id="modal-impressum" class="modal" aria-hidden="true">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__content">
-      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
-      <h2>Impressum</h2>
-      <p>
-        SFR Carparts GmbH
-        <br />
-        Musterstraße 123, 10115 Berlin
-        <br />
-        E-Mail: info@sfr-carparts.de
-      </p>
+  <!-- Modal Impressum -->
+  <div id="modal-impressum" class="modal" aria-hidden="true">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-container">
+      <button class="modal-close" aria-label="Close" data-close>&times;</button>
+      <div style="padding: 30px;">
+        <h2>Impressum</h2>
+        <p style="margin-top: 15px; line-height: 1.6;">
+          SFR Carparts GmbH
+          <br />
+          Musterstraße 123, 10115 Berlin
+          <br />
+          E-Mail: info@sfr-carparts.de
+        </p>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- Modal Datenschutz -->
-  <!-- <div id="modal-datenschutz" class="modal" aria-hidden="true">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__content">
-      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
-      <h2>Datenschutzerklärung</h2>
-      <p>
-        Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Die Nutzung unserer Webseite ist in der Regel ohne
-        Angabe personenbezogener Daten möglich.
-      </p>
+  <div id="modal-datenschutz" class="modal" aria-hidden="true">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-container">
+      <button class="modal-close" aria-label="Close" data-close>&times;</button>
+      <div style="padding: 30px;">
+        <h2>Datenschutz</h2>
+        <p style="margin-top: 15px; line-height: 1.6;">
+          Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer personenbezogenen Daten ist uns ein
+          wichtiges Anliegen. Nachfolgend informieren wir Sie über den Umgang mit Ihren Daten gemäß der
+          Datenschutz-Grundverordnung (DSGVO).
+          <br /><br />
+          <strong>1. Verantwortlicher</strong>
+          <br />
+          SFR Carparts GmbH, Musterstraße 123, 10115 Berlin, E-Mail: info@sfr-carparts.de
+          <br /><br />
+          <strong>2. Erhebung und Speicherung personenbezogener Daten</strong>
+          <br />
+          Beim Aufrufen unserer Website werden durch den Browser automatisch Informationen an den Server unserer Website
+          gesendet und temporär gespeichert.
+        </p>
+      </div>
     </div>
-  </div> -->
+  </div>
+
 
   <!-- ==================== COOKIE BANNER ==================== -->
-  <!-- <div id="cookie-banner" class="cookie-banner">
-    <p data-lang-key="cookie_text">Мы используем файлы cookie для улучшения работы сайта.</p>
-    <div class="cookie-banner__actions">
-      <button id="cookie-accept-btn" class="btn btn--small" data-lang-key="cookie_accept">Akzeptieren</button>
-      <button id="cookie-reject-btn" class="btn btn--small btn--outline" data-lang-key="cookie_reject">
-        Ablehnen
-      </button>
+  <div id="cookie-banner" class="cookie-banner" aria-hidden="true">
+    <div class="cookie-banner__content">
+      <p>
+        Wir nutzen Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Weitere Informationen
+        finden Sie in unserer
+        <a href="#modal-datenschutz" data-open-modal="modal-datenschutz">Datenschutzerklärung</a>.
+      </p>
+      <div class="cookie-banner__buttons">
+        <button id="cookie-accept-btn" class="btn btn--primary">Alle akzeptieren</button>
+        <button id="cookie-reject-btn" class="btn btn--outline">Nur notwendige</button>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- Back to top button -->
   <button id="back-to-top-btn" class="back-to-top" type="button" aria-label="Up">↑</button>

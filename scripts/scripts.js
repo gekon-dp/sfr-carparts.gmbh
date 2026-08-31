@@ -652,99 +652,6 @@ function initBranchSwitcher() {
 }
 
 /* ==========================================================================
-   09. MODALS (ОБРАТНЫЙ ЗВОНОК, IMPRESSUM, DATENSCHUTZ)
-   ========================================================================== */
-// function initModals() {
-//   function openModal(modalId) {
-//     const modal = document.getElementById(modalId);
-//     if (modal) {
-//       // Закрываем другие модалки, если они открыты
-//       document.querySelectorAll(".modal.is-open").forEach((m) => {
-//         m.classList.remove("is-open");
-//         m.setAttribute("aria-hidden", "true");
-//       });
-
-//       modal.classList.add("is-open");
-//       modal.setAttribute("aria-hidden", "false");
-//       document.body.classList.add("modal-open");
-//     }
-//   }
-
-//   function closeModal(modal) {
-//     if (modal) {
-//       modal.classList.remove("is-open");
-//       modal.setAttribute("aria-hidden", "true");
-
-//       // Снимаем блокировку скролла, только если не осталось открытых модалок
-//       if (!document.querySelector(".modal.is-open")) {
-//         document.body.classList.remove("modal-open");
-//       }
-//     }
-//   }
-
-//   // --- 1. КНОПКА ОБРАТНОГО ЗВОНКА ---
-//   const callModalBtn = document.getElementById("call-modal-btn");
-//   if (callModalBtn) {
-//     callModalBtn.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       openModal("modal-callback");
-//     });
-//   }
-
-//   // --- 2. ЮРИДИЧЕСКИЕ ОКНА (IMPRESSUM & DATENSCHUTZ) ---
-//   const btnImpressum = document.getElementById("btn-impressum");
-//   if (btnImpressum) {
-//     btnImpressum.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       openModal("modal-impressum");
-//     });
-//   }
-
-//   const btnDatenschutz = document.getElementById("btn-datenschutz");
-//   if (btnDatenschutz) {
-//     btnDatenschutz.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       openModal("modal-datenschutz");
-//     });
-//   }
-
-//   // Ссылки на политику внутри других форм/текстов
-//   const privacyLinks = document.querySelectorAll(".modal-link");
-//   privacyLinks.forEach((link) => {
-//     link.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       openModal("modal-datenschutz");
-//     });
-//   });
-
-//   // --- 3. ЗАКРЫТИЕ ДЛЯ ВСЕХ МОДАЛОК (КРЕСТИК И ОВЕРЛЕЙ) ---
-//   const modals = document.querySelectorAll(".modal");
-//   modals.forEach((modal) => {
-//     // Учитываем оба варианта классов (с дефисом и подчеркиванием)
-//     const closeBtn = modal.querySelector(".modal-close, .modal__close, [data-close]");
-//     const overlay = modal.querySelector(".modal-overlay, .modal__overlay");
-
-//     if (closeBtn) {
-//       closeBtn.addEventListener("click", () => closeModal(modal));
-//     }
-
-//     if (overlay) {
-//       overlay.addEventListener("click", (e) => {
-//         if (e.target === overlay) closeModal(modal);
-//       });
-//     }
-//   });
-
-//   // --- 4. ЗАКРЫТИЕ ПО ESCAPE ---
-//   document.addEventListener("keydown", (e) => {
-//     if (e.key === "Escape") {
-//       const openModalEl = document.querySelector(".modal.is-open");
-//       if (openModalEl) closeModal(openModalEl);
-//     }
-//   });
-// }
-
-/* ==========================================================================
      10. COOKIE BANNER
      ========================================================================== */
 function initCookieBanner() {
@@ -752,388 +659,38 @@ function initCookieBanner() {
   const acceptBtn = document.getElementById("cookie-accept-btn");
   const rejectBtn = document.getElementById("cookie-reject-btn");
 
-  if (!banner) return;
+  if (!banner) {
+    console.warn("Cookie banner element not found!");
+    return;
+  }
 
   const cookieChoice = localStorage.getItem("sfr_cookie_consent");
 
+  // Если выбора нет — показываем баннер сразу
   if (!cookieChoice) {
     banner.classList.add("is-visible");
   } else if (cookieChoice === "accepted") {
-    state.gdprConsented = true;
+    if (typeof state !== "undefined") state.gdprConsented = true;
   }
 
   function handleChoice(accepted) {
     localStorage.setItem("sfr_cookie_consent", accepted ? "accepted" : "rejected");
-    state.gdprConsented = accepted;
+    if (typeof state !== "undefined") state.gdprConsented = accepted;
     banner.classList.remove("is-visible");
   }
 
-  if (acceptBtn) acceptBtn.addEventListener("click", () => handleChoice(true));
-  if (rejectBtn) rejectBtn.addEventListener("click", () => handleChoice(false));
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", () => handleChoice(true));
+  }
+  if (rejectBtn) {
+    rejectBtn.addEventListener("click", () => handleChoice(false));
+  }
 }
 
-/* ==========================================================================
-     11. APP INITIALIZATION
-     ========================================================================== */
+// Запускаем при загрузке DOM
 document.addEventListener("DOMContentLoaded", () => {
-  initThemeSwitcher();
-  initLanguageSwitcher();
-  initHeroSlider();
-  initBackToTop();
-  initFormTabs();
-  initAutocomplete();
-  initWhatsAppForm();
-  initReviewsSlider();
-  initFaqAccordion();
-  initBranchSwitcher();
-  initModals();
   initCookieBanner();
 });
-
-/* TEst */
-// let currentMethod = "by-car";
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   // 1. Инициализация модального окна
-//   initModalLogic();
-
-//   // 2. Слушатели радиокнопок (Марка/Модель vs VIN)
-//   const radioButtons = document.querySelectorAll('input[name="carSpecification"]');
-//   radioButtons.forEach((radio) => {
-//     radio.addEventListener("change", function () {
-//       handleMethodChange(this.value);
-//     });
-//   });
-
-//   // 3. Слушатель чекбокса GDPR
-//   const privacyCheckbox = document.getElementById("privacyCheckbox");
-//   if (privacyCheckbox) {
-//     privacyCheckbox.addEventListener("change", toggleSubmitButton);
-//   }
-
-//   // 4. Слушатель автокомплита для марок
-//   const carMakeInput = document.getElementById("carMake");
-//   if (carMakeInput) {
-//     carMakeInput.addEventListener("input", function () {
-//       showMakeSuggestions(this.value);
-//     });
-//   }
-
-//   // 5. Кнопка отправки
-//   const submitBtn = document.getElementById("submitBtn");
-//   if (submitBtn) {
-//     submitBtn.addEventListener("click", validateAndSend);
-//   }
-
-//   // 6. Очистка ошибок при вводе
-//   document.querySelectorAll(".form-container input, .form-container textarea").forEach((input) => {
-//     input.addEventListener("input", function () {
-//       clearSingleError(this);
-//     });
-//   });
-// });
-
-// /* ==========================================
-//    ЛОГИКА МОДАЛЬНОГО ОКНА
-//    ========================================== */
-// function initModalLogic() {
-//   const modal = document.getElementById("orderModal");
-//   if (!modal) return;
-
-//   const openModal = () => {
-//     modal.classList.add("is-open");
-//     modal.setAttribute("aria-hidden", "false");
-//     document.body.classList.add("modal-open");
-
-//     // Синхронизация активности выбранного поля (Марка/Модель vs VIN) при открытии
-//     const checkedRadio = modal.querySelector('input[name="carSpecification"]:checked');
-//     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
-//   };
-
-//   const closeModal = () => {
-//     modal.classList.remove("is-open");
-//     modal.setAttribute("aria-hidden", "true");
-//     document.body.classList.remove("modal-open");
-//     clearErrors();
-//     closeMakeSuggestions();
-//   };
-
-//   // Делегирование событий: перехватывает клики по всем кнопкам слайдера и страницы
-//   document.addEventListener("click", function (e) {
-//     const btn = e.target.closest('[data-open-modal="orderModal"]');
-//     if (btn) {
-//       e.preventDefault();
-//       openModal();
-//     }
-//   });
-
-//   // Элементы закрытия модального окна
-//   const closeElements = modal.querySelectorAll("[data-close]");
-//   closeElements.forEach((element) => {
-//     element.addEventListener("click", closeModal);
-//   });
-
-//   document.addEventListener("keydown", (e) => {
-//     if (e.key === "Escape" && modal.classList.contains("is-open")) {
-//       closeModal();
-//     }
-//   });
-// }
-
-// /* ==========================================
-//    ПЕРЕКЛЮЧЕНИЕ СПОСОБА ВВОДА
-//    ========================================== */
-// function handleMethodChange(selectedValue) {
-//   currentMethod = selectedValue;
-//   const carBlock = document.getElementById("carFieldsBlock");
-//   const vinBlock = document.getElementById("vinFieldsBlock");
-
-//   clearErrors();
-
-//   if (selectedValue === "by-car") {
-//     if (vinBlock) vinBlock.classList.remove("active-field");
-//     if (carBlock) carBlock.classList.add("active-field");
-//   } else {
-//     if (carBlock) carBlock.classList.remove("active-field");
-//     if (vinBlock) vinBlock.classList.add("active-field");
-//   }
-// }
-
-// function toggleSubmitButton() {
-//   const checkbox = document.getElementById("privacyCheckbox");
-//   const submitBtn = document.getElementById("submitBtn");
-//   if (submitBtn && checkbox) {
-//     submitBtn.disabled = !checkbox.checked;
-//   }
-// }
-
-// /* ==========================================
-//    АВТОКОМПЛИТ МАРОК
-//    ========================================== */
-// const popularMakes = [
-//   "Audi",
-//   "BMW",
-//   "Mercedes-Benz",
-//   "Ford",
-//   "Opel",
-//   "Volkswagen",
-//   "Toyota",
-//   "Nissan",
-//   "Porsche",
-//   "Skoda",
-//   "Hyundai",
-//   "Kia",
-// ];
-
-// function showMakeSuggestions(value) {
-//   const box = document.getElementById("makeSuggestions");
-//   if (!box) return;
-
-//   box.innerHTML = "";
-//   if (value.trim() === "") {
-//     box.classList.remove("is-visible");
-//     return;
-//   }
-
-//   const filtered = popularMakes.filter((make) => make.toLowerCase().startsWith(value.toLowerCase()));
-
-//   if (filtered.length === 0) {
-//     box.classList.remove("is-visible");
-//     return;
-//   }
-
-//   filtered.forEach((make) => {
-//     const item = document.createElement("div");
-//     item.className = "suggestion-item";
-//     item.textContent = make;
-//     item.onclick = function () {
-//       const makeInput = document.getElementById("carMake");
-//       if (makeInput) {
-//         makeInput.value = make;
-//         clearSingleError(makeInput);
-//       }
-//       box.classList.remove("is-visible");
-//     };
-//     box.appendChild(item);
-//   });
-
-//   box.classList.add("is-visible");
-// }
-
-// function closeMakeSuggestions() {
-//   const box = document.getElementById("makeSuggestions");
-//   if (box) box.classList.remove("is-visible");
-// }
-
-// document.addEventListener("click", function (e) {
-//   if (e.target.id !== "carMake") {
-//     closeMakeSuggestions();
-//   }
-// });
-
-// /* ==========================================
-//    ВАЛИДАЦИЯ И ОБРАБОТКА ОШИБОК
-//    ========================================== */
-// function showError(inputElement, message) {
-//   if (!inputElement) return;
-
-//   const group = inputElement.closest(".form-group") || inputElement.parentElement;
-//   group.classList.add("has-error");
-
-//   let errorMsg = group.querySelector(".error-message");
-//   if (!errorMsg) {
-//     errorMsg = group.querySelector(".field-error-text");
-//   }
-
-//   if (!errorMsg) {
-//     errorMsg = document.createElement("span");
-//     errorMsg.className = "field-error-text error-message";
-//     group.appendChild(errorMsg);
-//   }
-
-//   errorMsg.textContent = message;
-//   errorMsg.style.display = "block";
-//   inputElement.focus();
-// }
-
-// function clearSingleError(inputElement) {
-//   if (!inputElement) return;
-
-//   const group = inputElement.closest(".form-group") || inputElement.parentElement;
-//   group.classList.remove("has-error");
-
-//   const errorMsg = group.querySelector(".error-message, .field-error-text");
-//   if (errorMsg) {
-//     errorMsg.style.display = "none";
-//   }
-// }
-
-// function clearErrors() {
-//   document.querySelectorAll(".form-group").forEach((group) => {
-//     group.classList.remove("has-error");
-//   });
-//   document.querySelectorAll(".error-message, .field-error-text").forEach((el) => {
-//     el.style.display = "none";
-//   });
-// }
-
-// function validateAndSend() {
-//   clearErrors();
-
-//   const partsInput = document.getElementById("partsList");
-//   const nameInput = document.getElementById("clientName");
-
-//   // 1. Проверяем детали
-//   if (!partsInput || !partsInput.value.trim() || partsInput.value.trim().length < 3) {
-//     showError(partsInput, "Опишите необходимые запчасти (минимум 3 символа)");
-//     return;
-//   }
-
-//   // 2. Проверяем имя
-//   if (!nameInput || !nameInput.value.trim() || nameInput.value.trim().length < 2) {
-//     showError(nameInput, "Укажите ваше имя");
-//     return;
-//   }
-
-//   // 3. Проверяем авто или VIN
-//   if (currentMethod === "by-car") {
-//     const makeInput = document.getElementById("carMake");
-//     const modelInput = document.getElementById("carModel");
-//     const yearInput = document.getElementById("carYear");
-//     const currentYear = new Date().getFullYear();
-
-//     if (!makeInput || !makeInput.value.trim()) {
-//       showError(makeInput, "Укажите марку автомобиля");
-//       return;
-//     }
-
-//     if (!modelInput || !modelInput.value.trim()) {
-//       showError(modelInput, "Укажите модель автомобиля");
-//       return;
-//     }
-
-//     const yearValue = yearInput ? parseInt(yearInput.value.trim(), 10) : NaN;
-//     if (
-//       !yearInput ||
-//       !yearInput.value.trim() ||
-//       isNaN(yearValue) ||
-//       yearInput.value.trim().length !== 4 ||
-//       yearValue < 1900 ||
-//       yearValue > currentYear
-//     ) {
-//       showError(yearInput, "Введите корректный год (4 цифры)");
-//       return;
-//     }
-//   } else {
-//     const vinInput = document.getElementById("vinCode");
-//     const vinValue = vinInput ? vinInput.value.replace(/\s+/g, "") : "";
-//     const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i;
-
-//     if (!vinInput || vinValue.length !== 17) {
-//       showError(vinInput, `VIN должен быть ровно 17 символов (сейчас: ${vinValue.length})`);
-//       return;
-//     }
-
-//     if (!vinRegex.test(vinValue)) {
-//       showError(vinInput, "VIN содержит недопустимые символы (используйте только латиницу и цифры, без I, O, Q)");
-//       return;
-//     }
-//   }
-
-//   executeWhatsAppSend();
-// }
-
-// /* ==========================================
-//    ОТПРАВКА В WHATSAPP
-//    ========================================== */
-// function encodeForWhatsApp(str) {
-//   return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
-//     return "%" + c.charCodeAt(0).toString(16).toUpperCase();
-//   });
-// }
-
-// function executeWhatsAppSend() {
-//   const phone = "380988737379";
-//   const name = document.getElementById("clientName").value.trim();
-//   const parts = document.getElementById("partsList").value.trim();
-
-//   const now = new Date();
-//   const day = String(now.getDate()).padStart(2, "0");
-//   const month = String(now.getMonth() + 1).padStart(2, "0");
-//   const hours = String(now.getHours()).padStart(2, "0");
-//   const minutes = String(now.getMinutes()).padStart(2, "0");
-//   const orderNumber = `${day}${month}-${hours}${minutes}`;
-
-//   const iconBox = "📦";
-//   const iconUser = "👤";
-//   const iconCar = "🚗";
-//   const iconKey = "🔑";
-//   const iconList = "📋";
-
-//   let vehicleBlock = "";
-
-//   if (currentMethod === "by-car") {
-//     const make = document.getElementById("carMake").value.trim();
-//     const model = document.getElementById("carModel").value.trim();
-//     const year = document.getElementById("carYear").value.trim();
-
-//     vehicleBlock = `${iconCar} Данные авто:\n` + `• Марка: ${make}\n` + `• Модель: ${model}\n` + `• Год: ${year}`;
-//   } else {
-//     const vin = document.getElementById("vinCode").value.replace(/\s+/g, "").toUpperCase();
-//     vehicleBlock = `${iconKey} VIN-код:\n${vin}`;
-//   }
-
-//   const message =
-//     `${iconBox} Заказ № ${orderNumber}\n` +
-//     `${iconUser} Клиент: ${name}\n` +
-//     `_________________________\n\n` +
-//     `${vehicleBlock}\n` +
-//     `_________________________\n\n` +
-//     `${iconList} Хочу заказать:\n${parts}`;
-
-//   const encodedMessage = encodeForWhatsApp(message);
-//   window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
-// }
 
 /* ==========================================
    УНИВЕРСАЛЬНЫЙ МОДУЛЬ МОДАЛЬНЫХ ОКНА
@@ -1639,9 +1196,6 @@ document.addEventListener("DOMContentLoaded", initOrderFormLogic);
 /* ===================================
   callback modal
 ====================================  */
-/* ===================================
-  callback modal validation & submission
-====================================  */
 document.addEventListener("DOMContentLoaded", () => {
   const callbackForm = document.getElementById("callback-form");
 
@@ -1754,3 +1308,21 @@ function showError(inputElement, formElement, message) {
   inputElement.closest(".callback-field").appendChild(errorMsg);
   inputElement.focus();
 }
+
+/* ==========================================================================
+     11. APP INITIALIZATION
+     ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  initThemeSwitcher();
+  initLanguageSwitcher();
+  initHeroSlider();
+  initBackToTop();
+  initFormTabs();
+  initAutocomplete();
+  initWhatsAppForm();
+  initReviewsSlider();
+  initFaqAccordion();
+  initBranchSwitcher();
+  initModals();
+  initCookieBanner();
+});
