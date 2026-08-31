@@ -1271,7 +1271,6 @@ section:nth-of-type(even) {
 /* ==========================================================================
    FOOTER & BRANCHES SECTION
    ========================================================================== */
-
 .footer-section {
   padding: 80px 0 30px 0;
   background-color: var(--card-bg);
@@ -1469,7 +1468,9 @@ section:nth-of-type(even) {
   }
 }
 
-/* ==================== МОДАЛЬНОЕ ОКНО (ОБЕРТКА) ==================== */
+/* ========================================
+MODALS
+======================================== */
 .modal {
   position: fixed;
   top: 0;
@@ -1554,7 +1555,10 @@ body.modal-open {
   overflow: hidden;
 }
 
-/* ==================== ВНУТРЕННОСТИ ФОРМЫ ==================== */
+/* ====================================
+ OrderModal
+ ==================================== */
+
 .form-container {
   max-width: 100%;
   margin: 0;
@@ -1772,8 +1776,6 @@ body.modal-open {
   text-decoration: underline;
 }
 
-/* ==================== ЗЕЛЕНАЯ КНОПКА WHATSAPP ==================== */
-/* Принудительно жесткие стили, чтобы твой сайт их не перебил */
 .submit-btn {
   width: 100%;
   padding: 15px;
@@ -1815,4 +1817,108 @@ body.modal-open {
   width: 20px;
   height: 20px;
   fill: currentColor;
+}
+
+/* ==========================================
+   МОДАЛЬНОЕ ОКНО ОБРАТНОГО ЗВОНКА
+   ========================================== */
+.modal-container--callback {
+  max-width: 420px;
+}
+
+.callback-content {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.callback-avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-color, var(--bg-secondary));
+}
+
+.callback-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-container--callback h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.callback-subtitle {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: var(--text-muted, #888);
+  line-height: 1.4;
+}
+
+.callback-subtitle .highlight {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.callback-field {
+  margin-bottom: 16px;
+}
+
+.callback-field input[type="tel"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-color);
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.callback-field input[type="tel"]:focus {
+  border-color: var(--primary-color);
+}
+
+.modal-container--callback .btn--primary {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.modal-container--callback .btn--primary:hover {
+  opacity: 0.9;
+}
+
+.callback-footer {
+  margin-top: 16px;
+}
+
+.callback-time-link {
+  font-size: 13px;
+  color: var(--text-muted, #888);
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  transition: color 0.2s ease;
+}
+
+.callback-time-link:hover {
+  color: var(--text-color);
+}
+
+#callback-phone {
+  text-align: center;
 }

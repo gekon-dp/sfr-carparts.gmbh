@@ -130,7 +130,7 @@ const translations = {
     hours_label: "Режим работы:",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
-    modal_callback_title: "Заказать обратный звонок",
+    modal_callback_title: "Обратный звонок",
     cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
     cookie_accept: "Принять",
     cookie_reject: "Отклонить",
@@ -1635,3 +1635,122 @@ if (modelInput && makeInput) {
 }
 
 document.addEventListener("DOMContentLoaded", initOrderFormLogic);
+
+/* ===================================
+  callback modal
+====================================  */
+/* ===================================
+  callback modal validation & submission
+====================================  */
+document.addEventListener("DOMContentLoaded", () => {
+  const callbackForm = document.getElementById("callback-form");
+
+  if (callbackForm) {
+    callbackForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const phoneInput = document.getElementById("callback-phone");
+      let phone = phoneInput.value.trim();
+
+      // Удаляем старый кастомный тултип/ошибку, если был
+      const existingError = callbackForm.querySelector(".form-error-msg");
+      if (existingError) existingError.remove();
+      phoneInput.classList.remove("is-invalid");
+
+      let errorMessage = "";
+
+      // 1. Проверка на пустоту
+      if (!phone) {
+        errorMessage = "Пожалуйста, введите номер телефона";
+      }
+      // 2. Проверка на буквы
+      else if (/[a-zA-Zа-яА-ЯäöüßÄÖÜ]/.test(phone)) {
+        errorMessage = "Номер телефона не должен содержать буквы";
+      }
+      // 3. Строгая проверка начала номера (для Германии: должен начинаться с +49, 49 или с 0)
+      else if (!phone.startsWith("+49") && !phone.startsWith("49") && !phone.startsWith("0")) {
+        errorMessage = "Номер должен начинаться с +49, 49 или 0";
+      }
+
+      if (errorMessage) {
+        showError(phoneInput, callbackForm, errorMessage);
+        return;
+      }
+
+      // Очищаем для дальнейшей проверки длины
+      let phoneClean = phone.replace(/\D/g, "");
+
+      // Проверка на ошибку «+490...» или «490...»
+      if (phone.startsWith("+0") || phoneClean.startsWith("490")) {
+        errorMessage = "Некорректный формат: после кода страны ноль не нужен";
+      }
+
+      if (errorMessage) {
+        showError(phoneInput, callbackForm, errorMessage);
+        return;
+      }
+
+      // Нормализация (если с 0, меняем на 49)
+      if (phone.startsWith("0")) {
+        phoneClean = "49" + phoneClean.slice(1);
+      }
+
+      // 4. Проверка итоговой длины (для Германии с учетом кода 49)
+      if (phoneClean.length < 10 || phoneClean.length > 15) {
+        errorMessage = `Неверная длина номера (сейчас ${phoneClean.length} цифр, а нужно от 10 до 15)`;
+      }
+      // 5. Защита от одинаковых цифр
+      else if (/^(\d)\1+$/.test(phoneClean)) {
+        errorMessage = "Номер не может состоять из одинаковых цифр";
+      }
+
+      if (errorMessage) {
+        showError(phoneInput, callbackForm, errorMessage);
+        return;
+      }
+
+      // Финальный номер для отправки (всегда с плюсом)
+      const formattedPhone = "+" + phoneClean;
+
+      // Отправка в WhatsApp
+      const phoneOwner = "380988737379";
+      const iconPhone = String.fromCodePoint(128222); // 📞
+      const message = `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/${phoneOwner}?text=${encodedMessage}`, "_blank");
+
+      // Закрытие модалки
+      const modal = callbackForm.closest(".modal");
+      if (modal && typeof window.closeModal === "function") {
+        window.closeModal(modal);
+      } else if (modal) {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+      }
+
+      callbackForm.reset();
+    });
+
+    // Убираем ошибку при вводе
+    const phoneInput = document.getElementById("callback-phone");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", () => {
+        phoneInput.classList.remove("is-invalid");
+        const existingError = callbackForm.querySelector(".form-error-msg");
+        if (existingError) existingError.remove();
+      });
+    }
+  }
+});
+
+// Вспомогательная функция для вывода ошибок
+function showError(inputElement, formElement, message) {
+  inputElement.classList.add("is-invalid");
+  const errorMsg = document.createElement("div");
+  errorMsg.className = "form-error-msg";
+  errorMsg.textContent = message;
+  errorMsg.style.cssText = "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
+  inputElement.closest(".callback-field").appendChild(errorMsg);
+  inputElement.focus();
+}

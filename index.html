@@ -656,18 +656,29 @@
   </div>
 
   <!-- Modal Callback -->
-  <!-- <div id="modal-callback" class="modal" aria-hidden="true">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__content">
-      <button class="modal__close" aria-label="Close" data-close-modal>&times;</button>
-      <h3 data-lang-key="modal_callback_title">Заказать обратный звонок</h3>
-      <form id="callback-form">
-        <label for="callback-phone" data-lang-key="label_phone">Телефон *</label>
-        <input type="tel" id="callback-phone" required placeholder="+49 ..." />
-        <button type="submit" class="btn btn--primary" data-lang-key="btn_send">Отправить</button>
-      </form>
+  <div id="modal-callback" class="modal" aria-hidden="true" novalidate>
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-container modal-container--callback">
+      <button class="modal-close" aria-label="Close" data-close>&times;</button>
+      <div class="callback-content">
+        <div class="callback-avatar">
+          <img src="assets/images/userpic.jpg" alt="Менеджер Юля" />
+        </div>
+        <h3 data-lang-key="modal_callback_title">Привет, меня зовут John!</h3>
+        <p class="callback-subtitle" data-lang-key="modal_callback_subtitle">
+          Закажи обратный звонок и я перезвоню для консультации в течении <span class="highlight">3 минут</span>.
+        </p>
+
+        <form id="callback-form">
+          <div class="callback-field">
+            <input type="tel" id="callback-phone" placeholder="+49 175 6006 9809" />
+          </div>
+
+          <button type="submit" class="btn btn--primary" data-lang-key="btn_wait_call">Жду звонка!</button>
+        </form>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- Modal Impressum -->
   <!-- <div id="modal-impressum" class="modal" aria-hidden="true">
