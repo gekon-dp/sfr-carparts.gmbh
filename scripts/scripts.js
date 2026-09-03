@@ -21,7 +21,8 @@ const branchData = {
       ru: "Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 08:00 - 18:00, Sa: 09:00 - 14:00",
     },
-    mapUrl: "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    mapUrl:
+      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
   },
   2: {
     address: {
@@ -33,7 +34,8 @@ const branchData = {
       ru: "Пн-Пт: 08:30 - 17:30, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 08:30 - 17:30, Sa: 09:00 - 14:00",
     },
-    mapUrl: "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    mapUrl:
+      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
   },
 };
 
@@ -61,17 +63,21 @@ const translations = {
     nav_timeline: "Схема работы",
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
+    btn_order: "🛒",
     btn_callback: "Заказать звонок",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
-    hero_slide1_desc: "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
+    hero_slide1_desc:
+      "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
     hero_slide2_title: "Оперативная доставка по всей стране",
-    hero_slide2_desc: "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
+    hero_slide2_desc:
+      "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
     btn_catalog: "Перейти в каталог",
     btn_contact: "Связаться с нами",
     promo_tag: "Акция",
     promo_text: "Скидка 10% на первый оптовый заказ!",
     hero_title: "Надежные автозапчасти для розницы и СТО по всей Европе",
-    hero_subtitle: "Прямые поставки от производителей. Более 50 000 наименований в наличии на складе.",
+    hero_subtitle:
+      "Прямые поставки от производителей. Более 50 000 наименований в наличии на складе.",
     hero_cta: "Рассчитать стоимость",
     tab_by_car: "По марке авто",
     tab_by_vin: "По VIN-коду",
@@ -106,8 +112,10 @@ const translations = {
     step_4_title: "Получение",
     step_4_desc: "Самовывоз со склада или доставка до двери",
     reviews_title: "Отзывы наших клиентов",
-    review_1_text: "Отличный сервис, запчасти на BMW приехали на следующий день. Все оригинальное.",
-    review_2_text: "Работаем по опту уже полгода. Замечаний по качеству и договорам нет.",
+    review_1_text:
+      "Отличный сервис, запчасти на BMW приехали на следующий день. Все оригинальное.",
+    review_2_text:
+      "Работаем по опту уже полгода. Замечаний по качеству и договорам нет.",
     reviews_google_btn: "Смотреть все отзывы на Google Картах",
     faq_title: "Часто задаваемые вопросы",
     faq_q1: "Как правильно подобрать запчасть по VIN-коду?",
@@ -142,15 +150,19 @@ const translations = {
     nav_contacts: "Kontakte",
     btn_callback: "Rückruf anfordern",
     hero_slide1_title: "Hochwertige Autoteile für Ihr Fahrzeug",
-    hero_slide1_desc: "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
+    hero_slide1_desc:
+      "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
     hero_slide2_title: "Schneller Versand bundesweit",
-    hero_slide2_desc: "Flexible Logistik und zuverlässige Partner für den Transport aller Teile.",
+    hero_slide2_desc:
+      "Flexible Logistik und zuverlässige Partner für den Transport aller Teile.",
     btn_catalog: "Katalog anzeigen",
     btn_contact: "Kontaktieren Sie uns",
     promo_tag: "Aktion",
     promo_text: "10% Rabatt auf die erste Großbestellung!",
-    hero_title: "Zuverlässige Autoteile für Einzelhandel und Werkstätten in ganz Europa",
-    hero_subtitle: "Direktlieferungen vom Hersteller. Über 50.000 Artikel auf Lager.",
+    hero_title:
+      "Zuverlässige Autoteile für Einzelhandel und Werkstätten in ganz Europa",
+    hero_subtitle:
+      "Direktlieferungen vom Hersteller. Über 50.000 Artikel auf Lager.",
     hero_cta: "Kosten berechnen",
     tab_by_car: "Nach Automarke",
     tab_by_vin: "Nach VIN-Code",
@@ -185,8 +197,10 @@ const translations = {
     step_4_title: "Erhalt",
     step_4_desc: "Selbstabholung vom Lager oder Lieferung an die Tür",
     reviews_title: "Kundenbewertungen",
-    review_1_text: "Toller Service, BMW-Teile kamen am nächsten Tag an. Alles Originalteile.",
-    review_2_text: "Wir arbeiten seit einem halben Jahr im Großhandel zusammen. Keine Beanstandungen.",
+    review_1_text:
+      "Toller Service, BMW-Teile kamen am nächsten Tag an. Alles Originalteile.",
+    review_2_text:
+      "Wir arbeiten seit einem halben Jahr im Großhandel zusammen. Keine Beanstandungen.",
     reviews_google_btn: "Alle Bewertungen auf Google Maps anzeigen",
     faq_title: "Häufig gestellte Fragen",
     faq_q1: "Wie wähle ich das richtige Ersatzteil per VIN-Code aus?",
@@ -210,7 +224,8 @@ const translations = {
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Rückruf anfordern",
-    cookie_text: "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
+    cookie_text:
+      "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",
     cookie_reject: "Ablehnen",
   },
@@ -221,7 +236,9 @@ const translations = {
      ========================================================================== */
 function initThemeSwitcher() {
   const themeBtn = document.getElementById("theme-toggle-btn");
-  const iconSpan = themeBtn ? themeBtn.querySelector(".theme-toggle__icon") : null;
+  const iconSpan = themeBtn
+    ? themeBtn.querySelector(".theme-toggle__icon")
+    : null;
 
   function applyTheme(theme) {
     document.body.setAttribute("data-theme", theme);
@@ -252,8 +269,12 @@ function updateBranchInfo(branchId) {
   const addressEl = document.querySelector("#branch-address-text");
   const hoursEl = document.querySelector("#branch-hours-text");
 
-  if (addressEl) addressEl.textContent = currentData.address[state.currentLang] || currentData.address.ru;
-  if (hoursEl) hoursEl.textContent = currentData.hours[state.currentLang] || currentData.hours.ru;
+  if (addressEl)
+    addressEl.textContent =
+      currentData.address[state.currentLang] || currentData.address.ru;
+  if (hoursEl)
+    hoursEl.textContent =
+      currentData.hours[state.currentLang] || currentData.hours.ru;
 }
 
 function applyLanguage(lang) {
@@ -449,7 +470,9 @@ function initAutocomplete() {
       return;
     }
 
-    const matches = carBrandsList.filter((item) => item.toLowerCase().includes(value));
+    const matches = carBrandsList.filter((item) =>
+      item.toLowerCase().includes(value),
+    );
 
     if (matches.length > 0) {
       matches.forEach((matchText) => {
@@ -496,7 +519,9 @@ function initWhatsAppForm() {
     let queryDetails = "";
 
     if (state.activeTab === "car") {
-      const carVal = document.getElementById("car-autocomplete-input")?.value.trim();
+      const carVal = document
+        .getElementById("car-autocomplete-input")
+        ?.value.trim();
       queryDetails = `*Марка/Модель:* ${carVal || "Не указано"}`;
     } else {
       const vinVal = document.getElementById("vin-input")?.value.trim();
@@ -619,8 +644,10 @@ function initBranchSwitcher() {
   if (!tabs.length || !mapIframe) return;
 
   const mapSources = {
-    berlin: "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    munich: "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    berlin:
+      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    munich:
+      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
   };
 
   tabs.forEach((tab) => {
@@ -674,7 +701,10 @@ function initCookieBanner() {
   }
 
   function handleChoice(accepted) {
-    localStorage.setItem("sfr_cookie_consent", accepted ? "accepted" : "rejected");
+    localStorage.setItem(
+      "sfr_cookie_consent",
+      accepted ? "accepted" : "rejected",
+    );
     if (typeof state !== "undefined") state.gdprConsented = accepted;
     banner.classList.remove("is-visible");
   }
@@ -723,7 +753,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Генерируем событие закрытия для сброса ошибок или полей
-    activeModal.dispatchEvent(new CustomEvent("modal:closed", { bubbles: true }));
+    activeModal.dispatchEvent(
+      new CustomEvent("modal:closed", { bubbles: true }),
+    );
   };
 
   // 1. Делегирование ОТКРЫТИЯ (для кнопок в слайдерах, шапке, подвале)
@@ -798,13 +830,21 @@ function initOrderFormLogic() {
     const nameInput = document.getElementById("clientName");
 
     // 1. Проверяем детали
-    if (!partsInput || !partsInput.value.trim() || partsInput.value.trim().length < 3) {
+    if (
+      !partsInput ||
+      !partsInput.value.trim() ||
+      partsInput.value.trim().length < 3
+    ) {
       showError(partsInput, "Опишите необходимые запчасти (минимум 3 символа)");
       return;
     }
 
     // 2. Проверяем имя
-    if (!nameInput || !nameInput.value.trim() || nameInput.value.trim().length < 2) {
+    if (
+      !nameInput ||
+      !nameInput.value.trim() ||
+      nameInput.value.trim().length < 2
+    ) {
       showError(nameInput, "Укажите ваше имя");
       return;
     }
@@ -844,12 +884,18 @@ function initOrderFormLogic() {
       const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i;
 
       if (!vinInput || vinValue.length !== 17) {
-        showError(vinInput, `VIN должен быть ровно 17 символов (сейчас: ${vinValue.length})`);
+        showError(
+          vinInput,
+          `VIN должен быть ровно 17 символов (сейчас: ${vinValue.length})`,
+        );
         return;
       }
 
       if (!vinRegex.test(vinValue)) {
-        showError(vinInput, "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)");
+        showError(
+          vinInput,
+          "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
+        );
         return;
       }
     }
@@ -883,7 +929,10 @@ function initOrderFormLogic() {
 
       vehicleBlock = `🚗 Данные авто:\n• Марка: ${make}\n• Модель: ${model}\n• Год: ${year}`;
     } else {
-      const vin = document.getElementById("vinCode").value.replace(/\s+/g, "").toUpperCase();
+      const vin = document
+        .getElementById("vinCode")
+        .value.replace(/\s+/g, "")
+        .toUpperCase();
       vehicleBlock = `🔑 VIN-код:\n${vin}`;
     }
 
@@ -901,16 +950,23 @@ function initOrderFormLogic() {
 
   // --- 5. Вспомогательные функции ошибок ---
   function clearErrors() {
-    orderModal.querySelectorAll(".has-error").forEach((el) => el.classList.remove("has-error"));
-    orderModal.querySelectorAll(".field-error-text, .error-message").forEach((el) => (el.style.display = "none"));
+    orderModal
+      .querySelectorAll(".has-error")
+      .forEach((el) => el.classList.remove("has-error"));
+    orderModal
+      .querySelectorAll(".field-error-text, .error-message")
+      .forEach((el) => (el.style.display = "none"));
   }
 
   function showError(inputElement, message) {
     if (!inputElement) return;
-    const group = inputElement.closest(".form-group") || inputElement.parentElement;
+    const group =
+      inputElement.closest(".form-group") || inputElement.parentElement;
     group.classList.add("has-error");
 
-    let errorMsg = group.querySelector(".field-error-text") || group.querySelector(".error-message");
+    let errorMsg =
+      group.querySelector(".field-error-text") ||
+      group.querySelector(".error-message");
     if (!errorMsg) {
       errorMsg = document.createElement("span");
       errorMsg.className = "field-error-text error-message";
@@ -952,7 +1008,9 @@ function initOrderFormLogic() {
 
   // События от глобального менеджера модалок (modals.js)
   orderModal.addEventListener("modal:opened", () => {
-    const checkedRadio = orderModal.querySelector('input[name="carSpecification"]:checked');
+    const checkedRadio = orderModal.querySelector(
+      'input[name="carSpecification"]:checked',
+    );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
     toggleSubmitButton();
   });
@@ -1009,7 +1067,9 @@ if (makeInput) {
       return;
     }
 
-    const filtered = popularMakes.filter((make) => make.toLowerCase().startsWith(val));
+    const filtered = popularMakes.filter((make) =>
+      make.toLowerCase().startsWith(val),
+    );
 
     if (filtered.length === 0) {
       makeBox.classList.remove("is-visible");
@@ -1155,7 +1215,9 @@ if (modelInput && makeInput) {
     }
 
     const availableModels = carModelsDatabase[selectedMake];
-    const filtered = availableModels.filter((model) => model.toLowerCase().startsWith(val));
+    const filtered = availableModels.filter((model) =>
+      model.toLowerCase().startsWith(val),
+    );
 
     if (filtered.length === 0) {
       modelBox.classList.remove("is-visible");
@@ -1177,7 +1239,8 @@ if (modelInput && makeInput) {
       modelInput.value = e.target.textContent;
       modelBox.classList.remove("is-visible");
 
-      const group = modelInput.closest(".form-group") || modelInput.parentElement;
+      const group =
+        modelInput.closest(".form-group") || modelInput.parentElement;
       group.classList.remove("has-error");
       const err = group.querySelector(".field-error-text, .error-message");
       if (err) err.style.display = "none";
@@ -1222,7 +1285,11 @@ document.addEventListener("DOMContentLoaded", () => {
         errorMessage = "Номер телефона не должен содержать буквы";
       }
       // 3. Строгая проверка начала номера (для Германии: должен начинаться с +49, 49 или с 0)
-      else if (!phone.startsWith("+49") && !phone.startsWith("49") && !phone.startsWith("0")) {
+      else if (
+        !phone.startsWith("+49") &&
+        !phone.startsWith("49") &&
+        !phone.startsWith("0")
+      ) {
         errorMessage = "Номер должен начинаться с +49, 49 или 0";
       }
 
@@ -1271,7 +1338,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const iconPhone = String.fromCodePoint(128222); // 📞
       const message = `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
       const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/${phoneOwner}?text=${encodedMessage}`, "_blank");
+      window.open(
+        `https://wa.me/${phoneOwner}?text=${encodedMessage}`,
+        "_blank",
+      );
 
       // Закрытие модалки
       const modal = callbackForm.closest(".modal");
@@ -1304,7 +1374,8 @@ function showError(inputElement, formElement, message) {
   const errorMsg = document.createElement("div");
   errorMsg.className = "form-error-msg";
   errorMsg.textContent = message;
-  errorMsg.style.cssText = "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
+  errorMsg.style.cssText =
+    "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
   inputElement.closest(".callback-field").appendChild(errorMsg);
   inputElement.focus();
 }
