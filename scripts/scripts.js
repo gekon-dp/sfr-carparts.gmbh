@@ -21,7 +21,8 @@ const branchData = {
       ru: "Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 08:00 - 18:00, Sa: 09:00 - 14:00",
     },
-    mapUrl: "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    mapUrl:
+      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
   },
   2: {
     address: {
@@ -33,7 +34,8 @@ const branchData = {
       ru: "Пн-Пт: 08:30 - 17:30, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 08:30 - 17:30, Sa: 09:00 - 14:00",
     },
-    mapUrl: "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    mapUrl:
+      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
   },
 };
 
@@ -63,15 +65,18 @@ const translations = {
     nav_contacts: "Контакты",
     btn_callback: "Заказать звонок",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
-    hero_slide1_desc: "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
+    hero_slide1_desc:
+      "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
     hero_slide2_title: "Оперативная доставка по всей стране",
-    hero_slide2_desc: "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
-    btn_catalog: "Перейти в каталог",
+    hero_slide2_desc:
+      "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
+    btn_catalog: "Сделать заказ!",
     btn_contact: "Связаться с нами",
     promo_tag: "Акция",
     promo_text: "Скидка 10% на первый оптовый заказ!",
     hero_title: "Надежные автозапчасти для розницы и СТО по всей Европе",
-    hero_subtitle: "Прямые поставки от производителей. Более 50 000 наименований в наличии на складе.",
+    hero_subtitle:
+      "Прямые поставки от производителей. Более 50 000 наименований в наличии на складе.",
     hero_cta: "Рассчитать стоимость",
     tab_by_car: "По марке авто",
     tab_by_vin: "По VIN-коду",
@@ -106,8 +111,10 @@ const translations = {
     step_4_title: "Получение",
     step_4_desc: "Самовывоз со склада или доставка до двери",
     reviews_title: "Отзывы наших клиентов",
-    review_1_text: "Отличный сервис, запчасти на BMW приехали на следующий день. Все оригинальное.",
-    review_2_text: "Работаем по опту уже полгода. Замечаний по качеству и договорам нет.",
+    review_1_text:
+      "Отличный сервис, запчасти на BMW приехали на следующий день. Все оригинальное.",
+    review_2_text:
+      "Работаем по опту уже полгода. Замечаний по качеству и договорам нет.",
     reviews_google_btn: "Смотреть все отзывы на Google Картах",
     faq_title: "Часто задаваемые вопросы",
     faq_q1: "Как правильно подобрать запчасть по VIN-коду?",
@@ -142,15 +149,19 @@ const translations = {
     nav_contacts: "Kontakte",
     btn_callback: "Rückruf anfordern",
     hero_slide1_title: "Hochwertige Autoteile für Ihr Fahrzeug",
-    hero_slide1_desc: "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
+    hero_slide1_desc:
+      "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
     hero_slide2_title: "Schneller Versand bundesweit",
-    hero_slide2_desc: "Flexible Logistik und zuverlässige Partner für den Transport aller Teile.",
+    hero_slide2_desc:
+      "Flexible Logistik und zuverlässige Partner für den Transport aller Teile.",
     btn_catalog: "Katalog anzeigen",
     btn_contact: "Kontaktieren Sie uns",
     promo_tag: "Aktion",
     promo_text: "10% Rabatt auf die erste Großbestellung!",
-    hero_title: "Zuverlässige Autoteile für Einzelhandel und Werkstätten in ganz Europa",
-    hero_subtitle: "Direktlieferungen vom Hersteller. Über 50.000 Artikel auf Lager.",
+    hero_title:
+      "Zuverlässige Autoteile für Einzelhandel und Werkstätten in ganz Europa",
+    hero_subtitle:
+      "Direktlieferungen vom Hersteller. Über 50.000 Artikel auf Lager.",
     hero_cta: "Kosten berechnen",
     tab_by_car: "Nach Automarke",
     tab_by_vin: "Nach VIN-Code",
@@ -185,8 +196,10 @@ const translations = {
     step_4_title: "Erhalt",
     step_4_desc: "Selbstabholung vom Lager oder Lieferung an die Tür",
     reviews_title: "Kundenbewertungen",
-    review_1_text: "Toller Service, BMW-Teile kamen am nächsten Tag an. Alles Originalteile.",
-    review_2_text: "Wir arbeiten seit einem halben Jahr im Großhandel zusammen. Keine Beanstandungen.",
+    review_1_text:
+      "Toller Service, BMW-Teile kamen am nächsten Tag an. Alles Originalteile.",
+    review_2_text:
+      "Wir arbeiten seit einem halben Jahr im Großhandel zusammen. Keine Beanstandungen.",
     reviews_google_btn: "Alle Bewertungen auf Google Maps anzeigen",
     faq_title: "Häufig gestellte Fragen",
     faq_q1: "Wie wähle ich das richtige Ersatzteil per VIN-Code aus?",
@@ -210,7 +223,8 @@ const translations = {
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Rückruf anfordern",
-    cookie_text: "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
+    cookie_text:
+      "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",
     cookie_reject: "Ablehnen",
   },
@@ -221,7 +235,9 @@ const translations = {
      ========================================================================== */
 function initThemeSwitcher() {
   const themeBtn = document.getElementById("theme-toggle-btn");
-  const iconSpan = themeBtn ? themeBtn.querySelector(".theme-toggle__icon") : null;
+  const iconSpan = themeBtn
+    ? themeBtn.querySelector(".theme-toggle__icon")
+    : null;
 
   function applyTheme(theme) {
     document.body.setAttribute("data-theme", theme);
@@ -252,8 +268,12 @@ function updateBranchInfo(branchId) {
   const addressEl = document.querySelector("#branch-address-text");
   const hoursEl = document.querySelector("#branch-hours-text");
 
-  if (addressEl) addressEl.textContent = currentData.address[state.currentLang] || currentData.address.ru;
-  if (hoursEl) hoursEl.textContent = currentData.hours[state.currentLang] || currentData.hours.ru;
+  if (addressEl)
+    addressEl.textContent =
+      currentData.address[state.currentLang] || currentData.address.ru;
+  if (hoursEl)
+    hoursEl.textContent =
+      currentData.hours[state.currentLang] || currentData.hours.ru;
 }
 
 function applyLanguage(lang) {
@@ -449,7 +469,9 @@ function initAutocomplete() {
       return;
     }
 
-    const matches = carBrandsList.filter((item) => item.toLowerCase().includes(value));
+    const matches = carBrandsList.filter((item) =>
+      item.toLowerCase().includes(value),
+    );
 
     if (matches.length > 0) {
       matches.forEach((matchText) => {
@@ -496,7 +518,9 @@ function initWhatsAppForm() {
     let queryDetails = "";
 
     if (state.activeTab === "car") {
-      const carVal = document.getElementById("car-autocomplete-input")?.value.trim();
+      const carVal = document
+        .getElementById("car-autocomplete-input")
+        ?.value.trim();
       queryDetails = `*Марка/Модель:* ${carVal || "Не указано"}`;
     } else {
       const vinVal = document.getElementById("vin-input")?.value.trim();
@@ -619,8 +643,10 @@ function initBranchSwitcher() {
   if (!tabs.length || !mapIframe) return;
 
   const mapSources = {
-    berlin: "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    munich: "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    berlin:
+      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    munich:
+      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
   };
 
   tabs.forEach((tab) => {
@@ -674,7 +700,10 @@ function initCookieBanner() {
   }
 
   function handleChoice(accepted) {
-    localStorage.setItem("sfr_cookie_consent", accepted ? "accepted" : "rejected");
+    localStorage.setItem(
+      "sfr_cookie_consent",
+      accepted ? "accepted" : "rejected",
+    );
     if (typeof state !== "undefined") state.gdprConsented = accepted;
     banner.classList.remove("is-visible");
   }
@@ -723,7 +752,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Генерируем событие закрытия для сброса ошибок или полей
-    activeModal.dispatchEvent(new CustomEvent("modal:closed", { bubbles: true }));
+    activeModal.dispatchEvent(
+      new CustomEvent("modal:closed", { bubbles: true }),
+    );
   };
 
   // 1. Делегирование ОТКРЫТИЯ (для кнопок в слайдерах, шапке, подвале)
@@ -756,6 +787,9 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ==========================================
    orderModal
    ========================================== */
+/* ==========================================
+   orderModal
+   ========================================== */
 function initOrderFormLogic() {
   const orderModal = document.getElementById("orderModal");
   if (!orderModal) return;
@@ -764,6 +798,12 @@ function initOrderFormLogic() {
   const privacyCheckbox = orderModal.querySelector("#privacyCheckbox");
 
   let currentOrderMethod = "by-car";
+
+  // --- Карта номеров телефонов по филиалам ---
+  const BRANCH_PHONES = {
+    westerkappeln: "380988737379", // Укажи реальные номера
+    rheine: "380738737379",
+  };
 
   // --- 1. Управление состоянием кнопки ---
   function toggleSubmitButton() {
@@ -794,18 +834,53 @@ function initOrderFormLogic() {
   function validateAndSend() {
     clearErrors();
 
+    // 0. ПРОВЕРКА ВЫБОРА ФИЛИАЛА (ОБЯЗАТЕЛЬНОЕ ПОЛЕ)
+    const selectedBranchRadio = orderModal.querySelector(
+      'input[name="branch"]:checked',
+    );
+    if (!selectedBranchRadio) {
+      const branchContainer =
+        orderModal.querySelector(".branch-options") ||
+        orderModal.querySelector(".branch-selection");
+      showError(branchContainer, "Выберите филиал для отправки заказа");
+      return;
+    }
+
     const partsInput = document.getElementById("partsList");
     const nameInput = document.getElementById("clientName");
 
-    // 1. Проверяем детали
-    if (!partsInput || !partsInput.value.trim() || partsInput.value.trim().length < 3) {
+    // 1. ПРОВЕРКА ДЕТАЛЕЙ
+    if (
+      !partsInput ||
+      !partsInput.value.trim() ||
+      partsInput.value.trim().length < 3
+    ) {
       showError(partsInput, "Опишите необходимые запчасти (минимум 3 символа)");
       return;
     }
 
-    // 2. Проверяем имя
-    if (!nameInput || !nameInput.value.trim() || nameInput.value.trim().length < 2) {
+    const partsRegex = /[a-zA-Zа-яА-ЯёЁäöüÄÖÜß0-9]/;
+    if (!partsRegex.test(partsInput.value)) {
+      showError(partsInput, "Описание должно содержать буквы или цифры");
+      return;
+    }
+
+    // 2. ПРОВЕРКА ИМЕНИ
+    if (
+      !nameInput ||
+      !nameInput.value.trim() ||
+      nameInput.value.trim().length < 2
+    ) {
       showError(nameInput, "Укажите ваше имя");
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Zа-яА-ЯёЁäöüÄÖÜß\s\-\']+$/;
+    if (!nameRegex.test(nameInput.value.trim())) {
+      showError(
+        nameInput,
+        "Имя содержит недопустимые символы (цифры или знаки)",
+      );
       return;
     }
 
@@ -844,17 +919,24 @@ function initOrderFormLogic() {
       const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i;
 
       if (!vinInput || vinValue.length !== 17) {
-        showError(vinInput, `VIN должен быть ровно 17 символов (сейчас: ${vinValue.length})`);
+        showError(
+          vinInput,
+          `VIN должен быть ровно 17 символов (сейчас: ${vinValue.length})`,
+        );
         return;
       }
 
       if (!vinRegex.test(vinValue)) {
-        showError(vinInput, "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)");
+        showError(
+          vinInput,
+          "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
+        );
         return;
       }
     }
+
     // Если всё ок — вызываем отправку в WhatsApp
-    executeWhatsAppSend();
+    executeWhatsAppSend(selectedBranchRadio);
   }
 
   // --- 4. Отправка в WhatsApp ---
@@ -864,8 +946,20 @@ function initOrderFormLogic() {
     });
   }
 
-  function executeWhatsAppSend() {
-    const phone = "380988737379";
+  function executeWhatsAppSend(selectedBranchRadio) {
+    const selectedBranch = selectedBranchRadio ? selectedBranchRadio.value : "";
+    const phone = BRANCH_PHONES[selectedBranch];
+
+    if (!phone) {
+      alert("Ошибка: Не найден номер телефона для выбранного филиала.");
+      return;
+    }
+
+    // Текст названия филиала
+    const branchLabel = selectedBranchRadio.parentElement
+      ? selectedBranchRadio.parentElement.textContent.trim()
+      : selectedBranch.toUpperCase();
+
     const name = document.getElementById("clientName").value.trim();
     const parts = document.getElementById("partsList").value.trim();
     const now = new Date();
@@ -883,12 +977,16 @@ function initOrderFormLogic() {
 
       vehicleBlock = `🚗 Данные авто:\n• Марка: ${make}\n• Модель: ${model}\n• Год: ${year}`;
     } else {
-      const vin = document.getElementById("vinCode").value.replace(/\s+/g, "").toUpperCase();
+      const vin = document
+        .getElementById("vinCode")
+        .value.replace(/\s+/g, "")
+        .toUpperCase();
       vehicleBlock = `🔑 VIN-код:\n${vin}`;
     }
 
     const message =
       `📦 Заказ № ${orderNumber}\n` +
+      `🏢 Филиал: ${branchLabel}\n` +
       `👤 Клиент: ${name}\n` +
       `_________________________\n\n` +
       `${vehicleBlock}\n` +
@@ -901,16 +999,23 @@ function initOrderFormLogic() {
 
   // --- 5. Вспомогательные функции ошибок ---
   function clearErrors() {
-    orderModal.querySelectorAll(".has-error").forEach((el) => el.classList.remove("has-error"));
-    orderModal.querySelectorAll(".field-error-text, .error-message").forEach((el) => (el.style.display = "none"));
+    orderModal
+      .querySelectorAll(".has-error")
+      .forEach((el) => el.classList.remove("has-error"));
+    orderModal
+      .querySelectorAll(".field-error-text, .error-message")
+      .forEach((el) => (el.style.display = "none"));
   }
 
   function showError(inputElement, message) {
     if (!inputElement) return;
-    const group = inputElement.closest(".form-group") || inputElement.parentElement;
+    const group =
+      inputElement.closest(".form-group") || inputElement.parentElement;
     group.classList.add("has-error");
 
-    let errorMsg = group.querySelector(".field-error-text") || group.querySelector(".error-message");
+    let errorMsg =
+      group.querySelector(".field-error-text") ||
+      group.querySelector(".error-message");
     if (!errorMsg) {
       errorMsg = document.createElement("span");
       errorMsg.className = "field-error-text error-message";
@@ -918,7 +1023,10 @@ function initOrderFormLogic() {
     }
     errorMsg.textContent = message;
     errorMsg.style.display = "block";
-    inputElement.focus();
+
+    if (typeof inputElement.focus === "function") {
+      inputElement.focus();
+    }
   }
 
   // --- 6. Навешивание слушателей ---
@@ -948,11 +1056,25 @@ function initOrderFormLogic() {
     if (e.target.name === "carSpecification") {
       handleMethodChange(e.target.value);
     }
+
+    // Сброс ошибки выборки филиала при клике
+    if (e.target.name === "branch") {
+      const group =
+        e.target.closest(".form-group") ||
+        e.target.closest(".branch-selection");
+      if (group) {
+        group.classList.remove("has-error");
+        const err = group.querySelector(".field-error-text, .error-message");
+        if (err) err.style.display = "none";
+      }
+    }
   });
 
-  // События от глобального менеджера модалок (modals.js)
+  // События от глобального менеджера модалок
   orderModal.addEventListener("modal:opened", () => {
-    const checkedRadio = orderModal.querySelector('input[name="carSpecification"]:checked');
+    const checkedRadio = orderModal.querySelector(
+      'input[name="carSpecification"]:checked',
+    );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
     toggleSubmitButton();
   });
@@ -963,232 +1085,239 @@ function initOrderFormLogic() {
 
   // Первичный вызов при загрузке
   toggleSubmitButton();
-}
 
-// --- 7. Автокомплит для марок авто ---
-const popularMakes = [
-  "Audi",
-  "BMW",
-  "Chery",
-  "Chevrolet",
-  "Ford",
-  "Geely",
-  "Honda",
-  "Hyundai",
-  "Kia",
-  "Mazda",
-  "Mercedes-Benz",
-  "Mitsubishi",
-  "Nissan",
-  "Opel",
-  "Peugeot",
-  "Renault",
-  "Skoda",
-  "Toyota",
-  "Volkswagen",
-  "Volvo",
-];
-const makeInput = document.getElementById("carMake");
+  // --- 7. Автокомплит для марок авто ---
+  const popularMakes = [
+    "Audi",
+    "BMW",
+    "Chery",
+    "Chevrolet",
+    "Ford",
+    "Geely",
+    "Honda",
+    "Hyundai",
+    "Kia",
+    "Mazda",
+    "Mercedes-Benz",
+    "Mitsubishi",
+    "Nissan",
+    "Opel",
+    "Peugeot",
+    "Renault",
+    "Skoda",
+    "Toyota",
+    "Volkswagen",
+    "Volvo",
+  ];
+  const makeInput = document.getElementById("carMake");
 
-if (makeInput) {
-  let makeBox = document.getElementById("makeSuggestions");
-  if (!makeBox) {
-    makeBox = document.createElement("div");
-    makeBox.id = "makeSuggestions";
-    makeBox.className = "suggestions-box";
-    makeInput.parentNode.style.position = "relative";
-    makeInput.parentNode.appendChild(makeBox);
-  }
-
-  makeInput.addEventListener("input", function () {
-    const val = this.value.trim().toLowerCase();
-    makeBox.innerHTML = "";
-
-    if (val === "") {
-      makeBox.classList.remove("is-visible");
-      return;
+  if (makeInput) {
+    let makeBox = document.getElementById("makeSuggestions");
+    if (!makeBox) {
+      makeBox = document.createElement("div");
+      makeBox.id = "makeSuggestions";
+      makeBox.className = "suggestions-box";
+      makeInput.parentNode.style.position = "relative";
+      makeInput.parentNode.appendChild(makeBox);
     }
 
-    const filtered = popularMakes.filter((make) => make.toLowerCase().startsWith(val));
+    makeInput.addEventListener("input", function () {
+      const val = this.value.trim().toLowerCase();
+      makeBox.innerHTML = "";
 
-    if (filtered.length === 0) {
-      makeBox.classList.remove("is-visible");
-      return;
-    }
+      if (val === "") {
+        makeBox.classList.remove("is-visible");
+        return;
+      }
 
-    filtered.forEach((make) => {
-      const item = document.createElement("div");
-      item.className = "suggestion-item";
-      item.textContent = make;
-      makeBox.appendChild(item);
+      const filtered = popularMakes.filter((make) =>
+        make.toLowerCase().startsWith(val),
+      );
+
+      if (filtered.length === 0) {
+        makeBox.classList.remove("is-visible");
+        return;
+      }
+
+      filtered.forEach((make) => {
+        const item = document.createElement("div");
+        item.className = "suggestion-item";
+        item.textContent = make;
+        makeBox.appendChild(item);
+      });
+
+      makeBox.classList.add("is-visible");
     });
 
-    makeBox.classList.add("is-visible");
-  });
+    makeBox.addEventListener("mousedown", function (e) {
+      if (e.target.classList.contains("suggestion-item")) {
+        makeInput.value = e.target.textContent;
+        makeBox.classList.remove("is-visible");
 
-  makeBox.addEventListener("mousedown", function (e) {
-    if (e.target.classList.contains("suggestion-item")) {
-      makeInput.value = e.target.textContent;
-      makeBox.classList.remove("is-visible");
-
-      const group = makeInput.closest(".form-group") || makeInput.parentElement;
-      group.classList.remove("has-error");
-      const err = group.querySelector(".field-error-text, .error-message");
-      if (err) err.style.display = "none";
-    }
-  });
-
-  document.addEventListener("click", function (e) {
-    if (e.target !== makeInput) {
-      makeBox.classList.remove("is-visible");
-    }
-  });
-}
-
-// --- 8. Автокомплит для года автомобиля ---
-const yearInput = document.getElementById("carYear");
-
-if (yearInput) {
-  let yearBox = document.getElementById("yearSuggestions");
-  if (!yearBox) {
-    yearBox = document.createElement("div");
-    yearBox.id = "yearSuggestions";
-    yearBox.className = "suggestions-box";
-    yearInput.parentNode.style.position = "relative";
-    yearInput.parentNode.appendChild(yearBox);
-  }
-
-  const currentYear = new Date().getFullYear();
-  const yearsList = [];
-  for (let y = currentYear; y >= currentYear - 30; y--) {
-    yearsList.push(y.toString());
-  }
-
-  yearInput.addEventListener("input", function () {
-    const val = this.value.trim();
-    yearBox.innerHTML = "";
-
-    if (val === "") {
-      yearBox.classList.remove("is-visible");
-      return;
-    }
-
-    const filtered = yearsList.filter((y) => y.startsWith(val));
-
-    if (filtered.length === 0) {
-      yearBox.classList.remove("is-visible");
-      return;
-    }
-
-    filtered.forEach((year) => {
-      const item = document.createElement("div");
-      item.className = "suggestion-item";
-      item.textContent = year;
-      yearBox.appendChild(item);
+        const group =
+          makeInput.closest(".form-group") || makeInput.parentElement;
+        group.classList.remove("has-error");
+        const err = group.querySelector(".field-error-text, .error-message");
+        if (err) err.style.display = "none";
+      }
     });
 
-    yearBox.classList.add("is-visible");
-  });
-
-  yearBox.addEventListener("mousedown", function (e) {
-    if (e.target.classList.contains("suggestion-item")) {
-      yearInput.value = e.target.textContent;
-      yearBox.classList.remove("is-visible");
-
-      const group = yearInput.closest(".form-group") || yearInput.parentElement;
-      group.classList.remove("has-error");
-      const err = group.querySelector(".field-error-text, .error-message");
-      if (err) err.style.display = "none";
-    }
-  });
-
-  document.addEventListener("click", function (e) {
-    if (e.target !== yearInput) {
-      yearBox.classList.remove("is-visible");
-    }
-  });
-}
-// --- 9. База моделей по маркам и автокомплит для модели авто ---
-const carModelsDatabase = {
-  Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
-  BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
-  Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
-  Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
-  Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
-  Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
-  Honda: ["Civic", "Accord", "CR-V", "HR-V"],
-  Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
-  Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
-  Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
-  "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
-  Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
-  Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
-  Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
-  Peugeot: ["308", "408", "3008", "5008"],
-  Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
-  Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
-  Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
-  Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
-  Volvo: ["XC40", "XC60", "XC90", "S60"],
-};
-
-const modelInput = document.getElementById("carModel");
-
-if (modelInput && makeInput) {
-  let modelBox = document.getElementById("modelSuggestions");
-  if (!modelBox) {
-    modelBox = document.createElement("div");
-    modelBox.id = "modelSuggestions";
-    modelBox.className = "suggestions-box";
-    modelInput.parentNode.style.position = "relative";
-    modelInput.parentNode.appendChild(modelBox);
+    document.addEventListener("click", function (e) {
+      if (e.target !== makeInput) {
+        makeBox.classList.remove("is-visible");
+      }
+    });
   }
 
-  modelInput.addEventListener("input", function () {
-    const val = this.value.trim().toLowerCase();
-    const selectedMake = makeInput.value.trim();
-    modelBox.innerHTML = "";
-
-    if (val === "" || !selectedMake || !carModelsDatabase[selectedMake]) {
-      modelBox.classList.remove("is-visible");
-      return;
+  // --- 8. Автокомплит для года автомобиля ---
+  const yearInput = document.getElementById("carYear");
+  if (yearInput) {
+    let yearBox = document.getElementById("yearSuggestions");
+    if (!yearBox) {
+      yearBox = document.createElement("div");
+      yearBox.id = "yearSuggestions";
+      yearBox.className = "suggestions-box";
+      yearInput.parentNode.style.position = "relative";
+      yearInput.parentNode.appendChild(yearBox);
     }
 
-    const availableModels = carModelsDatabase[selectedMake];
-    const filtered = availableModels.filter((model) => model.toLowerCase().startsWith(val));
-
-    if (filtered.length === 0) {
-      modelBox.classList.remove("is-visible");
-      return;
+    const currentYear = new Date().getFullYear();
+    const yearsList = [];
+    for (let y = currentYear; y >= currentYear - 30; y--) {
+      yearsList.push(y.toString());
     }
 
-    filtered.forEach((model) => {
-      const item = document.createElement("div");
-      item.className = "suggestion-item";
-      item.textContent = model;
-      modelBox.appendChild(item);
+    yearInput.addEventListener("input", function () {
+      const val = this.value.trim();
+      yearBox.innerHTML = "";
+
+      if (val === "") {
+        yearBox.classList.remove("is-visible");
+        return;
+      }
+
+      const filtered = yearsList.filter((y) => y.startsWith(val));
+
+      if (filtered.length === 0) {
+        yearBox.classList.remove("is-visible");
+        return;
+      }
+
+      filtered.forEach((year) => {
+        const item = document.createElement("div");
+        item.className = "suggestion-item";
+        item.textContent = year;
+        yearBox.appendChild(item);
+      });
+
+      yearBox.classList.add("is-visible");
     });
 
-    modelBox.classList.add("is-visible");
-  });
+    yearBox.addEventListener("mousedown", function (e) {
+      if (e.target.classList.contains("suggestion-item")) {
+        yearInput.value = e.target.textContent;
+        yearBox.classList.remove("is-visible");
 
-  modelBox.addEventListener("mousedown", function (e) {
-    if (e.target.classList.contains("suggestion-item")) {
-      modelInput.value = e.target.textContent;
-      modelBox.classList.remove("is-visible");
+        const group =
+          yearInput.closest(".form-group") || yearInput.parentElement;
+        group.classList.remove("has-error");
+        const err = group.querySelector(".field-error-text, .error-message");
+        if (err) err.style.display = "none";
+      }
+    });
 
-      const group = modelInput.closest(".form-group") || modelInput.parentElement;
-      group.classList.remove("has-error");
-      const err = group.querySelector(".field-error-text, .error-message");
-      if (err) err.style.display = "none";
+    document.addEventListener("click", function (e) {
+      if (e.target !== yearInput) {
+        yearBox.classList.remove("is-visible");
+      }
+    });
+  }
+
+  // --- 9. База моделей по маркам и автокомплит для модели авто ---
+  const carModelsDatabase = {
+    Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
+    BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
+    Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
+    Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
+    Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
+    Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
+    Honda: ["Civic", "Accord", "CR-V", "HR-V"],
+    Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
+    Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
+    Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
+    "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
+    Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
+    Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
+    Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
+    Peugeot: ["308", "408", "3008", "5008"],
+    Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
+    Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
+    Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
+    Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
+    Volvo: ["XC40", "XC60", "XC90", "S60"],
+  };
+
+  const modelInput = document.getElementById("carModel");
+
+  if (modelInput && makeInput) {
+    let modelBox = document.getElementById("modelSuggestions");
+    if (!modelBox) {
+      modelBox = document.createElement("div");
+      modelBox.id = "modelSuggestions";
+      modelBox.className = "suggestions-box";
+      modelInput.parentNode.style.position = "relative";
+      modelInput.parentNode.appendChild(modelBox);
     }
-  });
 
-  document.addEventListener("click", function (e) {
-    if (e.target !== modelInput) {
-      modelBox.classList.remove("is-visible");
-    }
-  });
+    modelInput.addEventListener("input", function () {
+      const val = this.value.trim().toLowerCase();
+      const selectedMake = makeInput.value.trim();
+      modelBox.innerHTML = "";
+
+      if (val === "" || !selectedMake || !carModelsDatabase[selectedMake]) {
+        modelBox.classList.remove("is-visible");
+        return;
+      }
+
+      const availableModels = carModelsDatabase[selectedMake];
+      const filtered = availableModels.filter((model) =>
+        model.toLowerCase().startsWith(val),
+      );
+
+      if (filtered.length === 0) {
+        modelBox.classList.remove("is-visible");
+        return;
+      }
+
+      filtered.forEach((model) => {
+        const item = document.createElement("div");
+        item.className = "suggestion-item";
+        item.textContent = model;
+        modelBox.appendChild(item);
+      });
+
+      modelBox.classList.add("is-visible");
+    });
+
+    modelBox.addEventListener("mousedown", function (e) {
+      if (e.target.classList.contains("suggestion-item")) {
+        modelInput.value = e.target.textContent;
+        modelBox.classList.remove("is-visible");
+
+        const group =
+          modelInput.closest(".form-group") || modelInput.parentElement;
+        group.classList.remove("has-error");
+        const err = group.querySelector(".field-error-text, .error-message");
+        if (err) err.style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (e.target !== modelInput) {
+        modelBox.classList.remove("is-visible");
+      }
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initOrderFormLogic);
@@ -1222,7 +1351,11 @@ document.addEventListener("DOMContentLoaded", () => {
         errorMessage = "Номер телефона не должен содержать буквы";
       }
       // 3. Строгая проверка начала номера (для Германии: должен начинаться с +49, 49 или с 0)
-      else if (!phone.startsWith("+49") && !phone.startsWith("49") && !phone.startsWith("0")) {
+      else if (
+        !phone.startsWith("+49") &&
+        !phone.startsWith("49") &&
+        !phone.startsWith("0")
+      ) {
         errorMessage = "Номер должен начинаться с +49, 49 или 0";
       }
 
@@ -1271,7 +1404,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const iconPhone = String.fromCodePoint(128222); // 📞
       const message = `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
       const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/${phoneOwner}?text=${encodedMessage}`, "_blank");
+      window.open(
+        `https://wa.me/${phoneOwner}?text=${encodedMessage}`,
+        "_blank",
+      );
 
       // Закрытие модалки
       const modal = callbackForm.closest(".modal");
@@ -1304,7 +1440,8 @@ function showError(inputElement, formElement, message) {
   const errorMsg = document.createElement("div");
   errorMsg.className = "form-error-msg";
   errorMsg.textContent = message;
-  errorMsg.style.cssText = "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
+  errorMsg.style.cssText =
+    "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
   inputElement.closest(".callback-field").appendChild(errorMsg);
   inputElement.focus();
 }
@@ -1325,4 +1462,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initBranchSwitcher();
   initModals();
   initCookieBanner();
+  initOrderFormLogic();
 });

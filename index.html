@@ -7,23 +7,20 @@
   <title>SFR Carparts GmbH — Оптовые и розничные поставки автозапчастей</title>
   <meta name="description"
     content="Оптовая и розничная продажа автозапчастей с гарантией и быстрой доставкой по ЕС и СНГ. SFR Carparts GmbH." />
-
   <!-- Favicon Pack -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="icon" href="assets/icons/icon.png" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" sizes="180x180" />
-
   <!-- SEO Hreflang (ЕС / Германия) -->
   <link rel="alternate" hreflang="ru" href="https://sfr-carparts.de/ru/" />
   <link rel="alternate" hreflang="de" href="https://sfr-carparts.de/de/" />
   <link rel="alternate" hreflang="x-default" href="https://sfr-carparts.de/" />
-
   <!-- CSS (Локальные шрифты подключаются внутри style.css) -->
   <link rel="stylesheet" href="styles/styles.css" />
 </head>
 
 <body data-theme="light">
-  <!-- ==================== STICKY HEADER ==================== -->
+  <!-- STICKY HEADER -->
   <header class="header">
     <div class="container header__container">
       <div class="logo">
@@ -50,14 +47,11 @@
         </button>
 
         <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
-          data-lang-key="btn_callback">
-          Заказать звонок
-        </button>
+          data-lang-key="btn_callback">Заказать звонок</button>
       </div>
     </div>
   </header>
-
-  <!-- ==================== HERO SLIDER ==================== -->
+  <!-- HERO SLIDER -->
   <section class="hero-slider">
     <div class="hero-slider__wrapper">
       <!-- Slide 1 -->
@@ -70,7 +64,7 @@
             </p>
             <div class="hero-slide__actions">
               <button class="btn btn--primary" data-open-modal="orderModal" data-lang-key="btn_catalog">
-                Перейти в каталог
+                Сделать заказ!
               </button>
             </div>
           </div>
@@ -79,7 +73,6 @@
           </div>
         </div>
       </div>
-
       <!-- Slide 2 -->
       <div class="hero-slide">
         <div class="container hero-slide__container">
@@ -89,7 +82,7 @@
               Гибкая логистика и надежные партнеры для транспортировки любых деталей.
             </p>
             <div class="hero-slide__actions">
-              <button class="btn btn--primary" data-open-modal="orderModal" data-lang-key="btn_contact">
+              <button class="btn btn--primary" data-open-modal="modal-callback" data-lang-key="btn_contact">
                 Связаться с нами
               </button>
             </div>
@@ -100,11 +93,9 @@
         </div>
       </div>
     </div>
-
     <!-- Кнопки управления -->
     <button class="hero-slider__btn hero-slider__btn--prev" aria-label="Previous Slide">❮</button>
     <button class="hero-slider__btn hero-slider__btn--next" aria-label="Next Slide">❯</button>
-
     <!-- Точки (Dots) -->
     <div class="hero-slider__dots">
       <span class="dot active" data-slide="0"></span>
@@ -112,7 +103,7 @@
     </div>
   </section>
 
-  <!-- ==================== TRUST COUNTERS ==================== -->
+  <!-- TRUST COUNTERS -->
   <section class="counters-section">
     <div class="container">
       <div class="counters-grid">
@@ -139,7 +130,7 @@
     </div>
   </section>
 
-  <!-- ==================== CONDITIONS CARDS ==================== -->
+  <!-- CONDITIONS CARDS -->
   <section class="conditions-section" id="conditions">
     <div class="container">
       <h2 class="conditions-title" data-lang-key="conditions_title">Условия работы и преимущества</h2>
@@ -210,7 +201,7 @@
     </div>
   </section>
 
-  <!-- ==================== TIMELINE (WORKFLOW) ==================== -->
+  <!-- TIMELINE (WORKFLOW) -->
   <section class="timeline-section" id="timeline">
     <div class="container">
       <h2 class="timeline-title" data-lang-key="timeline_title">Как мы работаем</h2>
@@ -263,7 +254,7 @@
     </div>
   </section>
 
-  <!-- ==================== BRANDS CAROUSEL ==================== -->
+  <!-- BRANDS CAROUSEL -->
   <section class="brands-section" id="brands">
     <div class="container">
       <h2 class="brands-title" data-lang-key="brands_title">Наши партнеры</h2>
@@ -289,7 +280,7 @@
     </div>
   </section>
 
-  <!-- ==================== REVIEWS SECTION ==================== -->
+  <!-- REVIEWS SECTION -->
   <section class="reviews-section" id="reviews">
     <div class="container">
       <h2 class="reviews-title" data-lang-key="reviews_title">Отзывы наших клиентов</h2>
@@ -380,7 +371,7 @@
     </div>
   </section>
 
-  <!-- ==================== FAQ SECTION ==================== -->
+  <!-- FAQ SECTION -->
   <section class="faq-section" id="faq">
     <div class="container">
       <h2 class="faq-title" data-lang-key="faq_title">Часто задаваемые вопросы</h2>
@@ -457,7 +448,7 @@
     </div>
   </section>
 
-  <!-- ==================== FOOTER & BRANCHES ==================== -->
+  <!-- FOOTER & BRANCHES -->
   <footer class="footer-section" id="contacts">
     <div class="container">
       <!-- Верхняя часть: Заголовок и переключатель филиалов на всю ширину -->
@@ -565,8 +556,8 @@
 
 
 
-  <!-- ==================== MODALS ==================== -->
-  <!-- ==================== MODAL ORDER FORM ==================== -->
+  <!--  MODALS  -->
+  <!-- MODAL ORDER FORM -->
   <div class="modal" id="orderModal" aria-hidden="true">
     <div class="modal-overlay" data-close></div>
     <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -586,6 +577,24 @@
         </div>
 
         <form id="orderForm">
+
+          <!-- Выбор филиала -->
+          <div class="form-group branch-selection">
+            <span class="selection-title" data-lang-key="select_method_title">Wählen Sie eine Filiale aus / Выберите
+              филиал:</span>
+            <!-- <label class="form-label">Wählen Sie eine Filiale aus / Выберите филиал:</label> -->
+            <div class="branch-options">
+              <label class="branch-option">
+                <input type="radio" name="branch" value="westerkappeln">
+                <span class="branch-btn">Westerkappeln</span>
+              </label>
+              <label class="branch-option">
+                <input type="radio" name="branch" value="rheine">
+                <span class="branch-btn">Rheine</span>
+              </label>
+            </div>
+          </div>
+
           <!-- ОБЩИЕ ПОЛЯ -->
           <div class="form-section">
             <div class="form-group">
@@ -625,7 +634,7 @@
                   <input type="text" id="carModel" placeholder="Модель (напр. X5)" autocomplete="off">
                 </div>
                 <div class="form-group">
-                  <input type="text" id="carYear" placeholder="Год (напр. 2020)" maxlength="4">
+                  <input type="text" id="carYear" placeholder="Год" maxlength="4">
                 </div>
               </div>
             </div>
@@ -726,7 +735,7 @@
   </div>
 
 
-  <!-- ==================== COOKIE BANNER ==================== -->
+  <!-- COOKIE BANNER -->
   <div id="cookie-banner" class="cookie-banner" aria-hidden="true">
     <div class="cookie-banner__content">
       <p>
