@@ -34,7 +34,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
@@ -768,8 +770,20 @@ section:nth-of-type(even) {
   position: relative;
   width: 100%;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
 }
 
 /* Бесконечно движущаяся лента */
@@ -1573,8 +1587,8 @@ body.modal-open {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -1602,6 +1616,52 @@ body.modal-open {
   margin-top: 3px;
 }
 
+.branch-selection {
+  margin-bottom: 20px;
+}
+
+.branch-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.branch-option {
+  cursor: pointer;
+  flex: 1;
+}
+
+.branch-option input[type="radio"] {
+  display: none; /* Скрываем стандартный радиобаттон */
+}
+
+.branch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.branch-option input[type="radio"]:checked + .branch-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+}
+
+.branch-btn:hover {
+  border-color: var(--primary-color);
+}
+
 .form-group {
   margin-bottom: 15px;
   position: relative;
@@ -1625,7 +1685,7 @@ body.modal-open {
 }
 
 .form-container textarea {
-  height: 90px;
+  height: 80px;
   resize: vertical;
 }
 
@@ -1634,7 +1694,6 @@ body.modal-open {
 .form-container textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15); /* Прозрачная версия твоего blue */
 }
 
 /* ОШИБКИ ВАЛИДАЦИИ */
@@ -1647,7 +1706,7 @@ body.modal-open {
 }
 .has-error input,
 .has-error textarea {
-  border-color: #dc3545 !important;
+  border-color: var(--primary-color) !important;
 }
 .has-error .error-message {
   display: block;
@@ -1655,27 +1714,72 @@ body.modal-open {
 
 /* ПЕРЕКЛЮЧЕНИЕ МАРКА / VIN */
 .selection-method {
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
+
 .selection-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--text-muted);
   display: block;
-  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-color);
 }
+
 .radio-group {
   display: flex;
-  gap: 20px;
+  gap: 12px;
 }
+
+/* Элемент-обертка label */
 .radio-label {
+  position: relative;
+  flex: 1; /* Опционально: растягивает кнопки равномерно по ширине */
   cursor: pointer;
+  user-select: none;
+}
+
+/* Скрываем дефолтный круглый инпут */
+.radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Стилизуем <span> внутри label как кнопку-таб */
+.radio-label span {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
   color: var(--text-color);
-  user-select: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+/* Ховер на активную невыбранную плашку */
+.radio-label:hover span {
+  border-color: var(--primary-color);
+}
+
+/* Состояние, когда радиокнопка выбрана (:checked) */
+.radio-label input[type="radio"]:checked + span {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+
+/* Небольшая адаптивность для узких экранов (мобилки) */
+@media (max-width: 480px) {
+  .radio-group {
+    gap: 8px;
+  }
 }
 
 @keyframes fadeInField {
@@ -1752,28 +1856,82 @@ body.modal-open {
 
 /* СОГЛАСИЕ И ЧЕКБОКС */
 .privacy-agreement {
-  margin: 22px 0;
+  margin-top: 16px;
+  margin-bottom: 20px;
 }
-.checkbox-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+
+/* Контейнер label */
+.privacy-agreement .checkbox-label {
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   user-select: none;
-  color: var(--text-color);
 }
+
+/* Скрываем стандартный инпут браузера */
+.privacy-agreement input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Текст и кастомный квадратик */
 .privacy-text {
-  font-size: 12px;
+  position: relative;
+  padding-left: 30px; /* Отступ под квадратик */
+  font-size: 0.88rem;
   line-height: 1.4;
-  color: var(--text-muted);
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
-.privacy-text a {
-  color: var(--primary-color);
-  text-decoration: none;
+
+/* Кастомный квадратик (создается через ::before) */
+.privacy-text::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border-color, rgba(125, 125, 125, 0.3));
+  border-radius: 6px;
+  background-color: var(--card-bg, rgba(255, 255, 255, 0.05));
+  transition: all 0.2s ease;
 }
-.privacy-text a:hover {
-  color: var(--primary-hover);
-  text-decoration: underline;
+
+/* Галочка (создается через ::after) */
+.privacy-text::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: calc(50% - 1px);
+  width: 5px;
+  height: 9px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-50%) rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+/* Ховер при наведении */
+.checkbox-label:hover .privacy-text::before {
+  border-color: var(--primary-hover);
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+/* Активное состояние (:checked) */
+input[type="checkbox"]:checked + .privacy-text::before {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Показываем галочку, когда чекбокс выбран */
+input[type="checkbox"]:checked + .privacy-text::after {
+  transform: translateY(-50%) rotate(45deg) scale(1);
 }
 
 .submit-btn {
@@ -1790,11 +1948,11 @@ body.modal-open {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  /* box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
   transition:
     background-color 0.2s,
     transform 0.1s,
-    opacity 0.2s;
+    opacity 0.2s; */
 }
 
 .submit-btn:hover:not(:disabled) {
@@ -2002,8 +2160,8 @@ body.modal-open {
   right: 30px;
   width: 45px;
   height: 45px;
-  background-color: var(--card-bg, #ffffff);
-  color: var(--text-color, #333333);
+  background-color: var(--primary-color);
+  color: var(--bg-color);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   font-size: 20px;
@@ -2031,7 +2189,7 @@ body.modal-open {
 }
 
 .back-to-top:hover {
-  background-color: var(--primary-color);
-  color: #ffffff;
-  border-color: transparent;
+  background-color: transparent;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
