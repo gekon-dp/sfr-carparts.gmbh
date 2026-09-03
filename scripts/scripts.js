@@ -63,6 +63,7 @@ const translations = {
     nav_timeline: "Схема работы",
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
+    btn_order: "🛒",
     btn_callback: "Заказать звонок",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
     hero_slide1_desc:
@@ -70,7 +71,7 @@ const translations = {
     hero_slide2_title: "Оперативная доставка по всей стране",
     hero_slide2_desc:
       "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
-    btn_catalog: "Сделать заказ!",
+    btn_catalog: "Перейти в каталог",
     btn_contact: "Связаться с нами",
     promo_tag: "Акция",
     promo_text: "Скидка 10% на первый оптовый заказ!",
