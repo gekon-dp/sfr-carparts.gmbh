@@ -3,7 +3,7 @@
    ========================================================================== */
 
 const state = {
-  currentLang: localStorage.getItem("sfr_lang") || "ru",
+  currentLang: localStorage.getItem("sfr_lang") || "de",
   currentTheme: localStorage.getItem("sfr_theme") || "light",
   activeTab: "car",
   activeBranch: "1",
@@ -13,29 +13,29 @@ const state = {
 const branchData = {
   1: {
     address: {
-      ru: "Alexanderplatz 1, 10178 Берлин, Германия",
-      de: "Alexanderplatz 1, 10178 Berlin, Deutschland",
+      ru: "Оснабрюк штрассе 10, 49492 Вестеркаппельн, Германия",
+      de: "Osnabrücker Straße 10, 49492 Westerkappeln, Deutschland",
     },
-    phone: "+49 (0) 30 123456",
+    phone: "+4954048999397",
     hours: {
-      ru: "Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00",
-      de: "Mo-Fr: 08:00 - 18:00, Sa: 09:00 - 14:00",
+      ru: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
+      de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
-      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.1724077979475!2d7.877965376179342!3d52.31287395154456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dda019850d2b%3A0x87d4dffce7df79c6!2zT3NuYWJyw7xja2VyIFN0ci4gMTAsIDQ5NDkyIFdlc3RlcmthcHBlbG4sINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788465670171!5m2!1sru!2sus",
   },
   2: {
     address: {
-      ru: "Marienplatz 8, 80331 Мюнхен, Германия",
-      de: "Marienplatz 8, 80331 München, Deutschland",
+      ru: "Фридрих-Эберт-Ринг 177-179, 48429 Райне, Германия",
+      de: "Friedrich-Ebert-Ring 177-179, 48429 Rheine, Deutschland",
     },
-    phone: "+49 (0) 89 654321",
+    phone: "+4959719461246",
     hours: {
-      ru: "Пн-Пт: 08:30 - 17:30, Сб: 09:00 - 14:00",
-      de: "Mo-Fr: 08:30 - 17:30, Sa: 09:00 - 14:00",
+      ru: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
+      de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
-      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d431.3645669482149!2d7.448870331216508!3d52.29483267526514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b832a9a19adf73%3A0x765db21f0f489d3a!2zRnJpZWRyaWNoLUViZXJ0LVJpbmcgMTc3LCA0ODQyOSBSaGVpbmUsINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788466485269!5m2!1sru!2sus",
   },
 };
 
@@ -130,10 +130,11 @@ const translations = {
     faq_a4:
       "Да, мы работаем с автосервисами, автопарками и юрлицами по безналичному расчету с НДС. Для постоянных оптовых партнеров действует гибкая система скидок.",
     contacts_title: "Наши филиалы",
-    branch_berlin: "Берлин",
-    branch_munich: "Мюнхен",
+    branch_westerkappeln: "Вестеркаппельн",
+    branch_rheine: "Райне",
     address_label: "Адрес:",
     phone_label: "Телефон:",
+    email_label: "Email",
     hours_label: "Режим работы:",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
@@ -217,10 +218,11 @@ const translations = {
     faq_a4:
       "Ja, wir arbeiten mit Werkstätten, Fuhrparks und Firmen auf Rechnung mit MwSt. Für Stammkunden gibt es ein flexibles Rabattsystem.",
     contacts_title: "Unsere Filialen",
-    branch_berlin: "Berlin",
-    branch_munich: "München",
+    branch_westerkappeln: "Westerkappeln",
+    branch_rheine: "Rheine",
     address_label: "Adresse:",
     phone_label: "Telefon:",
+    email_label: "Email",
     hours_label: "Öffnungszeiten:",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
@@ -647,10 +649,10 @@ function initBranchSwitcher() {
   if (!tabs.length || !mapIframe) return;
 
   const mapSources = {
-    berlin:
-      "https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    munich:
-      "https://maps.google.com/maps?q=Marienplatz%208,%20Munich&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    westerkappeln:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.1724077979475!2d7.877965376179342!3d52.31287395154456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dda019850d2b%3A0x87d4dffce7df79c6!2zT3NuYWJyw7xja2VyIFN0ci4gMTAsIDQ5NDkyIFdlc3RlcmthcHBlbG4sINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788465670171!5m2!1sru!2sus",
+    rheine:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d431.3645669482149!2d7.448870331216508!3d52.29483267526514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b832a9a19adf73%3A0x765db21f0f489d3a!2zRnJpZWRyaWNoLUViZXJ0LVJpbmcgMTc3LCA0ODQyOSBSaGVpbmUsINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788466485269!5m2!1sru!2sus",
   };
 
   tabs.forEach((tab) => {
@@ -671,8 +673,8 @@ function initBranchSwitcher() {
         }
       });
 
-      if (targetBranch === "berlin") updateBranchInfo("1");
-      if (targetBranch === "munich") updateBranchInfo("2");
+      if (targetBranch === "westerkappeln") updateBranchInfo("1");
+      if (targetBranch === "rheine") updateBranchInfo("2");
 
       if (mapSources[targetBranch]) {
         mapIframe.src = mapSources[targetBranch];

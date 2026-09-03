@@ -457,13 +457,13 @@
 
         <!-- Табы выбора филиала -->
         <div class="branch-tabs" role="tablist">
-          <button class="branch-tab active" data-branch="berlin" role="tab" aria-selected="true"
-            data-lang-key="branch_berlin">
-            Берлин
+          <button class="branch-tab active" data-branch="westerkappeln" role="tab" aria-selected="true"
+            data-lang-key="branch_westerkappeln">
+            Вестеркаппельн
           </button>
-          <button class="branch-tab" data-branch="munich" role="tab" aria-selected="false"
-            data-lang-key="branch_munich">
-            Мюнхен
+          <button class="branch-tab" data-branch="rheine" role="tab" aria-selected="false"
+            data-lang-key="branch_rheine">
+            Райне
           </button>
         </div>
       </div>
@@ -473,12 +473,12 @@
         <!-- Левая колонка: Детали филиалов -->
         <div class="branch-details">
           <!-- Берлин -->
-          <div class="branch-panel active" id="branch-berlin">
+          <div class="branch-panel active" id="branch-westerkappeln">
             <div class="info-item">
               <span class="info-item__icon">📍</span>
               <div>
                 <strong data-lang-key="address_label">Адрес:</strong>
-                <p>Alexanderplatz 1, 10178 Berlin, Deutschland</p>
+                <p>Osnabrücker Straße 10, 49492 Westerkappeln, Deutschland</p>
               </div>
             </div>
 
@@ -486,7 +486,15 @@
               <span class="info-item__icon">📞</span>
               <div>
                 <strong data-lang-key="phone_label">Телефон:</strong>
-                <p><a href="tel:+493012345678">+49 30 12345678</a></p>
+                <p><a href="tel:+493012345678">+4954048999397</a></p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">✉️</span>
+              <div>
+                <strong data-lang-key="email_label">Email:</strong>
+                <p><a href="mailto:info@sfr-carparts.gmbh">info@sfr-carparts.gmbh</a></p>
               </div>
             </div>
 
@@ -494,18 +502,18 @@
               <span class="info-item__icon">⏰</span>
               <div>
                 <strong data-lang-key="hours_label">Режим работы:</strong>
-                <p data-lang-key="hours_value">Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00</p>
+                <p data-lang-key="hours_value">Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00</p>
               </div>
             </div>
           </div>
 
-          <!-- Мюнхен -->
-          <div class="branch-panel" id="branch-munich">
+          <!-- Райне -->
+          <div class="branch-panel" id="branch-rheine">
             <div class="info-item">
               <span class="info-item__icon">📍</span>
               <div>
                 <strong data-lang-key="address_label">Адрес:</strong>
-                <p>Marienplatz 8, 80331 München, Deutschland</p>
+                <p>Friedrich-Ebert-Ring 177-179, 48429 Rheine</p>
               </div>
             </div>
 
@@ -513,7 +521,15 @@
               <span class="info-item__icon">📞</span>
               <div>
                 <strong data-lang-key="phone_label">Телефон:</strong>
-                <p><a href="tel:+498987654321">+49 89 87654321</a></p>
+                <p><a href="tel:+4959719461246">+49 5971 9461246</a></p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-item__icon">✉️</span>
+              <div>
+                <strong data-lang-key="email_label">Email:</strong>
+                <p><a href="mailto:rheine@sfr-carparts.gmbh">rheine@sfr-carparts.gmbh</a></p>
               </div>
             </div>
 
@@ -521,7 +537,7 @@
               <span class="info-item__icon">⏰</span>
               <div>
                 <strong data-lang-key="hours_label">Режим работы:</strong>
-                <p data-lang-key="hours_value">Пн-Пт: 08:00 - 18:00, Сб: 09:00 - 14:00</p>
+                <p data-lang-key="hours_value">Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00</p>
               </div>
             </div>
           </div>
@@ -530,7 +546,7 @@
         <!-- Правая колонка: Интерактивная карта -->
         <div class="footer-map">
           <iframe id="branch-map"
-            src="https://maps.google.com/maps?q=Alexanderplatz%201,%20Berlin&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.1724077979475!2d7.877965376179342!3d52.31287395154456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dda019850d2b%3A0x87d4dffce7df79c6!2zT3NuYWJyw7xja2VyIFN0ci4gMTAsIDQ5NDkyIFdlc3RlcmthcHBlbG4sINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788465670171!5m2!1sru!2sus"
             width="100%" height="100%" style="border: 0" allowfullscreen="" loading="lazy"
             title="Branch Location Map"></iframe>
         </div>
@@ -689,7 +705,6 @@
     </div>
   </div>
 
-  <!-- Modal Impressum -->
   <!-- Modal Impressum -->
   <div id="modal-impressum" class="modal" aria-hidden="true">
     <div class="modal-overlay" data-close></div>
