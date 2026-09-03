@@ -39,23 +39,23 @@ const branchData = {
   },
 };
 
-const carBrandsList = [
-  "Audi A4",
-  "Audi A6",
-  "Audi Q7",
-  "BMW 3 Series",
-  "BMW 5 Series",
-  "BMW X5",
-  "BMW X6",
-  "Mercedes-Benz C-Class",
-  "Mercedes-Benz E-Class",
-  "Mercedes-Benz GLE",
-  "Porsche Cayenne",
-  "Porsche Macan",
-  "Volkswagen Golf",
-  "Volkswagen Passat",
-  "Volkswagen Tiguan",
-];
+// const carBrandsList = [
+//   "Audi A4",
+//   "Audi A6",
+//   "Audi Q7",
+//   "BMW 3 Series",
+//   "BMW 5 Series",
+//   "BMW X5",
+//   "BMW X6",
+//   "Mercedes-Benz C-Class",
+//   "Mercedes-Benz E-Class",
+//   "Mercedes-Benz GLE",
+//   "Porsche Cayenne",
+//   "Porsche Macan",
+//   "Volkswagen Golf",
+//   "Volkswagen Passat",
+//   "Volkswagen Tiguan",
+// ];
 
 const translations = {
   ru: {
@@ -371,12 +371,24 @@ function initHeroSlider() {
   });
 
   function startAutoplay() {
+    // Очищаем существующий таймер перед запуском нового, чтобы избежать дублирования
+    clearInterval(autoplayTimer);
     autoplayTimer = setInterval(nextSlide, 5000);
   }
 
   function resetAutoplay() {
-    clearInterval(autoplayTimer);
     startAutoplay();
+  }
+
+  // --- Пауза при наведении мыши ---
+  if (sliderEl) {
+    sliderEl.addEventListener("mouseenter", () => {
+      clearInterval(autoplayTimer);
+    });
+
+    sliderEl.addEventListener("mouseleave", () => {
+      startAutoplay();
+    });
   }
 
   // Touch Swipe Support
