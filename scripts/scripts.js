@@ -141,6 +141,8 @@ const translations = {
     cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
     cookie_accept: "Принять",
     cookie_reject: "Отклонить",
+    privacy_text: "Согласен с Политикой конфиденциальности",
+    select_method_title: "Выберите филиал:",
   },
   de: {
     nav_conditions: "Konditionen",
@@ -227,6 +229,8 @@ const translations = {
       "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",
     cookie_reject: "Ablehnen",
+    privacy_text: "Ich stimme der Datenschutzerklärung zu",
+    select_method_title: "Wählen Sie eine Filiale aus",
   },
 };
 
