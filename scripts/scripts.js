@@ -142,6 +142,7 @@ const translations = {
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Светлана",
     // modal_callback_subtitle: "",
+    btn_wait_call: "Жду звонка!",
     cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
     cookie_accept: "Принять",
     cookie_reject: "Отклонить",
@@ -232,9 +233,7 @@ const translations = {
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Svetlana",
-    modal_callback_member_status: "",
-    // modal_callback_subtitle:
-    //   "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von 3 Minuten zu einem Beratungsgespräch zurück.",
+    btn_wait_call: "Ich warte auf einen Anruf!",
     cookie_text:
       "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",
@@ -1378,15 +1377,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (existingError) existingError.remove();
       phoneInput.classList.remove("is-invalid");
 
-      let errorMessage = "";
-
       // 1. Проверка на пустоту
       if (!phone) {
-        errorMessage = "Пожалуйста, введите номер телефона";
+        showError(phoneInput, callbackForm, "required");
+        return;
       }
       // 2. Проверка на буквы
       else if (/[a-zA-Zа-яА-ЯäöüßÄÖÜ]/.test(phone)) {
-        errorMessage = "Номер телефона не должен содержать буквы";
+        showError(phoneInput, callbackForm, "noLetters");
+        return;
       }
       // 3. Строгая проверка начала номера (для Германии: должен начинаться с +49, 49 или с 0)
       else if (
@@ -1394,11 +1393,7 @@ document.addEventListener("DOMContentLoaded", () => {
         !phone.startsWith("49") &&
         !phone.startsWith("0")
       ) {
-        errorMessage = "Номер должен начинаться с +49, 49 или 0";
-      }
-
-      if (errorMessage) {
-        showError(phoneInput, callbackForm, errorMessage);
+        showError(phoneInput, callbackForm, "invalidStart");
         return;
       }
 
@@ -1407,11 +1402,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Проверка на ошибку «+490...» или «490...»
       if (phone.startsWith("+0") || phoneClean.startsWith("490")) {
-        errorMessage = "Некорректный формат: после кода страны ноль не нужен";
-      }
-
-      if (errorMessage) {
-        showError(phoneInput, callbackForm, errorMessage);
+        showError(phoneInput, callbackForm, "noZeroAfterCode");
         return;
       }
 
@@ -1422,15 +1413,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 4. Проверка итоговой длины (для Германии с учетом кода 49)
       if (phoneClean.length < 10 || phoneClean.length > 15) {
-        errorMessage = `Неверная длина номера (сейчас ${phoneClean.length} цифр, а нужно от 10 до 15)`;
+        // Передаем текущую длину как параметр для динамической ошибки
+        showError(phoneInput, callbackForm, "invalidLength", phoneClean.length);
+        return;
       }
       // 5. Защита от одинаковых цифр
       else if (/^(\d)\1+$/.test(phoneClean)) {
-        errorMessage = "Номер не может состоять из одинаковых цифр";
-      }
-
-      if (errorMessage) {
-        showError(phoneInput, callbackForm, errorMessage);
+        showError(phoneInput, callbackForm, "sameDigits");
         return;
       }
 
@@ -1440,8 +1429,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // Отправка в WhatsApp
       const phoneOwner = "380988737379";
       const iconPhone = String.fromCodePoint(128222); // 📞
-      const message = `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
-      const encodedMessage = encodeURIComponent(message);
+
+      // Перевод текста сообщения для WhatsApp
+      const currentLang = document.documentElement.lang || "ru";
+      const waMessage =
+        currentLang === "de"
+          ? `${iconPhone} Rückrufanfrage\n👤 Telefon: ${formattedPhone}`
+          : `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
+
+      const encodedMessage = encodeURIComponent(waMessage);
       window.open(
         `https://wa.me/${phoneOwner}?text=${encodedMessage}`,
         "_blank",
@@ -1472,15 +1468,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Вспомогательная функция для вывода ошибок
-function showError(inputElement, formElement, message) {
+// Вспомогательная функция для вывода ошибок (теперь с поддержкой языков)
+function showError(inputElement, formElement, errorKey, currentLength = 0) {
+  // 1. Определяем текущий язык страницы из <html lang="...">
+  const currentLang = document.documentElement.lang || "ru";
+
+  // 2. Словарь всех ошибок на двух языках
+  const translations = {
+    required: {
+      ru: "Пожалуйста, введите номер телефона",
+      de: "Bitte geben Sie eine Telefonnummer ein",
+    },
+    noLetters: {
+      ru: "Номер телефона не должен содержать буквы",
+      de: "Die Telefonnummer darf keine Buchstaben enthalten",
+    },
+    invalidStart: {
+      ru: "Номер должен начинаться с +49, 49 или 0",
+      de: "Die Nummer muss mit +49, 49 или 0 beginnen",
+    },
+    noZeroAfterCode: {
+      ru: "Некорректный формат: после кода страны ноль не нужен",
+      de: "Ungültiges Format: Nach der Landesvorwahl wird keine Null benötigt",
+    },
+    invalidLength: {
+      ru: `Неверная длина номера (сейчас ${currentLength} цифр, а нужно от 10 до 15)`,
+      de: `Ungültige Nummernlänge (aktuell ${currentLength} Ziffern, erforderlich sind 10 bis 15)`,
+    },
+    sameDigits: {
+      ru: "Номер не может состоять из одинаковых цифр",
+      de: "Die Nummer darf nicht aus identischen Ziffern bestehen",
+    },
+  };
+
+  // 3. Вытаскиваем нужную строку (если языка нет в базе, берем русский 'ru')
+  const message =
+    translations[errorKey]?.[currentLang] || translations[errorKey]["ru"];
+
+  // 4. Отрисовка ошибки на странице
   inputElement.classList.add("is-invalid");
   const errorMsg = document.createElement("div");
   errorMsg.className = "form-error-msg";
   errorMsg.textContent = message;
   errorMsg.style.cssText =
     "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
-  inputElement.closest(".callback-field").appendChild(errorMsg);
+
+  const fieldContainer = inputElement.closest(".callback-field");
+  if (fieldContainer) {
+    fieldContainer.appendChild(errorMsg);
+  }
+
   inputElement.focus();
 }
 
