@@ -65,7 +65,7 @@ const translations = {
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
     btn_order: "🛒 Заказать",
-    btn_callback: "📞 Заказать звонок",
+    btn_callback: "📞 Перезвоните мне",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
     hero_slide1_desc:
       "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
@@ -140,8 +140,8 @@ const translations = {
     hours_label: "Режим работы:",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
-    modal_callback_title: "Обратный звонок",
-    modal_callback_subtitle: "",
+    modal_callback_title: "Светлана",
+    // modal_callback_subtitle: "",
     cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
     cookie_accept: "Принять",
     cookie_reject: "Отклонить",
@@ -231,9 +231,10 @@ const translations = {
     hours_label: "Öffnungszeiten:",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
-    modal_callback_title: "Rückruf anfordern",
-    modal_callback_subtitle:
-      "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von 3 Minuten zu einem Beratungsgespräch zurück.",
+    modal_callback_title: "Svetlana",
+    modal_callback_member_status: "",
+    // modal_callback_subtitle:
+    //   "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von 3 Minuten zu einem Beratungsgespräch zurück.",
     cookie_text:
       "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",

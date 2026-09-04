@@ -162,8 +162,8 @@ section:nth-of-type(even) {
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  border: 1px solid var(--border-color, rgba(125, 125, 125, 0.25));
-  background-color: var(--card-bg, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--border-color);
+  background: none;
   color: var(--text-color);
   font-size: 0.85rem;
   font-weight: 700;
@@ -174,24 +174,48 @@ section:nth-of-type(even) {
 }
 
 .lang-btn-toggle:hover {
-  border-color: var(--accent-color, #2563eb);
-  color: var(--accent-color, #2563eb);
-  transform: scale(1.05);
+  background-color: var(--bg-secondary);
+  /* border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: scale(1.05); */
 }
 
-.lang-btn.active {
+/* .lang-btn.active {
   background-color: var(--primary-color);
   color: #ffffff;
   border-color: var(--primary-color);
+} */
+
+/* 1. По умолчанию скрываем только абзацы с классом callback-subtitle, у которых указан язык */
+p.callback-subtitle[lang] {
+  display: none;
+}
+
+/* 2. Если у тега html активен русский язык — показываем только русский абзац */
+html[lang="ru"] p.callback-subtitle[lang="ru"] {
+  display: block; /* или inline, если это нужно внутри строки */
+}
+
+/* 3. Если у тега html активен немецкий язык — показываем только немецкий абзац */
+html[lang="de"] p.callback-subtitle[lang="de"] {
+  display: block;
 }
 
 .theme-toggle-btn {
   background: none;
   border: 1px solid var(--border-color);
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--bg-secondary);
 }
 
 /* Адаптив хедера */
