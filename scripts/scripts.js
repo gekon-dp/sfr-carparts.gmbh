@@ -905,7 +905,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 /* ==========================================
-   orderModal
+   orderModal — Логика модального окна заказа
    ========================================== */
 
 function initOrderFormLogic() {
@@ -917,40 +917,34 @@ function initOrderFormLogic() {
 
   let currentOrderMethod = "by-car";
 
-  // --- Карта номеров телефонов по филиалам ---
+  // --- 1. Номера телефонов филиалов ---
   const BRANCH_PHONES = {
-    westerkappeln: "380988737379", // Укажи реальные номера
+    westerkappeln: "380988737379",
     rheine: "380738737379",
   };
 
-  // --- 1. Управление состоянием кнопки ---
-  function toggleSubmitButton() {
-    if (!submitBtn) return;
-    if (privacyCheckbox) {
-      submitBtn.disabled = !privacyCheckbox.checked;
-    }
-  }
+  // --- 2. Данные менеджеров по филиалам ---
+  const BRANCH_MANAGERS = {
+    westerkappeln: {
+      name: { ru: "Светлана", de: "Svetlana" },
+      avatar: "../assets/images/member-svetlana.jpg", // Укажи точный путь к фото
+      status: {
+        ru: "🚗 Запчасти онлайн. Поиск за 10 минут по оптовым ценам.",
+        de: "🚗 Online-Ersatzteile. Finden Sie Ersatzteile in 10 Minuten zu Großhandelspreisen.",
+      },
+    },
+    rheine: {
+      name: { ru: "Сергей", de: "Sergey" },
+      avatar: "../assets/images/userpic.jpg", // Укажи точный путь к фото
+      status: {
+        ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
+        de: "⏱️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
+      },
+    },
+  };
 
-  // --- 2. Переключение способа ввода (Марка/Модель VS VIN) ---
-  function handleMethodChange(selectedValue) {
-    currentOrderMethod = selectedValue;
-    const carBlock = document.getElementById("carFieldsBlock");
-    const vinBlock = document.getElementById("vinFieldsBlock");
-
-    clearErrors();
-
-    if (selectedValue === "by-car") {
-      if (vinBlock) vinBlock.classList.remove("active-field");
-      if (carBlock) carBlock.classList.add("active-field");
-    } else {
-      if (carBlock) carBlock.classList.remove("active-field");
-      if (vinBlock) vinBlock.classList.add("active-field");
-    }
-  }
-
-  // --- Словарь переводов для формы заказа ---
+  // --- 3. Словарь переводов ---
   const orderTranslations = {
-    // Текст ошибок
     selectBranch: {
       ru: "Выберите филиал для отправки заказа",
       de: "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
@@ -996,7 +990,7 @@ function initOrderFormLogic() {
       de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
     },
 
-    // Шаблоны сообщений WhatsApp
+    // Сообщения WhatsApp
     waOrder: { ru: "Заказ", de: "Bestellung" },
     waBranch: { ru: "Филиал", de: "Filiale" },
     waClient: { ru: "Клиент", de: "Kunde" },
@@ -1008,36 +1002,152 @@ function initOrderFormLogic() {
     waWantToOrder: { ru: "Хочу заказать", de: "Ich möchte bestellen" },
   };
 
-  // Вспомогательная функция для получения перевода
+  function getCurrentLang() {
+    return (
+      (window.state && window.state.currentLang) ||
+      document.documentElement.lang ||
+      "ru"
+    );
+  }
+
   function getOrderText(key, param = null) {
-    const currentLang = document.documentElement.lang || "ru";
-    const translation =
-      orderTranslations[key]?.[currentLang] || orderTranslations[key]?.["ru"];
+    const lang = getCurrentLang();
+
+    let translation =
+      orderTranslations[key]?.[lang] ||
+      orderTranslations[key]?.["ru"] ||
+      (window.translations && window.translations[lang]?.[key]) ||
+      (window.translations && window.translations["ru"]?.[key]) ||
+      key;
 
     if (typeof translation === "function") {
       return translation(param);
     }
-    return translation || key;
-  }
 
-  // Функция-помощник для безопасного получения строк и подстановки параметров
-  function getOrderText(key, replaceObj = null) {
-    const lang = state.currentLang;
-    let text = translations[lang]?.[key] || translations["ru"]?.[key] || key;
-
-    if (replaceObj) {
-      Object.keys(replaceObj).forEach((placeholder) => {
-        text = text.replace(`{${placeholder}}`, replaceObj[placeholder]);
+    if (param && typeof param === "object") {
+      Object.keys(param).forEach((placeholder) => {
+        translation = translation.replace(
+          `{${placeholder}}`,
+          param[placeholder],
+        );
       });
     }
-    return text;
+
+    return translation;
   }
 
-  // --- 3. Валидация и отправка ---
+  // --- 4. Динамическое обновление блока менеджера ---
+  function renderManagerBadge(branchId) {
+    const managerBlock = orderModal.querySelector(".manager-badge");
+    if (!managerBlock) return;
+
+    const lang = getCurrentLang();
+    const managerData = BRANCH_MANAGERS[branchId];
+
+    const nameEl = managerBlock.querySelector(".manager-name");
+    const statusEl = managerBlock.querySelector(".manager-status");
+    const avatarWrap = managerBlock.querySelector(".manager-avatar");
+    const avatarImg = managerBlock.querySelector(".manager-avatar img");
+
+    // Если филиал не выбран
+    if (!branchId || !managerData) {
+      if (avatarWrap) avatarWrap.classList.add("is-hidden"); // Скрываем кружок фото
+      if (nameEl)
+        nameEl.textContent =
+          lang === "de" ? "Filiale wählen" : "Выберите филиал";
+      if (statusEl)
+        statusEl.textContent =
+          lang === "de"
+            ? "Manager erscheint nach der Auswahl"
+            : "Менеджер появится после выбора филиала";
+      return;
+    }
+
+    // Если филиал выбран — показываем фото и подставляем данные
+    if (avatarWrap) avatarWrap.classList.remove("is-hidden");
+    if (avatarImg) avatarImg.src = managerData.avatar;
+    if (nameEl)
+      nameEl.textContent = managerData.name[lang] || managerData.name["ru"];
+    if (statusEl)
+      statusEl.textContent =
+        managerData.status[lang] || managerData.status["ru"];
+
+    if (typeof window.updateBranchInfo === "function") {
+      window.updateBranchInfo(branchId);
+    }
+  }
+
+  function toggleSubmitButton() {
+    if (!submitBtn) return;
+    if (privacyCheckbox) {
+      submitBtn.disabled = !privacyCheckbox.checked;
+    }
+  }
+
+  function handleMethodChange(selectedValue) {
+    currentOrderMethod = selectedValue;
+    const carBlock = document.getElementById("carFieldsBlock");
+    const vinBlock = document.getElementById("vinFieldsBlock");
+
+    clearErrors();
+
+    if (selectedValue === "by-car") {
+      if (vinBlock) vinBlock.classList.remove("active-field");
+      if (carBlock) carBlock.classList.add("active-field");
+    } else {
+      if (carBlock) carBlock.classList.remove("active-field");
+      if (vinBlock) vinBlock.classList.add("active-field");
+    }
+  }
+
+  function clearErrors() {
+    orderModal
+      .querySelectorAll(".has-error")
+      .forEach((el) => el.classList.remove("has-error"));
+    orderModal
+      .querySelectorAll(".field-error-text, .error-message")
+      .forEach((el) => (el.style.display = "none"));
+  }
+
+  function clearFieldError(inputElement) {
+    if (!inputElement) return;
+    const group =
+      inputElement.closest(".form-group") || inputElement.parentElement;
+    if (group) {
+      group.classList.remove("has-error");
+      const err = group.querySelector(".field-error-text, .error-message");
+      if (err) err.style.display = "none";
+    }
+  }
+
+  function showError(inputElement, message) {
+    if (!inputElement) return;
+    const group =
+      inputElement.closest(".form-group") || inputElement.parentElement;
+    group.classList.add("has-error");
+
+    let errorMsg =
+      group.querySelector(".field-error-text") ||
+      group.querySelector(".error-message");
+
+    if (!errorMsg) {
+      errorMsg = document.createElement("span");
+      errorMsg.className = "field-error-text error-message";
+      group.appendChild(errorMsg);
+    }
+
+    errorMsg.textContent = message;
+    errorMsg.style.display = "block";
+
+    if (typeof inputElement.focus === "function") {
+      inputElement.focus();
+    }
+  }
+
+  // --- 5. Валидация и отправка ---
   function validateAndSend() {
     clearErrors();
 
-    // 0. ПРОВЕРКА ВЫБОРА ФИЛИАЛА
     const selectedBranchRadio = orderModal.querySelector(
       'input[name="branch"]:checked',
     );
@@ -1045,46 +1155,43 @@ function initOrderFormLogic() {
       const branchContainer =
         orderModal.querySelector(".branch-options") ||
         orderModal.querySelector(".branch-selection");
-      showError(branchContainer, getOrderText("err_select_branch"));
+      showError(branchContainer, getOrderText("selectBranch"));
       return;
     }
 
     const partsInput = document.getElementById("partsList");
     const nameInput = document.getElementById("clientName");
 
-    // 1. ПРОВЕРКА ДЕТАЛЕЙ
     if (
       !partsInput ||
       !partsInput.value.trim() ||
       partsInput.value.trim().length < 3
     ) {
-      showError(partsInput, getOrderText("err_describe_parts"));
+      showError(partsInput, getOrderText("describeParts"));
       return;
     }
 
     const partsRegex = /[a-zA-Zа-яА-ЯёЁäöüÄÖÜß0-9]/;
     if (!partsRegex.test(partsInput.value)) {
-      showError(partsInput, getOrderText("err_parts_validation"));
+      showError(partsInput, getOrderText("partsValidation"));
       return;
     }
 
-    // 2. ПРОВЕРКА ИМЕНИ
     if (
       !nameInput ||
       !nameInput.value.trim() ||
       nameInput.value.trim().length < 2
     ) {
-      showError(nameInput, getOrderText("err_specify_name"));
+      showError(nameInput, getOrderText("specifyName"));
       return;
     }
 
     const nameRegex = /^[a-zA-Zа-яА-ЯёЁäöüÄÖÜß\s\-\']+$/;
     if (!nameRegex.test(nameInput.value.trim())) {
-      showError(nameInput, getOrderText("err_name_validation"));
+      showError(nameInput, getOrderText("nameValidation"));
       return;
     }
 
-    // 3. Проверяем авто или VIN
     if (currentOrderMethod === "by-car") {
       const makeInput = document.getElementById("carMake");
       const modelInput = document.getElementById("carModel");
@@ -1092,12 +1199,12 @@ function initOrderFormLogic() {
       const currentYear = new Date().getFullYear();
 
       if (!makeInput || !makeInput.value.trim()) {
-        showError(makeInput, getOrderText("err_specify_make"));
+        showError(makeInput, getOrderText("specifyMake"));
         return;
       }
 
       if (!modelInput || !modelInput.value.trim()) {
-        showError(modelInput, getOrderText("err_specify_model"));
+        showError(modelInput, getOrderText("specifyModel"));
         return;
       }
 
@@ -1110,7 +1217,7 @@ function initOrderFormLogic() {
         yearValue < 1900 ||
         yearValue > currentYear
       ) {
-        showError(yearInput, getOrderText("err_invalid_year"));
+        showError(yearInput, getOrderText("invalidYear"));
         return;
       }
     } else {
@@ -1119,16 +1226,12 @@ function initOrderFormLogic() {
       const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i;
 
       if (!vinInput || vinValue.length !== 17) {
-        // Передаем текущую длину для динамической подстановки
-        showError(
-          vinInput,
-          getOrderText("err_vin_length", { length: vinValue.length }),
-        );
+        showError(vinInput, getOrderText("vinLength", vinValue.length));
         return;
       }
 
       if (!vinRegex.test(vinValue)) {
-        showError(vinInput, getOrderText("err_vin_validation"));
+        showError(vinInput, getOrderText("vinValidation"));
         return;
       }
     }
@@ -1136,7 +1239,6 @@ function initOrderFormLogic() {
     executeWhatsAppSend(selectedBranchRadio);
   }
 
-  // --- 4. Отправка в WhatsApp ---
   function encodeForWhatsApp(str) {
     return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
       return "%" + c.charCodeAt(0).toString(16).toUpperCase();
@@ -1148,7 +1250,7 @@ function initOrderFormLogic() {
     const phone = BRANCH_PHONES[selectedBranch];
 
     if (!phone) {
-      alert(getOrderText("err_missing_phone"));
+      alert(getOrderText("missingPhoneError"));
       return;
     }
 
@@ -1171,61 +1273,30 @@ function initOrderFormLogic() {
       const model = document.getElementById("carModel").value.trim();
       const year = document.getElementById("carYear").value.trim();
 
-      vehicleBlock = `🚗 ${getOrderText("wa_car_data")}:\n• ${getOrderText("wa_make")}: ${make}\n• ${getOrderText("wa_model")}: ${model}\n• ${getOrderText("wa_year")}: ${year}`;
+      vehicleBlock = `🚗 ${getOrderText("waCarData")}:\n• ${getOrderText("waMake")}: ${make}\n• ${getOrderText("waModel")}: ${model}\n• ${getOrderText("waYear")}: ${year}`;
     } else {
       const vin = document
         .getElementById("vinCode")
         .value.replace(/\s+/g, "")
         .toUpperCase();
-      vehicleBlock = `🔑 ${getOrderText("wa_vin")}:\n${vin}`;
+      vehicleBlock = `🔑 ${getOrderText("waVinCode")}:\n${vin}`;
     }
 
     const message =
-      `📦 ${getOrderText("wa_order")} № ${orderNumber}\n` +
-      `🏢 ${getOrderText("wa_branch")}: ${branchLabel}\n` +
-      `👤 ${getOrderText("wa_client")}: ${name}\n` +
+      `📦 ${getOrderText("waOrder")} № ${orderNumber}\n` +
+      `🏢 ${getOrderText("waBranch")}: ${branchLabel}\n` +
+      `👤 ${getOrderText("waClient")}: ${name}\n` +
       `_________________________\n\n` +
       `${vehicleBlock}\n` +
       `_________________________\n\n` +
-      `📋 ${getOrderText("wa_want_to_order")}:\n${parts}`;
+      `📋 ${getOrderText("waWantToOrder")}:\n${parts}`;
 
     const encodedMessage = encodeForWhatsApp(message);
-    window.open(`https://wa.me{phone}?text=${encodedMessage}`, "_blank");
-  }
-
-  // --- 5. Вспомогательные функции ошибок ---
-  function clearErrors() {
-    orderModal
-      .querySelectorAll(".has-error")
-      .forEach((el) => el.classList.remove("has-error"));
-    orderModal
-      .querySelectorAll(".field-error-text, .error-message")
-      .forEach((el) => (el.style.display = "none"));
-  }
-
-  function showError(inputElement, message) {
-    if (!inputElement) return;
-    const group =
-      inputElement.closest(".form-group") || inputElement.parentElement;
-    group.classList.add("has-error");
-
-    let errorMsg =
-      group.querySelector(".field-error-text") ||
-      group.querySelector(".error-message");
-    if (!errorMsg) {
-      errorMsg = document.createElement("span");
-      errorMsg.className = "field-error-text error-message";
-      group.appendChild(errorMsg);
-    }
-    errorMsg.textContent = message;
-    errorMsg.style.display = "block";
-
-    if (typeof inputElement.focus === "function") {
-      inputElement.focus();
-    }
+    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
   }
 
   // --- 6. Навешивание слушателей ---
+
   if (privacyCheckbox) {
     privacyCheckbox.addEventListener("change", toggleSubmitButton);
   }
@@ -1237,27 +1308,28 @@ function initOrderFormLogic() {
     });
   }
 
-  // Очистка ошибок при вводе
   orderModal.querySelectorAll("input, textarea").forEach((input) => {
     input.addEventListener("input", function () {
-      const group = this.closest(".form-group") || this.parentElement;
-      group.classList.remove("has-error");
-      const err = group.querySelector(".field-error-text, .error-message");
-      if (err) err.style.display = "none";
+      clearFieldError(this);
     });
   });
 
-  // Переключение радиокнопок
+  // Отслеживание кликов и изменений (включая выбор филиала)
   orderModal.addEventListener("change", (e) => {
     if (e.target.name === "carSpecification") {
       handleMethodChange(e.target.value);
     }
 
-    // Сброс ошибки выборки филиала при клике
     if (e.target.name === "branch") {
+      const selectedBranch = e.target.value;
+
+      // Вызываем смену менеджера
+      renderManagerBadge(selectedBranch);
+
       const group =
         e.target.closest(".form-group") ||
-        e.target.closest(".branch-selection");
+        e.target.closest(".branch-selection") ||
+        e.target.closest(".branch-options");
       if (group) {
         group.classList.remove("has-error");
         const err = group.querySelector(".field-error-text, .error-message");
@@ -1266,12 +1338,18 @@ function initOrderFormLogic() {
     }
   });
 
-  // События от глобального менеджера модалок
   orderModal.addEventListener("modal:opened", () => {
     const checkedRadio = orderModal.querySelector(
       'input[name="carSpecification"]:checked',
     );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
+
+    // Проверяем текущий филиал при открытии
+    const selectedBranchRadio = orderModal.querySelector(
+      'input[name="branch"]:checked',
+    );
+    renderManagerBadge(selectedBranchRadio ? selectedBranchRadio.value : null);
+
     toggleSubmitButton();
   });
 
@@ -1279,10 +1357,16 @@ function initOrderFormLogic() {
     clearErrors();
   });
 
-  // Первичный вызов при загрузке
+  // Инициализация менеджера при первичной загрузке
+  const initialBranchRadio = orderModal.querySelector(
+    'input[name="branch"]:checked',
+  );
+  renderManagerBadge(initialBranchRadio ? initialBranchRadio.value : null);
+
   toggleSubmitButton();
 
-  // --- 7. Автокомплит для марок авто ---
+  // --- 7. Автокомплиты (Марка, Год, Модель) ---
+
   const popularMakes = [
     "Audi",
     "BMW",
@@ -1305,8 +1389,31 @@ function initOrderFormLogic() {
     "Volkswagen",
     "Volvo",
   ];
-  const makeInput = document.getElementById("carMake");
 
+  const carModelsDatabase = {
+    Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
+    BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
+    Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
+    Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
+    Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
+    Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
+    Honda: ["Civic", "Accord", "CR-V", "HR-V"],
+    Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
+    Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
+    Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
+    "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
+    Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
+    Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
+    Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
+    Peugeot: ["308", "408", "3008", "5008"],
+    Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
+    Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
+    Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
+    Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
+    Volvo: ["XC40", "XC60", "XC90", "S60"],
+  };
+
+  const makeInput = document.getElementById("carMake");
   if (makeInput) {
     let makeBox = document.getElementById("makeSuggestions");
     if (!makeBox) {
@@ -1349,12 +1456,7 @@ function initOrderFormLogic() {
       if (e.target.classList.contains("suggestion-item")) {
         makeInput.value = e.target.textContent;
         makeBox.classList.remove("is-visible");
-
-        const group =
-          makeInput.closest(".form-group") || makeInput.parentElement;
-        group.classList.remove("has-error");
-        const err = group.querySelector(".field-error-text, .error-message");
-        if (err) err.style.display = "none";
+        clearFieldError(makeInput);
       }
     });
 
@@ -1365,7 +1467,6 @@ function initOrderFormLogic() {
     });
   }
 
-  // --- 8. Автокомплит для года автомобиля ---
   const yearInput = document.getElementById("carYear");
   if (yearInput) {
     let yearBox = document.getElementById("yearSuggestions");
@@ -1413,12 +1514,7 @@ function initOrderFormLogic() {
       if (e.target.classList.contains("suggestion-item")) {
         yearInput.value = e.target.textContent;
         yearBox.classList.remove("is-visible");
-
-        const group =
-          yearInput.closest(".form-group") || yearInput.parentElement;
-        group.classList.remove("has-error");
-        const err = group.querySelector(".field-error-text, .error-message");
-        if (err) err.style.display = "none";
+        clearFieldError(yearInput);
       }
     });
 
@@ -1429,32 +1525,7 @@ function initOrderFormLogic() {
     });
   }
 
-  // --- 9. База моделей по маркам и автокомплит для модели авто ---
-  const carModelsDatabase = {
-    Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
-    BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
-    Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
-    Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
-    Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
-    Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
-    Honda: ["Civic", "Accord", "CR-V", "HR-V"],
-    Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
-    Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
-    Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
-    "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
-    Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
-    Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
-    Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
-    Peugeot: ["308", "408", "3008", "5008"],
-    Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
-    Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
-    Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
-    Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
-    Volvo: ["XC40", "XC60", "XC90", "S60"],
-  };
-
   const modelInput = document.getElementById("carModel");
-
   if (modelInput && makeInput) {
     let modelBox = document.getElementById("modelSuggestions");
     if (!modelBox) {
@@ -1499,12 +1570,7 @@ function initOrderFormLogic() {
       if (e.target.classList.contains("suggestion-item")) {
         modelInput.value = e.target.textContent;
         modelBox.classList.remove("is-visible");
-
-        const group =
-          modelInput.closest(".form-group") || modelInput.parentElement;
-        group.classList.remove("has-error");
-        const err = group.querySelector(".field-error-text, .error-message");
-        if (err) err.style.display = "none";
+        clearFieldError(modelInput);
       }
     });
 
