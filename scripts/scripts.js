@@ -22,7 +22,7 @@ const branchData = {
       de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.1724077979475!2d7.877965376179342!3d52.31287395154456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dda019850d2b%3A0x87d4dffce7df79c6!2zT3NuYWJyw7xja2VyIFN0ci4gMTAsIDQ5NDkyIFdlc3RlcmthcHBlbG4sINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788465670171!5m2!1sru!2sus",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.178292070856!2d7.877986176521058!3d52.31276717200771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dab12812124d%3A0x7bee7f03ab8bd596!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498202868!5m2!1sru!2sus",
   },
   2: {
     address: {
@@ -35,7 +35,7 @@ const branchData = {
       de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d431.3645669482149!2d7.448870331216508!3d52.29483267526514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b832a9a19adf73%3A0x765db21f0f489d3a!2zRnJpZWRyaWNoLUViZXJ0LVJpbmcgMTc3LCA0ODQyOSBSaGVpbmUsINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788466485269!5m2!1sru!2sus",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2440.1692109225246!2d7.446642076519947!3d52.294783172002965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b82d8aaea5d03d%3A0x453ebd43ee7ce2ae!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498498224!5m2!1sru!2sus",
   },
 };
 
@@ -61,10 +61,11 @@ const translations = {
   ru: {
     nav_conditions: "Условия",
     nav_timeline: "Схема работы",
+    nav_brands: "Партнеры",
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
-    btn_order: "🛒",
-    btn_callback: "Заказать звонок",
+    btn_order: "🛒 Заказать",
+    btn_callback: "📞 Заказать звонок",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
     hero_slide1_desc:
       "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
@@ -140,6 +141,7 @@ const translations = {
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Обратный звонок",
+    modal_callback_subtitle: "",
     cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
     cookie_accept: "Принять",
     cookie_reject: "Отклонить",
@@ -149,9 +151,11 @@ const translations = {
   de: {
     nav_conditions: "Konditionen",
     nav_timeline: "Ablauf",
+    nav_brands: "Partner",
     nav_reviews: "Bewertungen",
     nav_contacts: "Kontakte",
-    btn_callback: "Rückruf anfordern",
+    btn_callback: "📞 Rückruf anfordern",
+    btn_order: "🛒 Befehl",
     hero_slide1_title: "Hochwertige Autoteile für Ihr Fahrzeug",
     hero_slide1_desc:
       "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
@@ -228,6 +232,8 @@ const translations = {
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Rückruf anfordern",
+    modal_callback_subtitle:
+      "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von 3 Minuten zu einem Beratungsgespräch zurück.",
     cookie_text:
       "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
     cookie_accept: "Akzeptieren",
@@ -663,9 +669,9 @@ function initBranchSwitcher() {
 
   const mapSources = {
     westerkappeln:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.1724077979475!2d7.877965376179342!3d52.31287395154456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dda019850d2b%3A0x87d4dffce7df79c6!2zT3NuYWJyw7xja2VyIFN0ci4gMTAsIDQ5NDkyIFdlc3RlcmthcHBlbG4sINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788465670171!5m2!1sru!2sus",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.178292070856!2d7.877986176521058!3d52.31276717200771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dab12812124d%3A0x7bee7f03ab8bd596!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498202868!5m2!1sru!2sus",
     rheine:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d431.3645669482149!2d7.448870331216508!3d52.29483267526514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b832a9a19adf73%3A0x765db21f0f489d3a!2zRnJpZWRyaWNoLUViZXJ0LVJpbmcgMTc3LCA0ODQyOSBSaGVpbmUsINCT0LXRgNC80LDQvdC40Y8!5e0!3m2!1sru!2sus!4v1788466485269!5m2!1sru!2sus",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2440.1692109225246!2d7.446642076519947!3d52.294783172002965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b82d8aaea5d03d%3A0x453ebd43ee7ce2ae!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498498224!5m2!1sru!2sus",
   };
 
   tabs.forEach((tab) => {
@@ -806,9 +812,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ==========================================
    orderModal
    ========================================== */
-/* ==========================================
-   orderModal
-   ========================================== */
+
 function initOrderFormLogic() {
   const orderModal = document.getElementById("orderModal");
   if (!orderModal) return;
