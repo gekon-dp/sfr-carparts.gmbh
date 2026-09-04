@@ -9,8 +9,8 @@
 }
 
 /* ==========================================================================
-   GLOBAL STYLES & VARIABLES
-   ========================================================================== */
+GLOBAL STYLES & VARIABLES
+========================================================================== */
 :root {
   --bg-color: #ffffff;
   --bg-secondary: #f8f9fa;
@@ -130,8 +130,8 @@ section:nth-of-type(even) {
 }
 
 /* ==========================================================================
-   HEADER
-   ========================================================================== */
+HEADER
+============================================================================= */
 .header {
   background-color: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
@@ -235,9 +235,7 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   display: block;
 }
 
-/* ==========================================================================
-     АДАПТИВ ХЕДЕРА (Мобильные устройства)
-     ========================================================================== */
+/* АДАПТИВ ХЕДЕРА (Мобильные устройства) */
 @media (max-width: 860px) {
   /* Показываем кнопку бургера */
   .hamburger-btn {
@@ -324,8 +322,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   HERO SLIDER STYLES
-   ========================================================================== */
+HERO SLIDER STYLES
+============================================================================= */
 .hero-slider {
   position: relative;
   width: 100%;
@@ -509,8 +507,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   05. TRUST COUNTERS
-   ========================================================================== */
+TRUST COUNTERS
+============================================================================= */
 .counters-section {
   padding: 60px 0;
   background-color: var(--bg-color);
@@ -588,8 +586,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   CONDITIONS CARDS
-   ========================================================================== */
+CONDITIONS CARDS
+============================================================================= */
 .conditions-section {
   padding: 80px 0;
   background-color: var(--bg-color);
@@ -685,8 +683,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   07. TIMELINE (HORIZONTAL WORKFLOW)
-   ========================================================================== */
+TIMELINE (HORIZONTAL WORKFLOW)
+============================================================================= */
 .timeline-section {
   padding: 80px 0;
   text-align: center;
@@ -874,8 +872,9 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   }
 }
 
-/* ==================== BRANDS CAROUSEL SECTION ==================== */
-/* ==================== BRANDS CAROUSEL SECTION ==================== */
+/* ==========================================================================
+BRANDS CAROUSEL SECTION
+============================================================================= */
 .brands-section {
   padding: 60px 0;
   overflow: hidden;
@@ -919,7 +918,7 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   align-items: center;
   width: max-content;
   gap: 48px;
-  animation: scrollBrands 30s linear infinite;
+  animation: scrollBrands 90s linear infinite;
 }
 
 /* Пауза при наведении */
@@ -978,7 +977,6 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   opacity: 1;
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .brands-section {
     padding: 40px 0;
@@ -1001,8 +999,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   REVIEWS SECTION (SINGLE CENTERED CARD CAROUSEL)
-   ========================================================================== */
+REVIEWS SECTION
+========================================================================== */
 .reviews-section {
   padding: 80px 0;
   background-color: var(--bg-color);
@@ -1177,9 +1175,6 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   transform: translateY(-2px);
 }
 
-/* ==========================================================================
-     ADAPTIVE / MOBILE (<= 768px)
-     ========================================================================== */
 @media (max-width: 768px) {
   .reviews-section {
     padding: 40px 0;
@@ -1242,8 +1237,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-  FAQ SECTION (ACCORDION)
-   ========================================================================== */
+FAQ SECTION (ACCORDION)
+============================================================================= */
 .faq-section {
   padding: 80px 0;
   background-color: var(--bg-color);
@@ -1352,9 +1347,7 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   color: var(--text-muted);
 }
 
-/* ==========================================================================
-     ACTIVE STATE (Используем переменные проекта)
-     ========================================================================== */
+/* ACTIVE STATE */
 .faq-item.is-open {
   border-color: var(--primary-color);
   box-shadow: var(--shadow);
@@ -1379,9 +1372,6 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   transition: max-height 0.4s ease-in-out;
 }
 
-/* ==========================================================================
-     ADAPTIVE / MOBILE
-     ========================================================================== */
 @media (max-width: 768px) {
   .faq-section {
     padding: 40px 0;
@@ -1410,8 +1400,8 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
 }
 
 /* ==========================================================================
-   FOOTER & BRANCHES SECTION
-   ========================================================================== */
+FOOTER & BRANCHES SECTION
+============================================================================= */
 .footer-section {
   padding: 80px 0 30px 0;
   background-color: var(--card-bg);
@@ -1609,9 +1599,9 @@ html[lang="de"] p.callback-subtitle[lang="de"] {
   }
 }
 
-/* ========================================
+/* ==========================================================================
 MODALS
-======================================== */
+============================================================================= */
 .modal {
   position: fixed;
   top: 0;
@@ -1696,10 +1686,9 @@ body.modal-open {
   overflow: hidden;
 }
 
-/* ====================================
- OrderModal
- ==================================== */
-
+/* ==========================================================================
+ORDER MODAL
+============================================================================= */
 .form-container {
   max-width: 100%;
   margin: 0;
@@ -1746,10 +1735,6 @@ body.modal-open {
 .manager-avatar.is-hidden {
   display: none;
 }
-
-/* .branch-selection {
-  margin-bottom: 16px;
-} */
 
 .branch-options {
   display: flex;
@@ -1832,7 +1817,6 @@ body.modal-open {
   display: none;
   color: #dc3545; /* Красный для ошибок */
   font-size: 12px;
-  /* margin-top: -8px; */
   padding-left: 2px;
 }
 .has-error input,
@@ -1847,14 +1831,6 @@ body.modal-open {
 .selection-method {
   margin-bottom: 16px;
 }
-
-/* .selection-title {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: var(--text-color);
-} */
 
 .radio-group {
   display: flex;
@@ -1906,13 +1882,6 @@ body.modal-open {
   color: #ffffff;
 }
 
-/* Небольшая адаптивность для узких экранов (мобилки) */
-@media (max-width: 480px) {
-  .radio-group {
-    gap: 8px;
-  }
-}
-
 @keyframes fadeInField {
   from {
     opacity: 0;
@@ -1938,16 +1907,6 @@ body.modal-open {
   grid-template-columns: 2fr 2fr 1.2fr;
   gap: 12px;
   width: 100%;
-}
-
-@media (max-width: 480px) {
-  .car-inputs-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .form-container {
-    padding: 20px 16px;
-  }
 }
 
 /* ВЫПАДАЮЩИЙ СПИСОК МАРОК АВТО */
@@ -2092,11 +2051,6 @@ input[type="checkbox"]:checked + .privacy-text::after {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  /* box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-  transition:
-    background-color 0.2s,
-    transform 0.1s,
-    opacity 0.2s; */
 }
 
 .submit-btn:hover:not(:disabled) {
@@ -2121,9 +2075,22 @@ input[type="checkbox"]:checked + .privacy-text::after {
   fill: currentColor;
 }
 
-/* ==========================================
-   МОДАЛЬНОЕ ОКНО ОБРАТНОГО ЗВОНКА
-   ========================================== */
+@media (max-width: 480px) {
+  .car-inputs-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .form-container {
+    padding: 20px 16px;
+  }
+  .radio-group {
+    gap: 8px;
+  }
+}
+
+/* ==========================================================================
+CALLBACK MODAL
+============================================================================= */
 .modal-container--callback {
   max-width: 420px;
 }
@@ -2225,9 +2192,9 @@ input[type="checkbox"]:checked + .privacy-text::after {
   text-align: center;
 }
 
-/* ==========================================
-   COOKIE BANNER
-   ========================================== */
+/* ==========================================================================
+COOKIE BANNER
+============================================================================= */
 .cookie-banner {
   position: fixed;
   bottom: 20px;
@@ -2295,9 +2262,9 @@ input[type="checkbox"]:checked + .privacy-text::after {
   }
 }
 
-/* ==========================================
-   BACK TO TOP BUTTON
-   ========================================== */
+/* ==========================================================================
+BACK TO TOP BUTTON
+============================================================================= */
 .back-to-top {
   position: fixed;
   bottom: 30px;

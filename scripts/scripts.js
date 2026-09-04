@@ -1,7 +1,6 @@
 /* ==========================================================================
-   00. GLOBAL CONFIG & TRANSLATIONS DICTIONARY
-   ========================================================================== */
-
+GLOBAL CONFIG & TRANSLATIONS DICTIONARY
+============================================================================= */
 const state = {
   currentLang: localStorage.getItem("sfr_lang") || "de",
   currentTheme: localStorage.getItem("sfr_theme") || "light",
@@ -315,8 +314,8 @@ const translations = {
 };
 
 /* ==========================================================================
-     01. THEME SWITCHER
-     ========================================================================== */
+THEME SWITCHER
+============================================================================= */
 function initThemeSwitcher() {
   const themeBtn = document.getElementById("theme-toggle-btn");
   const iconSpan = themeBtn
@@ -342,8 +341,8 @@ function initThemeSwitcher() {
 }
 
 /* ==========================================================================
-     02. MULTI-LANGUAGE MODULE & BRANCH HELPER
-     ========================================================================== */
+MULTI-LANGUAGE MODULE & BRANCH HELPER
+============================================================================= */
 function updateBranchInfo(branchId) {
   state.activeBranch = branchId;
   const currentData = branchData[branchId];
@@ -420,8 +419,8 @@ function initLanguageSwitcher() {
 }
 
 /* ==========================================================================
-   03. Burger menu
-   ========================================================================== */
+BURDER MENU
+============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const burgerBtn = document.getElementById("burgerToggleBtn");
   const mobileMenu = document.getElementById("mobileMenu");
@@ -455,8 +454,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================================================
-   03. HERO SLIDER MODULE
-   ========================================================================== */
+HERO SLIDER MODULE
+============================================================================= */
 function initHeroSlider() {
   const slides = document.querySelectorAll(".hero-slide");
   const dots = document.querySelectorAll(".hero-slider__dots .dot");
@@ -564,8 +563,8 @@ function initHeroSlider() {
 }
 
 /* ==========================================================================
-     04. BACK-TO-TOP BUTTON
-     ========================================================================== */
+BACK-TO-TOP BUTTON
+============================================================================= */
 function initBackToTop() {
   const backBtn = document.getElementById("back-to-top-btn");
   if (!backBtn) return;
@@ -584,8 +583,8 @@ function initBackToTop() {
 }
 
 /* ==========================================================================
-     05. FORM TABS & AUTOCOMPLETE & WHATSAPP
-     ========================================================================== */
+FORM TABS & AUTOCOMPLETE & WHATSAPP
+============================================================================= */
 function initFormTabs() {
   const tabBtns = document.querySelectorAll(".form-tabs .tab-btn");
   const tabCar = document.getElementById("tab-car-content");
@@ -696,8 +695,8 @@ function initWhatsAppForm() {
 }
 
 /* ==========================================================================
-     06. REVIEWS SLIDER
-     ========================================================================== */
+REVIEWS SLIDER
+============================================================================= */
 function initReviewsSlider() {
   const track = document.querySelector(".reviews-slider__track");
   const cards = document.querySelectorAll(".review-card");
@@ -760,8 +759,8 @@ function initReviewsSlider() {
 }
 
 /* ==========================================================================
-     07. FAQ ACCORDION
-     ========================================================================== */
+FAQ ACCORDION
+============================================================================= */
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll(".faq-item");
 
@@ -788,8 +787,8 @@ function initFaqAccordion() {
 }
 
 /* ==========================================================================
-     08. BRANCH SWITCHER
-     ========================================================================== */
+BRANCH SWITCHER
+============================================================================= */
 function initBranchSwitcher() {
   const tabs = document.querySelectorAll(".branch-tab");
   const panels = document.querySelectorAll(".branch-panel");
@@ -833,8 +832,8 @@ function initBranchSwitcher() {
 }
 
 /* ==========================================================================
-     10. COOKIE BANNER
-     ========================================================================== */
+COOKIE BANNER
+============================================================================= */
 function initCookieBanner() {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept-btn");
@@ -876,9 +875,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieBanner();
 });
 
-/* ==========================================
-   УНИВЕРСАЛЬНЫЙ МОДУЛЬ МОДАЛЬНЫХ ОКНА
-   ========================================== */
+/* ==========================================================================
+УНИВЕРСАЛЬНЫЙ МОДУЛЬ МОДАЛЬНЫХ ОКНА
+============================================================================= */
 (function initGlobalModals() {
   // Открытие любого модального окна по его ID
   window.openModalById = function (modalId) {
@@ -939,10 +938,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
-/* ==========================================
-   orderModal — Логика модального окна заказа
-   ========================================== */
-
+/* ==========================================================================
+ORDER MODAL
+============================================================================= */
 function initOrderFormLogic() {
   const orderModal = document.getElementById("orderModal");
   if (!orderModal) return;
@@ -964,8 +962,8 @@ function initOrderFormLogic() {
       name: { ru: "Светлана", de: "Svetlana" },
       avatar: "./assets/images/member-svetlana.jpg", // Укажи точный путь к фото
       status: {
-        ru: "🚗 Запчасти онлайн. Поиск за 10 минут по оптовым ценам.",
-        de: "🚗 Online-Ersatzteile. Finden Sie Ersatzteile in 10 Minuten zu Großhandelspreisen.",
+        ru: "💬 Нужна деталь? Пришлите VIN — отвечу через 10 минут!",
+        de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
       },
     },
     rheine: {
@@ -973,7 +971,7 @@ function initOrderFormLogic() {
       avatar: "./assets/images/userpic.jpg", // Укажи точный путь к фото
       status: {
         ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
-        de: "⏱️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
+        de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
       },
     },
   };
@@ -1619,9 +1617,9 @@ function initOrderFormLogic() {
 
 document.addEventListener("DOMContentLoaded", initOrderFormLogic);
 
-/* ===================================
-  callback modal
-====================================  */
+/* ==========================================================================
+CALLBACK MODAL
+============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const callbackForm = document.getElementById("callback-form");
 
@@ -1782,8 +1780,8 @@ function showError(inputElement, formElement, errorKey, currentLength = 0) {
 }
 
 /* ==========================================================================
-     11. APP INITIALIZATION
-     ========================================================================== */
+APP INITIALIZATION
+============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   initThemeSwitcher();
   initLanguageSwitcher();
