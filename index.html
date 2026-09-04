@@ -31,15 +31,16 @@
       <nav class="header__nav">
         <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
         <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
-        <a href="#brands" data-lang-key="nav_brands">Бренды</a>
+        <a href="#brands" data-lang-key="nav_brands">Партнеры</a>
         <a href="#reviews" data-lang-key="nav_reviews">Отзывы</a>
         <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
       </nav>
 
       <div class="header__actions">
         <div class="lang-switcher">
-          <button type="button" class="lang-btn active" data-lang="ru">RU</button>
-          <button type="button" class="lang-btn" data-lang="de">DE</button>
+          <button type="button" class="lang-btn-toggle" id="langToggleBtn" aria-label="Switch language">
+            <span class="lang-text">RU</span>
+          </button>
         </div>
 
         <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
@@ -47,7 +48,9 @@
         </button>
 
         <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
-          data-lang-key="btn_callback">Заказать звонок</button>
+          data-lang-key="btn_callback"></button>
+        <button id="order-modal-btn" class="btn btn--outline" data-open-modal="orderModal"
+          data-lang-key="btn_order"></button>
       </div>
     </div>
   </header>
@@ -596,9 +599,9 @@
 
           <!-- Выбор филиала -->
           <div class="form-group branch-selection">
-            <span class="selection-title" data-lang-key="select_method_title">Выберите
-              филиал:</span>
-            <!-- <label class="form-label">Wählen Sie eine Filiale aus / Выберите филиал:</label> -->
+            <!-- <span class="selection-title" data-lang-key="select_method_title">Выберите
+              филиал:</span> -->
+
             <div class="branch-options">
               <label class="branch-option">
                 <input type="radio" name="branch" value="westerkappeln">
@@ -624,11 +627,11 @@
 
           <!-- РАДИОКНОПКИ -->
           <div class="selection-method">
-            <span class="selection-title" data-lang-key="select_method_title">Указать данные автомобиля через:</span>
+            <!-- <span class="selection-title" data-lang-key="select_method_title">Указать данные автомобиля через:</span> -->
             <div class="radio-group">
               <label class="radio-label">
                 <input type="radio" name="carSpecification" value="by-car" checked>
-                <span data-lang-key="method_car">Марку и модель</span>
+                <span data-lang-key="method_car">Марка и модель</span>
               </label>
               <label class="radio-label">
                 <input type="radio" name="carSpecification" value="by-vin">
@@ -667,7 +670,8 @@
           <div class="privacy-agreement">
             <label class="checkbox-label">
               <input type="checkbox" id="privacyCheckbox">
-              <span class="privacy-text" data-lang-key="privacy_text">Согласен с Политикой конфиденциальности</span>
+              <span class="privacy-text" data-lang-key="privacy_text">Согласен с Политикой
+                конфиденциальности</span>
             </label>
           </div>
 
@@ -687,9 +691,9 @@
       <button class="modal-close" aria-label="Close" data-close>&times;</button>
       <div class="callback-content">
         <div class="callback-avatar">
-          <img src="assets/images/userpic.jpg" alt="Менеджер Юля" />
+          <img src="assets/images/userpic.jpg" alt="Manager Svetlana" />
         </div>
-        <h3 data-lang-key="modal_callback_title">Привет, меня зовут John!</h3>
+        <h3 data-lang-key="modal_callback_title"></h3>
         <p class="callback-subtitle" data-lang-key="modal_callback_subtitle">
           Закажи обратный звонок и я перезвоню для консультации в течении <span class="highlight">3 минут</span>.
         </p>
