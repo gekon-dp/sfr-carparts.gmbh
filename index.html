@@ -39,9 +39,11 @@
       <div class="header__actions">
         <div class="lang-switcher">
           <button type="button" class="lang-btn-toggle" id="langToggleBtn" aria-label="Switch language">
-            <span class="lang-text">RU</span>
+            <!-- Добавили id="langToggleText", чтобы скрипт мог менять RU на DE -->
+            <span class="lang-text" id="langToggleText">RU</span>
           </button>
         </div>
+
 
         <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
           <span class="theme-toggle__icon">🌙</span>
@@ -577,6 +579,7 @@
 
   <!--  MODALS  -->
   <!-- MODAL ORDER FORM -->
+  <!-- MODAL ORDER FORM -->
   <div class="modal" id="orderModal" aria-hidden="true">
     <div class="modal-overlay" data-close></div>
     <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -599,17 +602,14 @@
 
           <!-- Выбор филиала -->
           <div class="form-group branch-selection">
-            <!-- <span class="selection-title" data-lang-key="select_method_title">Выберите
-              филиал:</span> -->
-
             <div class="branch-options">
               <label class="branch-option">
                 <input type="radio" name="branch" value="westerkappeln">
-                <span class="branch-btn">Westerkappeln</span>
+                <span class="branch-btn" data-lang-key="branch_westerkappeln">Вестеркаппельн</span>
               </label>
               <label class="branch-option">
                 <input type="radio" name="branch" value="rheine">
-                <span class="branch-btn">Rheine</span>
+                <span class="branch-btn" data-lang-key="branch_rheine">Райне</span>
               </label>
             </div>
           </div>
@@ -617,17 +617,15 @@
           <!-- ОБЩИЕ ПОЛЯ -->
           <div class="form-section">
             <div class="form-group">
-              <textarea id="partsList" required
-                placeholder="Список необходимых запчастей (например: передние колодки, масляный фильтр)"></textarea>
+              <textarea id="partsList" required data-lang-ph="ph_parts_list"></textarea>
             </div>
             <div class="form-group">
-              <input type="text" id="clientName" required placeholder="Ваше имя">
+              <input type="text" id="clientName" required data-lang-ph="ph_client_name">
             </div>
           </div>
 
           <!-- РАДИОКНОПКИ -->
           <div class="selection-method">
-            <!-- <span class="selection-title" data-lang-key="select_method_title">Указать данные автомобиля через:</span> -->
             <div class="radio-group">
               <label class="radio-label">
                 <input type="radio" name="carSpecification" value="by-car" checked>
@@ -643,17 +641,17 @@
           <!-- ДИНАМИЧЕСКИЕ ПОЛЯ -->
           <div class="dynamic-fields-bottom">
             <!-- Блок Марка / Модель / Год -->
-            <div id="carFieldsBlock" class="animated-field-block ">
+            <div id="carFieldsBlock" class="animated-field-block">
               <div class="car-inputs-grid">
                 <div class="form-group suggestion-wrapper">
-                  <input type="text" id="carMake" placeholder="Марка (напр. BMW)" autocomplete="off">
+                  <input type="text" id="carMake" data-lang-ph="ph_car_make" autocomplete="off">
                   <div id="makeSuggestions" class="suggestions-box"></div>
                 </div>
                 <div class="form-group">
-                  <input type="text" id="carModel" placeholder="Модель (напр. X5)" autocomplete="off">
+                  <input type="text" id="carModel" data-lang-ph="ph_car_model" autocomplete="off">
                 </div>
                 <div class="form-group">
-                  <input type="text" id="carYear" placeholder="Год" maxlength="4">
+                  <input type="text" id="carYear" data-lang-ph="ph_car_year" maxlength="4">
                 </div>
               </div>
             </div>
@@ -661,7 +659,7 @@
             <!-- Блок VIN -->
             <div id="vinFieldsBlock" class="animated-field-block is-hidden">
               <div class="form-group">
-                <input type="text" id="vinCode" placeholder="Введите VIN-код (17 знаков)" maxlength="17">
+                <input type="text" id="vinCode" data-lang-ph="ph_vin_code" maxlength="17">
               </div>
             </div>
           </div>
@@ -670,14 +668,13 @@
           <div class="privacy-agreement">
             <label class="checkbox-label">
               <input type="checkbox" id="privacyCheckbox">
-              <span class="privacy-text" data-lang-key="privacy_text">Согласен с Политикой
-                конфиденциальности</span>
+              <span class="privacy-text" data-lang-key="privacy_text">Согласен с Политикой конфиденциальности</span>
             </label>
           </div>
 
           <!-- КНОПКА ОТПРАВКИ -->
           <button type="button" id="submitBtn" class="btn btn--primary submit-btn" disabled>
-            <span data-lang-key="btn_text">Отправить список в WhatsApp</span>
+            <span data-lang-key="btn_submit_order">Отправить список в WhatsApp</span>
           </button>
         </form>
       </div>
@@ -695,10 +692,10 @@
         </div>
         <h3 data-lang-key="modal_callback_title"></h3>
         <p lang="ru" class="callback-subtitle" data-lang-key="modal_callback_subtitle">
-          Закажи обратный звонок и я перезвоню для консультации в течении <span class="highlight">3 минут</span>.
+          Закажи обратный звонок и я перезвоню для консультации в течении <span class="highlight">5 минут</span>.
         </p>
         <p lang="de" class="callback-subtitle" data-lang-key="modal_callback_subtitle">
-          "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von <span class="highlight">3 Minuten</span> zu einem
+          "Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von <span class="highlight">5 Minuten</span> zu einem
           Beratungsgespräch zurück.
         </p>
 
