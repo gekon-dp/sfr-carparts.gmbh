@@ -1658,6 +1658,10 @@ body.modal-open {
   margin-top: 3px;
 }
 
+.manager-avatar.is-hidden {
+  display: none;
+}
+
 /* .branch-selection {
   margin-bottom: 16px;
 } */
@@ -1908,6 +1912,19 @@ body.modal-open {
   align-items: center;
   cursor: pointer;
   user-select: none;
+}
+
+/* Поднимаем контекст всего анимированного блока, когда он активен,
+   чтобы его внутренние абсолютные элементы перекрывали всё, что ниже */
+#carFieldsBlock:not(.is-hidden) {
+  position: relative;
+  z-index: 10;
+}
+
+/* На всякий случай фиксируем, что блок согласия лежит на базовом слое */
+.privacy-agreement {
+  position: relative;
+  z-index: 1;
 }
 
 /* Скрываем стандартный инпут браузера */
