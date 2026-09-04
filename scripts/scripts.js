@@ -227,7 +227,7 @@ const translations = {
     wa_vin: "VIN-Code",
     wa_want_to_order: "Ich möchte bestellen",
     btn_callback: "📞 Rückruf anfordern",
-    btn_order: "🛒 Befehl",
+    btn_order: "🛒 Bestellung",
     hero_slide1_title: "Hochwertige Autoteile für Ihr Fahrzeug",
     hero_slide1_desc:
       "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
@@ -418,6 +418,41 @@ function initLanguageSwitcher() {
 
   applyLanguage(initialLang);
 }
+
+/* ==========================================================================
+   03. Burger menu
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const burgerBtn = document.getElementById("burgerToggleBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  if (!burgerBtn || !mobileMenu) return;
+
+  function toggleMenu(open) {
+    const isActive =
+      open !== undefined ? open : !mobileMenu.classList.contains("is-active");
+
+    burgerBtn.classList.toggle("is-active", isActive);
+    mobileMenu.classList.toggle("is-active", isActive);
+
+    // Блокируем прокрутку страницы при открытом меню
+    document.body.style.overflow = isActive ? "hidden" : "";
+  }
+
+  burgerBtn.addEventListener("click", () => toggleMenu());
+
+  // Закрываем меню при клике на любую ссылку или кнопку модалки внутри
+  mobileMenu.querySelectorAll("a, button").forEach((element) => {
+    element.addEventListener("click", () => toggleMenu(false));
+  });
+
+  // Закрываем меню при изменении размера экрана на десктоп
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 991 && mobileMenu.classList.contains("is-active")) {
+      toggleMenu(false);
+    }
+  });
+});
 
 /* ==========================================================================
    03. HERO SLIDER MODULE
@@ -653,7 +688,7 @@ function initWhatsAppForm() {
       `${queryDetails}\n` +
       `*Список запчастей:* ${partsList || "Не указано"}`;
 
-    const phoneNumber = "380988737379";
+    // const phoneNumber = "380988737379";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
 
     window.open(whatsappUrl, "_blank");
@@ -919,8 +954,8 @@ function initOrderFormLogic() {
 
   // --- 1. Номера телефонов филиалов ---
   const BRANCH_PHONES = {
-    westerkappeln: "380988737379",
-    rheine: "380738737379",
+    westerkappeln: "491754247818",
+    rheine: "4915221025874",
   };
 
   // --- 2. Данные менеджеров по филиалам ---
@@ -1652,7 +1687,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const formattedPhone = "+" + phoneClean;
 
       // Отправка в WhatsApp
-      const phoneOwner = "380988737379";
+      const phoneOwner = "491754247818";
       const iconPhone = String.fromCodePoint(128222); // 📞
 
       // Перевод текста сообщения для WhatsApp
