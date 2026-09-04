@@ -294,6 +294,7 @@ function applyLanguage(lang) {
   localStorage.setItem("sfr_lang", lang);
   document.documentElement.lang = lang;
 
+  // 1. Обновляем все элементы с переводами
   const elements = document.querySelectorAll("[data-lang-key]");
   elements.forEach((el) => {
     const key = el.getAttribute("data-lang-key");
@@ -302,26 +303,39 @@ function applyLanguage(lang) {
     }
   });
 
-  const langBtns = document.querySelectorAll(".lang-btn");
-  langBtns.forEach((btn) => {
-    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
-  });
+  // 2. Обновляем текст на одиночной кнопке переключения
+  const langToggleBtn =
+    document.querySelector("#langToggleBtn .lang-text") ||
+    document.getElementById("langToggleBtn");
+  if (langToggleBtn) {
+    langToggleBtn.textContent = lang.toUpperCase();
+  }
 
+  // 3. Обновляем информацию о филиалах
   updateBranchInfo(state.activeBranch);
 }
 
 function initLanguageSwitcher() {
-  const langBtns = document.querySelectorAll(".lang-btn");
-  langBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetLang = btn.getAttribute("data-lang");
-      if (targetLang && targetLang !== state.currentLang) {
-        applyLanguage(targetLang);
-      }
-    });
+  const langToggleBtn = document.getElementById("langToggleBtn");
+  const languages = ["ru", "de"]; // Доступные языки
+
+  // При клике циклично переключаем язык
+  langToggleBtn?.addEventListener("click", () => {
+    const currentIndex = languages.indexOf(state.currentLang);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    const nextLang = languages[nextIndex];
+
+    applyLanguage(nextLang);
   });
 
-  applyLanguage(state.currentLang);
+  // Первоначальная привязка сохраненного или текущего языка
+  const savedLang = localStorage.getItem("sfr_lang");
+  const initialLang =
+    savedLang && languages.includes(savedLang)
+      ? savedLang
+      : state.currentLang || "ru";
+
+  applyLanguage(initialLang);
 }
 
 /* ==========================================================================
