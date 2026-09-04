@@ -27,32 +27,44 @@
         <strong>SFR Carparts</strong>
       </div>
 
-      <!-- Навигация по секциям -->
-      <nav class="header__nav">
-        <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
-        <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
-        <a href="#brands" data-lang-key="nav_brands">Партнеры</a>
-        <a href="#reviews" data-lang-key="nav_reviews">Отзывы</a>
-        <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
-      </nav>
-
-      <div class="header__actions">
+      <!-- Панель быстрых действий (видима всегда, даже на мобильных) -->
+      <div class="header__quick-controls">
         <div class="lang-switcher">
           <button type="button" class="lang-btn-toggle" id="langToggleBtn" aria-label="Switch language">
-            <!-- Добавили id="langToggleText", чтобы скрипт мог менять RU на DE -->
             <span class="lang-text" id="langToggleText">RU</span>
           </button>
         </div>
-
 
         <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
           <span class="theme-toggle__icon">🌙</span>
         </button>
 
-        <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
-          data-lang-key="btn_callback"></button>
-        <button id="order-modal-btn" class="btn btn--outline" data-open-modal="orderModal"
-          data-lang-key="btn_order"></button>
+        <!-- Кнопка Бургер для мобильных -->
+        <button type="button" class="hamburger-btn" id="burgerToggleBtn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <!-- Мобильное выпадающее меню (Навигация + Кнопки) -->
+      <div class="header__mobile-menu" id="mobileMenu">
+        <!-- Навигация по секциям -->
+        <nav class="header__nav">
+          <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
+          <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
+          <a href="#brands" data-lang-key="nav_brands">Партнеры</a>
+          <a href="#reviews" data-lang-key="nav_reviews">Отзывы</a>
+          <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
+        </nav>
+
+        <!-- Кнопки вызова модалок -->
+        <div class="header__actions">
+          <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
+            data-lang-key="btn_callback"></button>
+          <button id="order-modal-btn" class="btn btn--outline" data-open-modal="orderModal"
+            data-lang-key="btn_order"></button>
+        </div>
       </div>
     </div>
   </header>
