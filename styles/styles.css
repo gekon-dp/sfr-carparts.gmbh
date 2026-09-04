@@ -147,11 +147,66 @@ HEADER
   height: 70px;
   position: relative;
 }
-
+/* 
 .logo {
   font-size: 20px;
   font-weight: 700;
   color: var(--text-color);
+} */
+
+/* Контейнер логотипа */
+.logo {
+  display: flex;
+  align-items: center; /* Центрирование по вертикали */
+  justify-content: flex-start;
+  max-width: 180px; /* Максимальная ширина логотипа (настройте под себя) */
+}
+
+/* Ссылка внутри логотипа (если логотип является ссылкой на главную) */
+.logo a {
+  display: inline-block;
+  line-height: 0; /* Убирает лишние отступы под картиной */
+  text-decoration: none;
+}
+
+/* Базовые стили для изображений логотипа */
+.logo-img {
+  width: 100%;
+  height: auto;
+  max-height: 48px;
+  object-fit: contain;
+  display: block;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* 1. По умолчанию (Светлая тема): показываем тёмный логотип, скрываем светлый */
+.logo-dark-theme {
+  display: none !important;
+}
+.logo-light-theme {
+  display: block !important;
+}
+
+/* 2. Тёмная тема (когда на body висит data-theme="dark"): показываем светлый логотип, скрываем тёмный */
+body[data-theme="dark"] .logo-light-theme {
+  display: none !important;
+}
+body[data-theme="dark"] .logo-dark-theme {
+  display: block !important;
+}
+
+/* Ховер эффекты */
+.logo a:hover img {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    max-height: 38px;
+  }
 }
 
 /* Блок переключателей (язык, тема, бургер) */
@@ -1561,6 +1616,20 @@ FOOTER & BRANCHES SECTION
 .legal-separator {
   color: var(--border-color);
   font-size: 12px;
+}
+
+/* Базовые стили для контейнера и фрейма карты */
+/* .footer-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transition: filter 0.3s ease; */
+/* } */
+
+/* Применение тёмного стиля к карте */
+/* Переключение карты Google в тёмный режим */
+body[data-theme="dark"] #branch-map {
+  filter: invert(90%) hue-rotate(180deg) contrast(1.2) grayscale(0.15) !important;
 }
 
 /* ADAPTIVE / MOBILE */

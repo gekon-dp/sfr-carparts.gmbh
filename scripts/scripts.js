@@ -171,6 +171,7 @@ const translations = {
     cookie_reject: "Отклонить",
     privacy_text: "Согласен с Политикой конфиденциальности",
     select_method_title: "Выберите филиал:",
+    hours_value: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
   },
   de: {
     nav_conditions: "Konditionen",
@@ -310,6 +311,7 @@ const translations = {
     cookie_reject: "Ablehnen",
     privacy_text: "Ich stimme der Datenschutzerklärung zu",
     select_method_title: "Wählen Sie eine Filiale aus",
+    hours_value: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
   },
 };
 
@@ -343,22 +345,92 @@ function initThemeSwitcher() {
 /* ==========================================================================
 MULTI-LANGUAGE MODULE & BRANCH HELPER
 ============================================================================= */
+// Вспомогательная функция для обновления языка у карты Google Maps
+function updateMapLanguage(lang) {
+  const mapIframe = document.getElementById("branch-map");
+  if (!mapIframe || !mapIframe.src) return;
+
+  const targetLang = lang === "de" ? "de" : "ru";
+  let src = mapIframe.src;
+
+  // 1. Обновляем параметр hl в URL
+  if (src.includes("hl=")) {
+    src = src.replace(/hl=[a-z]{2}/gi, `hl=${targetLang}`);
+  } else {
+    src += (src.includes("?") ? "&" : "?") + `hl=${targetLang}`;
+  }
+
+  // 2. Обновляем зашитые языковые маркеры Google
+  src = src.replace(/!2s[a-z]{2}/gi, `!2s${targetLang}`);
+  src = src.replace(/!1s[a-z]{2}/gi, `!1s${targetLang}`);
+
+  if (mapIframe.src !== src) {
+    mapIframe.src = src;
+  }
+}
+
+// Обновление информации о филиале (Адрес, Часы, Карта)
+function getLocalizedMapUrl(baseUrl, lang) {
+  if (!baseUrl) return "";
+  const targetLang = lang === "de" ? "de" : "ru";
+
+  let src = baseUrl;
+
+  // 1. Заменяем параметры hl и language
+  if (src.includes("hl=")) {
+    src = src.replace(/hl=[a-z]{2}/gi, `hl=${targetLang}`);
+  } else {
+    src += (src.includes("?") ? "&" : "?") + `hl=${targetLang}`;
+  }
+
+  // 2. Меняем зашитые локали в pb-цепочке Google (1sru/2sru/1sde/2sde)
+  src = src.replace(/!1s[a-z]{2}/gi, `!1s${targetLang}`);
+  src = src.replace(/!2s[a-z]{2}/gi, `!2s${targetLang}`);
+
+  return src;
+}
+
 function updateBranchInfo(branchId) {
   state.activeBranch = branchId;
   const currentData = branchData[branchId];
   if (!currentData) return;
 
+  // 1. Обновляем адрес и часы
   const addressEl = document.querySelector("#branch-address-text");
   const hoursEl = document.querySelector("#branch-hours-text");
+  const phoneEl = document.querySelector("#branch-phone-link");
 
-  if (addressEl)
+  if (addressEl) {
     addressEl.textContent =
       currentData.address[state.currentLang] || currentData.address.ru;
-  if (hoursEl)
+  }
+  if (hoursEl) {
     hoursEl.textContent =
       currentData.hours[state.currentLang] || currentData.hours.ru;
+  }
+
+  // Обновляем телефон
+  if (phoneEl) {
+    phoneEl.textContent = currentData.phone;
+    phoneEl.href = `tel:${currentData.phone.replace(/\s+/g, "")}`;
+  }
+
+  // 2. Формируем сразу ЛОКАЛИЗОВАННУЮ ссылку под текущий активный язык
+  const mapIframe = document.getElementById("branch-map");
+  if (mapIframe && currentData.mapUrl) {
+    const localizedSrc = getLocalizedMapUrl(
+      currentData.mapUrl,
+      state.currentLang,
+    );
+
+    // Обновляем src только если адрес реально изменился
+    if (mapIframe.src !== localizedSrc) {
+      mapIframe.src = localizedSrc;
+    }
+  }
 }
 
+// Применение выбранного языка
 function applyLanguage(lang) {
   state.currentLang = lang;
   localStorage.setItem("sfr_lang", lang);
@@ -373,7 +445,7 @@ function applyLanguage(lang) {
     }
   });
 
-  // 2. Обновляем placeholders у полей ввода формы заказа через data-lang-ph
+  // 2. Обновляем placeholders у полей ввода формы через data-lang-ph
   const placeholders = document.querySelectorAll("[data-lang-ph]");
   placeholders.forEach((el) => {
     const key = el.getAttribute("data-lang-ph");
@@ -382,24 +454,21 @@ function applyLanguage(lang) {
     }
   });
 
-  // 3. ДОБАВЛЯЕМ: Меняем текст на самой кнопке-переключателе
+  // 3. Менявм текст на кнопке переключения языка
   const langToggleText = document.getElementById("langToggleText");
   if (langToggleText) {
-    // Если язык 'ru', кнопка показывает 'RU' (или наоборот 'DE', если это кнопка "переключить на...")
-    // Обычно пишут язык, который включится при клике, либо текущий.
-    // Если вам нужно показывать текущий язык большими буквами:
     langToggleText.textContent = lang.toUpperCase();
   }
 
-  // 3. Обновляем информацию о филиалах
+  // 4. Обновляем информацию активного филиала и локализуем карту
   updateBranchInfo(state.activeBranch);
 }
 
+// Инициализация переключателя языков
 function initLanguageSwitcher() {
   const langToggleBtn = document.getElementById("langToggleBtn");
-  const languages = ["ru", "de"]; // Доступные языки
+  const languages = ["ru", "de"];
 
-  // При клике циклично переключаем язык
   langToggleBtn?.addEventListener("click", () => {
     const currentIndex = languages.indexOf(state.currentLang);
     const nextIndex = (currentIndex + 1) % languages.length;
@@ -408,7 +477,6 @@ function initLanguageSwitcher() {
     applyLanguage(nextLang);
   });
 
-  // Первоначальная привязка сохраненного или текущего языка
   const savedLang = localStorage.getItem("sfr_lang");
   const initialLang =
     savedLang && languages.includes(savedLang)
