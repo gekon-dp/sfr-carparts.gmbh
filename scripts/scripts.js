@@ -1758,18 +1758,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Отправка в WhatsApp
       const phoneOwner = "491754247818";
-      const iconPhone = String.fromCodePoint(128222); // 📞
 
-      // Перевод текста сообщения для WhatsApp
+      // Текст сообщения с переводом
       const currentLang = document.documentElement.lang || "ru";
-      const waMessage =
-        currentLang === "de"
-          ? `${iconPhone} Rückrufanfrage\n👤 Telefon: ${formattedPhone}`
-          : `${iconPhone} Запрос на обратный звонок\n👤 Телефон: ${formattedPhone}`;
+      const titleText =
+        currentLang === "de" ? "Rückrufanfrage" : "Запрос на обратный звонок";
+      const phoneLabel = currentLang === "de" ? "Telefon" : "Телефон";
 
-      const encodedMessage = encodeURIComponent(waMessage);
+      // Собираем сообщение с эмодзи
+      const rawMessage = `📞 ${titleText}\n👤 ${phoneLabel}: ${formattedPhone}`;
+
+      // Нормализация и безопасное кодирование UTF-8
+      const encodedMessage = encodeURIComponent(rawMessage.normalize("NFC"));
+
+      // Переход на api.whatsapp.com/send устраняет потерю эмодзи на ПК
       window.open(
-        `https://wa.me/${phoneOwner}?text=${encodedMessage}`,
+        `https://api.whatsapp.com/send?phone=${phoneOwner}&text=${encodedMessage}`,
         "_blank",
       );
 
