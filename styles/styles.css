@@ -17,8 +17,8 @@ GLOBAL STYLES & VARIABLES
   --card-bg: #ffffff;
   --text-color: #212529;
   --text-muted: #6c757d;
-  --primary-color: #0d6efd;
-  --primary-hover: #0b5ed7;
+  --primary-color: #aa810d; /* Фирменное плотное золото логотипа */
+  --primary-hover: #866507; /* Благородное затемнение при наведении */
   --border-color: #dee2e6;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -29,8 +29,8 @@ GLOBAL STYLES & VARIABLES
   --card-bg: #242424;
   --text-color: #f8f9fa;
   --text-muted: #a0a0a0;
-  --primary-color: #3d8bfd;
-  --primary-hover: #5c9eff;
+  --primary-color: #cda225; /* Яркое золото из центра букв */
+  --primary-hover: #dfb434; /* Эффект легкого глянцевого отблеска при ховере */
   --border-color: #333333;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -1152,7 +1152,7 @@ REVIEWS SECTION
 
 /* Звёзды рейтинга под датой */
 .review-card__rating {
-  color: #ffb800;
+  color: var(--primary-color);
   font-size: 15px;
   margin-top: 4px;
   letter-spacing: 1px;
@@ -1618,14 +1618,6 @@ FOOTER & BRANCHES SECTION
   font-size: 12px;
 }
 
-/* Базовые стили для контейнера и фрейма карты */
-/* .footer-map iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  transition: filter 0.3s ease; */
-/* } */
-
 /* Применение тёмного стиля к карте */
 /* Переключение карты Google в тёмный режим */
 body[data-theme="dark"] #branch-map {
@@ -1707,8 +1699,8 @@ MODALS
 .modal-container {
   position: relative;
   width: 100%;
-  max-width: 550px;
-  max-height: 90vh;
+  max-width: 600px;
+  max-height: 96vh;
   overflow-y: auto;
   border-radius: 12px;
   z-index: 1;
@@ -1755,9 +1747,6 @@ body.modal-open {
   overflow: hidden;
 }
 
-/* ==========================================================================
-ORDER MODAL
-============================================================================= */
 /* ==========================================================================
 ORDER MODAL
 ============================================================================= */
@@ -1911,7 +1900,7 @@ ORDER MODAL
 /* ОШИБКИ ВАЛИДАЦИИ */
 .error-message {
   display: none;
-  color: #dc3545; /* Красный для ошибок */
+  color: #dc2626; /* Красный для ошибок */
   font-size: 12px;
   padding-left: 2px;
   margin-top: 4px;
@@ -1919,7 +1908,7 @@ ORDER MODAL
 
 .has-error input,
 .has-error textarea {
-  border-color: #dc3545 !important;
+  border-color: #dc2626 !important;
 }
 
 .has-error .error-message {
@@ -2127,7 +2116,7 @@ input[type="checkbox"]:checked + .privacy-text::after {
 .submit-btn {
   width: 100%;
   padding: 15px;
-  background-color: #25d366 !important;
+  background-color: var(--primary-color);
   color: #ffffff !important;
   border: none;
   border-radius: 6px;
@@ -2141,7 +2130,7 @@ input[type="checkbox"]:checked + .privacy-text::after {
 }
 
 .submit-btn:hover:not(:disabled) {
-  background-color: #20ba5a !important;
+  background-color: var(--primary-hover) !important;
 }
 
 .submit-btn:active:not(:disabled) {
