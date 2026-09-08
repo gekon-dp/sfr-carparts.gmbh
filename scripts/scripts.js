@@ -1019,6 +1019,7 @@ function initOrderFormLogic() {
   const phoneBlock = document.getElementById("managerPhoneBlock");
 
   let currentOrderMethod = "by-car";
+  let isManagerMode = false;
 
   // --- 1. Номера телефонов филиалов ---
   const BRANCH_PHONES = {
@@ -1030,7 +1031,7 @@ function initOrderFormLogic() {
   const BRANCH_MANAGERS = {
     westerkappeln: {
       name: { ru: "Светлана", de: "Svetlana" },
-      avatar: "./assets/images/member-svetlana.jpg", // Укажи точный путь к фото
+      avatar: "./assets/images/member-svetlana.jpg",
       status: {
         ru: "💬 Нужна деталь? Пришлите VIN — отвечу через 10 минут!",
         de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
@@ -1038,7 +1039,7 @@ function initOrderFormLogic() {
     },
     rheine: {
       name: { ru: "Сергей", de: "Sergey" },
-      avatar: "./assets/images/userpic.jpg", // Укажи точный путь к фото
+      avatar: "./assets/images/userpic.jpg",
       status: {
         ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
         de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
@@ -1046,59 +1047,148 @@ function initOrderFormLogic() {
     },
   };
 
-  // --- 3. Словарь переводов ---
+  // --- 3. Словарь переводов (Клиент vs Менеджер) ---
   const orderTranslations = {
+    // Выбор филиала
     selectBranch: {
       ru: "Выберите филиал для отправки заказа",
+      ru_manager: "Укажите филиал для оформления заявки",
       de: "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
+      de_manager: "Bitte wählen Sie die Filiale für die Bestellung aus",
     },
+
+    // Описание запчастей
     describeParts: {
       ru: "Опишите необходимые запчасти (минимум 3 символа)",
+      ru_manager: "Введите список запчастей клиента (минимум 3 символа)",
       de: "Bitte beschreiben Sie die benötigten Teile (mindestens 3 Zeichen)",
+      de_manager:
+        "Geben Sie die Teileliste des Kunden ein (mindestens 3 Zeichen)",
     },
     partsValidation: {
       ru: "Описание должно содержать буквы или цифры",
+      ru_manager: "Список запчастей должен содержать буквы или цифры",
       de: "Die Beschreibung muss Buchstaben oder Zahlen enthalten",
+      de_manager: "Die Teileliste muss Buchstaben oder Zahlen enthalten",
     },
+
+    // Имя
     specifyName: {
       ru: "Укажите ваше имя",
+      ru_manager: "Укажите имя клиента",
       de: "Bitte geben Sie Ihren Namen an",
+      de_manager: "Bitte geben Sie den Kundennamen an",
     },
     nameValidation: {
       ru: "Имя содержит недопустимые символы (цифры или знаки)",
-      de: "Der Name enthält unzulässige Zeichen (Zahlen или Sonderzeichen)",
+      ru_manager: "Имя клиента содержит недопустимые символы",
+      de: "Der Name enthält unzulässige Zeichen (Zahlen oder Sonderzeichen)",
+      de_manager: "Der Kundenname enthält unzulässige Zeichen",
+    },
+
+    // Телефон
+    phoneLabel: {
+      ru: "📞 Телефон клиента:",
+      de: "📞 Telefonnummer des Kunden:",
     },
     specifyPhone: {
-      ru: "Укажите номер телефона клиента",
-      de: "Bitte geben Sie die Telefonnummer des Kunden an.",
+      ru: "Укажите ваш номер телефона",
+      ru_manager: "Укажите номер телефона клиента",
+      de: "Bitte geben Sie Ihre Telefonnummer an",
+      de_manager: "Bitte geben Sie die Telefonnummer des Kunden an",
     },
     phoneValidation: {
       ru: "Введите корректный номер телефона",
+      ru_manager: "Введите корректный номер телефона клиента",
       de: "Bitte geben Sie eine gültige Telefonnummer ein",
+      de_manager: "Bitte geben Sie eine gültige Kundentelefonnummer ein",
     },
+
+    // Марка / Модель / Год
     specifyMake: {
       ru: "Укажите марку автомобиля",
+      ru_manager: "Выберите или введите марку авто клиента",
       de: "Bitte geben Sie die Automarke an",
+      de_manager: "Bitte geben Sie die Automarke des Kunden an",
     },
     specifyModel: {
       ru: "Укажите модель автомобиля",
+      ru_manager: "Укажите модель авто клиента",
       de: "Bitte geben Sie das Automodell an",
+      de_manager: "Bitte geben Sie das Automodell des Kunden an",
     },
     invalidYear: {
       ru: "Введите корректный год (4 цифры)",
+      ru_manager: "Укажите корректный год выпуска авто (4 цифры)",
       de: "Bitte geben Sie ein gültiges Jahr ein (4 Ziffern)",
+      de_manager: "Bitte geben Sie ein gültiges Baujahr an (4 Ziffern)",
     },
+
+    // VIN
     vinLength: {
       ru: (len) => `VIN должен быть ровно 17 символов (сейчас: ${len})`,
+      ru_manager: (len) =>
+        `VIN клиента должен быть ровно 17 символов (сейчас: ${len})`,
       de: (len) => `Die VIN muss genau 17 Zeichen lang sein (aktuell: ${len})`,
+      de_manager: (len) =>
+        `Die Kunden-VIN muss genau 17 Zeichen lang sein (aktuell: ${len})`,
     },
     vinValidation: {
       ru: "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
+      ru_manager: "Ошибка в VIN клиента (только латиница и цифры, без I, O, Q)",
       de: "Die VIN enthält unzulässige Zeichen (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
+      de_manager:
+        "Ungültige Kunden-VIN (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
     },
     missingPhoneError: {
       ru: "Ошибка: Не найден номер телефона для выбранного филиала.",
       de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
+    },
+
+    // --- Плейсхолдеры для полей ввода ---
+    placeholders: {
+      partsList: {
+        ru: "Например: Передние тормозные колодки, масляный фильтр...",
+        ru_manager: "Список деталей клиента / Артикулы...",
+        de: "Z.B.: Bremsbeläge vorne, Ölfilter...",
+        de_manager: "Teileliste des Kunden / Artikelnummern...",
+      },
+      clientName: {
+        ru: "Ваше имя",
+        ru_manager: "Имя клиента",
+        de: "Ihr Name",
+        de_manager: "Kundenname",
+      },
+      clientPhone: {
+        ru: "+49...",
+        ru_manager: "+49... (номер клиента)",
+        de: "+49...",
+        de_manager: "+49... (Kundennummer)",
+      },
+      carMake: {
+        ru: "Марка (напр. Audi)",
+        ru_manager: "Марка авто клиента",
+        de: "Marke (z.B. Audi)",
+        de_manager: "Automarke des Kunden",
+      },
+      carModel: {
+        ru: "Модель (напр. A4)",
+        ru_manager: "Модель авто клиента",
+        de: "Modell (z.B. A4)",
+        de_manager: "Automodell des Kunden",
+      },
+      carYear: {
+        ru: "Год",
+        ru_manager: "Год авто",
+        de: "Jahr",
+        de_manager: "Baujahr",
+      },
+      vinCode: {
+        ru: "VIN-код (17 символов)",
+        ru_manager: "VIN-код клиента (17 символов)",
+        de: "VIN-Code (17 Zeichen)",
+        de_manager: "Kunden-VIN (17 Zeichen)",
+      },
     },
 
     // Сообщения WhatsApp
@@ -1122,11 +1212,15 @@ function initOrderFormLogic() {
     );
   }
 
+  // Получение переводов с учетом режима менеджера
   function getOrderText(key, param = null) {
     const lang = getCurrentLang();
+    const modeKey = isManagerMode ? `${lang}_manager` : lang;
 
     let translation =
+      orderTranslations[key]?.[modeKey] ||
       orderTranslations[key]?.[lang] ||
+      orderTranslations[key]?.["ru_manager"] ||
       orderTranslations[key]?.["ru"] ||
       (window.translations && window.translations[lang]?.[key]) ||
       (window.translations && window.translations["ru"]?.[key]) ||
@@ -1148,6 +1242,32 @@ function initOrderFormLogic() {
     return translation;
   }
 
+  // Обновление плейсхолдеров и лейблов во всей форме
+  function updateFormPlaceholders() {
+    const lang = getCurrentLang();
+    const modeKey = isManagerMode ? `${lang}_manager` : lang;
+    const placeholdersDict = orderTranslations.placeholders;
+
+    Object.keys(placeholdersDict).forEach((fieldId) => {
+      const inputEl = document.getElementById(fieldId);
+      if (inputEl) {
+        const text =
+          placeholdersDict[fieldId][modeKey] ||
+          placeholdersDict[fieldId][lang] ||
+          placeholdersDict[fieldId]["ru"];
+        inputEl.placeholder = text;
+      }
+    });
+
+    // Обновляем заголовок поля телефона
+    if (phoneBlock) {
+      const phoneLabel = phoneBlock.querySelector(".manager-phone-label");
+      if (phoneLabel) {
+        phoneLabel.textContent = getOrderText("phoneLabel");
+      }
+    }
+  }
+
   // --- 4. Динамическое обновление блока менеджера ---
   function renderManagerBadge(branchId) {
     const managerBlock = orderModal.querySelector(".manager-badge");
@@ -1161,7 +1281,6 @@ function initOrderFormLogic() {
     const avatarWrap = managerBlock.querySelector(".manager-avatar");
     const avatarImg = managerBlock.querySelector(".manager-avatar img");
 
-    // Если филиал не выбран
     if (!branchId || !managerData) {
       if (avatarWrap) avatarWrap.style.display = "none";
       if (nameEl)
@@ -1175,7 +1294,6 @@ function initOrderFormLogic() {
       return;
     }
 
-    // Если филиал выбран — показываем фото и подставляем данные
     if (avatarWrap) avatarWrap.style.display = "block";
     if (avatarImg) avatarImg.src = managerData.avatar;
     if (nameEl)
@@ -1226,16 +1344,22 @@ function initOrderFormLogic() {
     }
   }
 
-  // Управление отображением поля телефона
+  // Управление отображением и режимом поля телефона
   function setPhoneBlockVisibility(show) {
-    if (!phoneBlock) return;
-    if (show) {
-      phoneBlock.classList.remove("is-hidden");
-      phoneBlock.style.display = "block";
-    } else {
-      phoneBlock.classList.add("is-hidden");
-      phoneBlock.style.display = "none";
+    isManagerMode = Boolean(show);
+
+    if (phoneBlock) {
+      if (isManagerMode) {
+        phoneBlock.classList.remove("is-hidden");
+        phoneBlock.style.display = "block";
+      } else {
+        phoneBlock.classList.add("is-hidden");
+        phoneBlock.style.display = "none";
+      }
     }
+
+    // Обновляем контекст полей формы
+    updateFormPlaceholders();
   }
 
   function clearErrors() {
@@ -1331,7 +1455,7 @@ function initOrderFormLogic() {
       return;
     }
 
-    // Телефон проверяется, только если блок виден
+    // Телефон проверяется, только если включен режим менеджера / блок виден
     const isPhoneVisible =
       phoneBlock &&
       phoneBlock.style.display !== "none" &&
@@ -1519,7 +1643,7 @@ function initOrderFormLogic() {
       origEvent && (origEvent.ctrlKey || origEvent.metaKey),
     );
 
-    // Управляем видимостью телефона
+    // Управляем видимостью телефона и обновляем тексты полей
     setPhoneBlockVisibility(isCtrlPressed);
 
     // Управляем видимостью полей авто по текущему радиобаттону
@@ -1746,7 +1870,7 @@ function initOrderFormLogic() {
         modelBox.appendChild(item);
       });
 
-      modelBox.classList.add("is-visible");
+      makeBox.classList.add("is-visible");
     });
 
     modelBox.addEventListener("mousedown", function (e) {
