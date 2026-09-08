@@ -1049,15 +1049,12 @@ function initOrderFormLogic() {
 
   // --- 3. Словарь переводов (Клиент vs Менеджер) ---
   const orderTranslations = {
-    // Выбор филиала
     selectBranch: {
       ru: "Выберите филиал для отправки заказа",
       ru_manager: "Укажите филиал для оформления заявки",
       de: "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
       de_manager: "Bitte wählen Sie die Filiale für die Bestellung aus",
     },
-
-    // Описание запчастей
     describeParts: {
       ru: "Опишите необходимые запчасти (минимум 3 символа)",
       ru_manager: "Введите список запчастей клиента (минимум 3 символа)",
@@ -1071,8 +1068,6 @@ function initOrderFormLogic() {
       de: "Die Beschreibung muss Buchstaben oder Zahlen enthalten",
       de_manager: "Die Teileliste muss Buchstaben oder Zahlen enthalten",
     },
-
-    // Имя
     specifyName: {
       ru: "Укажите ваше имя",
       ru_manager: "Укажите имя клиента",
@@ -1082,11 +1077,9 @@ function initOrderFormLogic() {
     nameValidation: {
       ru: "Имя содержит недопустимые символы (цифры или знаки)",
       ru_manager: "Имя клиента содержит недопустимые символы",
-      de: "Der Name enthält unzulässige Zeichen (Zahlen oder Sonderzeichen)",
+      de: "Der Name содержит unzulässige Zeichen (Zahlen oder Sonderzeichen)",
       de_manager: "Der Kundenname enthält unzulässige Zeichen",
     },
-
-    // Телефон
     phoneLabel: {
       ru: "📞 Телефон клиента:",
       de: "📞 Telefonnummer des Kunden:",
@@ -1103,8 +1096,6 @@ function initOrderFormLogic() {
       de: "Bitte geben Sie eine gültige Telefonnummer ein",
       de_manager: "Bitte geben Sie eine gültige Kundentelefonnummer ein",
     },
-
-    // Марка / Модель / Год
     specifyMake: {
       ru: "Укажите марку автомобиля",
       ru_manager: "Выберите или введите марку авто клиента",
@@ -1123,8 +1114,6 @@ function initOrderFormLogic() {
       de: "Bitte geben Sie ein gültiges Jahr ein (4 Ziffern)",
       de_manager: "Bitte geben Sie ein gültiges Baujahr an (4 Ziffern)",
     },
-
-    // VIN
     vinLength: {
       ru: (len) => `VIN должен быть ровно 17 символов (сейчас: ${len})`,
       ru_manager: (len) =>
@@ -1145,7 +1134,32 @@ function initOrderFormLogic() {
       de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
     },
 
-    // --- Плейсхолдеры для полей ввода ---
+    // Ключи сообщения клиенту вынесены НА ВЕРХНИЙ УРОВЕНЬ
+    waClientConfirmHeader: {
+      ru: "Здравствуйте",
+      de: "Hallo",
+    },
+    waClientConfirmSub: {
+      ru: "Спасибо за ваш запрос! Мы получили ваш заказ",
+      de: "Vielen Dank für Ihre Anfrage! Wir haben Ihre Bestellung erhalten",
+    },
+    waClientListLabel: {
+      ru: "Список деталей",
+      de: "Bestellte Teile",
+    },
+    waClientConfirmFooter: {
+      ru: "Мы свяжемся с вами в ближайшее время с информацией о ценах и наличии",
+      de: "Wir melden uns in Kürze mit Preisen und Verfügbarkeit",
+    },
+    waClientThanks: {
+      ru: "Спасибо, что выбрали SFR Carparts!",
+      de: "Vielen Dank, dass Sie sich für SFR Carparts entschieden haben!",
+    },
+    waOpenClientChat: {
+      ru: "Написать клиенту в WhatsApp",
+      de: "Kunden auf WhatsApp anschreiben",
+    },
+
     placeholders: {
       partsList: {
         ru: "Например: Передние тормозные колодки, масляный фильтр...",
@@ -1191,7 +1205,6 @@ function initOrderFormLogic() {
       },
     },
 
-    // Сообщения WhatsApp
     waOrder: { ru: "Заказ", de: "Bestellung" },
     waBranch: { ru: "Филиал", de: "Filiale" },
     waClient: { ru: "Клиент", de: "Kunde" },
@@ -1201,7 +1214,24 @@ function initOrderFormLogic() {
     waModel: { ru: "Модель", de: "Modell" },
     waYear: { ru: "Год", de: "Jahr" },
     waVinCode: { ru: "VIN-код", de: "VIN-Code" },
-    waWantToOrder: { ru: "Хочу заказать", de: "Ich möchte bestellen" },
+    waWantToOrder: { ru: "Запрошенные детали", de: "Angefragte Teile" },
+
+    waClientConfirmHeader: {
+      ru: "Здравствуйте",
+      de: "Hallo",
+    },
+    waClientConfirmSub: {
+      ru: "Спасибо за обращение! Мы получили ваш заказ",
+      de: "Vielen Dank für Ihre Anfrage! Wir haben Ihre Bestellung erhalten",
+    },
+    waClientConfirmFooter: {
+      ru: "Скоро свяжемся с вами по поводу наличия и цены!",
+      de: "Wir melden uns in Kürze mit Preisen und Verfügbarkeit!",
+    },
+    waOpenClientChat: {
+      ru: "💬 Отправить подтверждение клиенту:",
+      de: "💬 Bestätigung an den Kunden senden:",
+    },
   };
 
   function getCurrentLang() {
@@ -1212,7 +1242,6 @@ function initOrderFormLogic() {
     );
   }
 
-  // Получение переводов с учетом режима менеджера
   function getOrderText(key, param = null) {
     const lang = getCurrentLang();
     const modeKey = isManagerMode ? `${lang}_manager` : lang;
@@ -1242,7 +1271,6 @@ function initOrderFormLogic() {
     return translation;
   }
 
-  // Обновление плейсхолдеров и лейблов во всей форме
   function updateFormPlaceholders() {
     const lang = getCurrentLang();
     const modeKey = isManagerMode ? `${lang}_manager` : lang;
@@ -1259,7 +1287,6 @@ function initOrderFormLogic() {
       }
     });
 
-    // Обновляем заголовок поля телефона
     if (phoneBlock) {
       const phoneLabel = phoneBlock.querySelector(".manager-phone-label");
       if (phoneLabel) {
@@ -1268,7 +1295,7 @@ function initOrderFormLogic() {
     }
   }
 
-  // --- 4. Динамическое обновление блока менеджера ---
+  // --- 4. Отрисовка менеджера филиала ---
   function renderManagerBadge(branchId) {
     const managerBlock = orderModal.querySelector(".manager-badge");
     if (!managerBlock) return;
@@ -1314,7 +1341,6 @@ function initOrderFormLogic() {
     }
   }
 
-  // Управление отображением блоков выбора (Марка/Модель vs VIN)
   function handleMethodChange(selectedValue) {
     currentOrderMethod = selectedValue || "by-car";
 
@@ -1344,7 +1370,6 @@ function initOrderFormLogic() {
     }
   }
 
-  // Управление отображением и режимом поля телефона
   function setPhoneBlockVisibility(show) {
     isManagerMode = Boolean(show);
 
@@ -1358,7 +1383,6 @@ function initOrderFormLogic() {
       }
     }
 
-    // Обновляем контекст полей формы
     updateFormPlaceholders();
   }
 
@@ -1455,7 +1479,6 @@ function initOrderFormLogic() {
       return;
     }
 
-    // Телефон проверяется, только если включен режим менеджера / блок виден
     const isPhoneVisible =
       phoneBlock &&
       phoneBlock.style.display !== "none" &&
@@ -1547,7 +1570,7 @@ function initOrderFormLogic() {
       phoneBlock.style.display !== "none" &&
       !phoneBlock.classList.contains("is-hidden");
 
-    const clientPhone =
+    const rawClientPhone =
       isPhoneVisible && phoneInput ? phoneInput.value.trim() : "";
 
     const parts = document.getElementById("partsList").value.trim();
@@ -1564,32 +1587,60 @@ function initOrderFormLogic() {
       const model = document.getElementById("carModel").value.trim();
       const year = document.getElementById("carYear").value.trim();
 
-      vehicleBlock = `🚗 ${getOrderText("waCarData")}:\n• ${getOrderText("waMake")}: ${make}\n• ${getOrderText("waModel")}: ${model}\n• ${getOrderText("waYear")}: ${year}`;
+      vehicleBlock = `🚗 *${getOrderText("waCarData")}*:\n• *${getOrderText("waMake")}*: ${make}\n• *${getOrderText("waModel")}*: ${model}\n• *${getOrderText("waYear")}*: ${year}`;
     } else {
       const vin = document
         .getElementById("vinCode")
         .value.replace(/\s+/g, "")
         .toUpperCase();
-      vehicleBlock = `🔑 ${getOrderText("waVinCode")}:\n${vin}`;
+      vehicleBlock = `🔑 *${getOrderText("waVinCode")}*:\n${vin}`;
     }
 
-    const phoneLine = clientPhone
-      ? `\n📞 ${getOrderText("waPhone")}: ${clientPhone}`
-      : "";
+    let phoneLine = "";
+    let clientChatLink = "";
 
-    const message =
-      `📦 ${getOrderText("waOrder")} № ${orderNumber}\n` +
-      `🏢 ${getOrderText("waBranch")}: ${branchLabel}\n` +
-      `👤 ${getOrderText("waClient")}: ${name}${phoneLine}\n` +
-      `_________________________\n\n` +
+    if (rawClientPhone) {
+      const cleanPhone = rawClientPhone.replace(/\D/g, "");
+      phoneLine = `\n*${getOrderText("phoneLabel")}* ${rawClientPhone}`;
+
+      const headerText = getOrderText("waClientConfirmHeader");
+      const subText = getOrderText("waClientConfirmSub");
+      const listLabel = getOrderText("waClientListLabel");
+      const footerText = getOrderText("waClientConfirmFooter");
+      const thanksText = getOrderText("waClientThanks");
+
+      const clientMessageText =
+        `*${headerText}, ${name}!*\n` +
+        `${subText} (№ ${orderNumber}).\n` +
+        `*${listLabel}*:\n${parts}\n\n` +
+        `${footerText}.\n` +
+        `${thanksText}`;
+
+      const encodedClientText = encodeURIComponent(clientMessageText);
+      const waLink = `https://wa.me/${cleanPhone}?text=${encodedClientText}`;
+
+      clientChatLink =
+        `\n-------------------------\n\n` +
+        `*${getOrderText("waOpenClientChat")}*\n` +
+        `${waLink}`;
+    }
+
+    // Сообщение для менеджера
+    const fullMessage =
+      `📦 *${getOrderText("waOrder")}* № ${orderNumber}\n` +
+      `🏢 *${getOrderText("waBranch")}*: ${branchLabel}\n` +
+      `👤 *${getOrderText("waClient")}*: ${name}${phoneLine}\n` +
+      `-------------------------\n\n` +
       `${vehicleBlock}\n` +
-      `_________________________\n\n` +
-      `📋 ${getOrderText("waWantToOrder")}:\n${parts}`;
+      `-------------------------\n\n` +
+      `📋 *${getOrderText("waWantToOrder")}*:\n${parts}` +
+      `${clientChatLink}`;
 
-    const encodedMessage = encodeForWhatsApp(message);
+    // Кодируем финальный текст ОДИН раз перед отправкой
+    const finalEncodedMessage = encodeURIComponent(fullMessage);
 
     window.open(
-      `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`,
+      `https://api.whatsapp.com/send?phone=${phone}&text=${finalEncodedMessage}`,
       "_blank",
     );
   }
@@ -1634,25 +1685,19 @@ function initOrderFormLogic() {
     }
   });
 
-  // --- СОБЫТИЕ ОТКРЫТИЯ МОДАЛКИ ---
   orderModal.addEventListener("modal:opened", (e) => {
     const origEvent = e.detail?.originalEvent;
-
-    // Проверяем нажатие Ctrl или Cmd при клике открытия
     const isCtrlPressed = Boolean(
       origEvent && (origEvent.ctrlKey || origEvent.metaKey),
     );
 
-    // Управляем видимостью телефона и обновляем тексты полей
     setPhoneBlockVisibility(isCtrlPressed);
 
-    // Управляем видимостью полей авто по текущему радиобаттону
     const checkedRadio = orderModal.querySelector(
       'input[name="carSpecification"]:checked',
     );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
 
-    // Обновляем плашку менеджера
     const selectedBranchRadio = orderModal.querySelector(
       'input[name="branch"]:checked',
     );
@@ -1661,19 +1706,16 @@ function initOrderFormLogic() {
     toggleSubmitButton();
   });
 
-  // --- СОБЫТИЕ ЗАКРЫТИЯ МОДАЛКИ ---
   orderModal.addEventListener("modal:closed", () => {
     clearErrors();
     setPhoneBlockVisibility(false);
   });
 
-  // Инициализация по умолчанию
   handleMethodChange("by-car");
   setPhoneBlockVisibility(false);
   toggleSubmitButton();
 
   // --- 7. Автокомплиты (Марка, Год, Модель) ---
-
   const popularMakes = [
     "Audi",
     "BMW",
@@ -1870,7 +1912,7 @@ function initOrderFormLogic() {
         modelBox.appendChild(item);
       });
 
-      makeBox.classList.add("is-visible");
+      modelBox.classList.add("is-visible");
     });
 
     modelBox.addEventListener("mousedown", function (e) {
