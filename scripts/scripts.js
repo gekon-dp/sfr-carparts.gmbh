@@ -1341,9 +1341,8 @@ function initOrderFormLogic() {
   }
 
   function encodeForWhatsApp(str) {
-    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
-      return "%" + c.charCodeAt(0).toString(16).toUpperCase();
-    });
+    // normalize("NFC") гарантирует, что 4-байтовые эмодзи корректно собранны перед кодированием
+    return encodeURIComponent(str.normalize("NFC"));
   }
 
   function executeWhatsAppSend(selectedBranchRadio) {
@@ -1393,7 +1392,12 @@ function initOrderFormLogic() {
       `📋 ${getOrderText("waWantToOrder")}:\n${parts}`;
 
     const encodedMessage = encodeForWhatsApp(message);
-    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
+
+    // Используем api.whatsapp.com для гарантированной передачи параметров на ПК и мобильных
+    window.open(
+      `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`,
+      "_blank",
+    );
   }
 
   // --- 6. Навешивание слушателей ---
