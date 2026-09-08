@@ -1,40 +1,59 @@
 /* ==========================================================================
-GLOBAL CONFIG & TRANSLATIONS DICTIONARY
+GLOBAL CONFIG
 ============================================================================= */
+const LANGUAGES = ["ru", "de"];
+
 const state = {
   currentLang: localStorage.getItem("sfr_lang") || "de",
   currentTheme: localStorage.getItem("sfr_theme") || "light",
-  activeTab: "car",
-  activeBranch: "1",
+  activeBranch: "westerkappeln",
   gdprConsented: false,
 };
 
 const branchData = {
-  1: {
+  westerkappeln: {
     address: {
       ru: "Оснабрюк штрассе 10, 49492 Вестеркаппельн, Германия",
       de: "Osnabrücker Straße 10, 49492 Westerkappeln, Deutschland",
     },
     phone: "+4954048999397",
+    whatsapp: "491754247818",
     hours: {
       ru: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.178292070856!2d7.877986176521058!3d52.31276717200771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dab12812124d%3A0x7bee7f03ab8bd596!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498202868!5m2!1sru!2sus",
+    manager: {
+      name: { ru: "Светлана", de: "Svetlana" },
+      avatar: "./assets/images/member-svetlana.jpg",
+      status: {
+        ru: "💬 Нужна деталь? Пришлите VIN — отвечу через 10 минут!",
+        de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
+      },
+    },
   },
-  2: {
+  rheine: {
     address: {
       ru: "Фридрих-Эберт-Ринг 177-179, 48429 Райне, Германия",
       de: "Friedrich-Ebert-Ring 177-179, 48429 Rheine, Deutschland",
     },
     phone: "+4959719461246",
+    whatsapp: "4915221025874",
     hours: {
       ru: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
       de: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     },
     mapUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2440.1692109225246!2d7.446642076519947!3d52.294783172002965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b82d8aaea5d03d%3A0x453ebd43ee7ce2ae!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498498224!5m2!1sru!2sus",
+    manager: {
+      name: { ru: "Сергей", de: "Sergey" },
+      avatar: "./assets/images/userpic.jpg",
+      status: {
+        ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
+        de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
+      },
+    },
   },
 };
 
@@ -46,7 +65,7 @@ const translations = {
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
     btn_order: "🛒 Заказать",
-    // Новые ключи для формы заказа:
+    btn_callback: "📞 Перезвоните мне",
     manager_status: "● Онлайн. Подберу запчасти за 10 минут",
     branch_westerkappeln: "Вестеркаппельн",
     branch_rheine: "Райне",
@@ -54,7 +73,6 @@ const translations = {
     method_vin: "VIN / Frame код",
     privacy_text: "Согласен с Политикой конфиденциальности",
     btn_submit_order: "Отправить список в WhatsApp",
-    // Плейсхолдеры
     ph_parts_list:
       "Список необходимых запчастей (например: передние колодки, масляный фильтр)",
     ph_client_name: "Ваше имя",
@@ -62,8 +80,6 @@ const translations = {
     ph_car_model: "Модель (напр. X5)",
     ph_car_year: "Год",
     ph_vin_code: "Введите VIN-код (17 знаков)",
-
-    // Ошибки валидации
     err_select_branch: "Выберите филиал для отправки заказа",
     err_describe_parts: "Опишите необходимые запчасти (минимум 3 символа)",
     err_parts_validation: "Описание должно содержать буквы или цифры",
@@ -77,18 +93,16 @@ const translations = {
       "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
     err_missing_phone:
       "Ошибка: Не найден номер телефона для выбранного филиала.",
-
-    // Заголовки сообщения для WhatsApp
     wa_order: "Заказ",
     wa_branch: "Филиал",
     wa_client: "Клиент",
+    wa_phone: "Телефон",
     wa_car_data: "Данные авто",
     wa_make: "Марка",
     wa_model: "Модель",
     wa_year: "Год",
     wa_vin: "VIN-код",
     wa_want_to_order: "Хочу заказать",
-    btn_callback: "📞 Перезвоните мне",
     hero_slide1_title: "Качественные автозапчасти для вашего авто",
     hero_slide1_desc:
       "Прямые поставки запчастей и комплектующих. Быстрая доставка и гарантия качества.",
@@ -97,35 +111,23 @@ const translations = {
       "Гибкая логистика и надежные партнеры для транспортировки любых деталей.",
     btn_catalog: "Перейти в каталог",
     btn_contact: "Связаться с нами",
-    promo_tag: "Акция",
-    promo_text: "Скидка 10% на первый оптовый заказ!",
-    hero_title: "Надежные автозапчасти для розницы и СТО по всей Европе",
-    hero_subtitle:
-      "Прямые поставки от производителей. Более 50 000 наименований в наличии на складе.",
-    hero_cta: "Рассчитать стоимость",
-    tab_by_car: "По марке авто",
-    tab_by_vin: "По VIN-коду",
-    label_car: "Марка, модель, год *",
-    label_vin: "VIN / Frame код *",
-    label_parts: "Необходимые запчасти *",
-    label_name: "Ваше имя *",
-    label_phone: "Телефон *",
-    gdpr_agree: "Я согласен с",
-    gdpr_privacy_link: "Политикой конфиденциальности",
-    btn_whatsapp: "Отправить в WhatsApp",
-    btn_send: "Отправить",
     counter_1: "Запчастей в наличии",
     counter_2: "Среднее время ответа",
     counter_3: "Опыта работы на рынке ЕС",
+    counter_4: "поддержка и консультация",
     conditions_title: "Условия сотрудничества",
-    b2c_title: "Для розничных покупателей",
-    b2c_item_1: "Продажа от 1 единицы товара",
-    b2c_item_2: "Удобная оплата картами и перевод",
-    b2c_item_3: "Быстрая курьерская доставка",
-    b2b_title: "Для СТО и оптовиков",
-    b2b_item_1: "Работа по официальному договору",
-    b2b_item_2: "Оплата с НДС / без НДС",
-    b2b_item_3: "Персональный менеджер и накопительные скидки",
+    condition_1_title: "Быстрая доставка",
+    condition_1_desc:
+      "Отправляем заказы в день обращения. Доставка по всей стране с проверенными логистическими компаниями.",
+    condition_2_title: "Гарантия качества",
+    condition_2_desc:
+      "Все детали проходят предпродажную проверку. Предоставляем официальную гарантию от производителя.",
+    condition_3_title: "Гибкая система скидок",
+    condition_3_desc:
+      "Специальные цены для оптовых покупателей и постоянных клиентов. Индивидуальный расчет под каждый заказ.",
+    condition_4_title: "Подбор по VIN-коду",
+    condition_4_desc:
+      "Наши специалисты точно подберут 100% подходящую деталь для вашей марки и модели авто.",
     timeline_title: "Схема работы",
     step_1_title: "Заявка",
     step_1_desc: "Оставляете запрос на сайте или в WhatsApp",
@@ -135,12 +137,15 @@ const translations = {
     step_3_desc: "Утверждаем детали заказа и условия оплаты",
     step_4_title: "Получение",
     step_4_desc: "Самовывоз со склада или доставка до двери",
+    brands_title: "Наши партнеры",
     reviews_title: "Отзывы наших клиентов",
     review_1_text:
       "Отличный сервис, запчасти на BMW приехали на следующий день. Все оригинальное.",
     review_2_text:
       "Работаем по опту уже полгода. Замечаний по качеству и договорам нет.",
-    reviews_google_btn: "Смотреть все отзывы на Google Картах",
+    review_3_text:
+      "Работаем с ребятами оптом уже более года. Поставки без задержек, гарантийные вопросы решаются мгновенно. Надежный партнер для автосервиса.",
+    google_reviews_btn: "Смотреть все отзывы на Google Картах",
     faq_title: "Часто задаваемые вопросы",
     faq_q1: "Как правильно подобрать запчасть по VIN-коду?",
     faq_a1:
@@ -155,23 +160,18 @@ const translations = {
     faq_a4:
       "Да, мы работаем с автосервисами, автопарками и юрлицами по безналичному расчету с НДС. Для постоянных оптовых партнеров действует гибкая система скидок.",
     contacts_title: "Наши филиалы",
-    branch_westerkappeln: "Вестеркаппельн",
-    branch_rheine: "Райне",
     address_label: "Адрес:",
     phone_label: "Телефон:",
     email_label: "Email",
     hours_label: "Режим работы:",
+    hours_value: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Светлана",
-    // modal_callback_subtitle: "",
     btn_wait_call: "Жду звонка!",
-    cookie_text: "Мы используем файлы cookie для улучшения работы сайта.",
-    cookie_accept: "Принять",
-    cookie_reject: "Отклонить",
-    privacy_text: "Согласен с Политикой конфиденциальности",
+    cookie_accept: "Принять все",
+    cookie_reject: "Только необходимые",
     select_method_title: "Выберите филиал:",
-    hours_value: "Пн-Пт: 09:00 - 18:00, Сб: 09:00 - 14:00",
   },
   de: {
     nav_conditions: "Konditionen",
@@ -179,7 +179,8 @@ const translations = {
     nav_brands: "Partner",
     nav_reviews: "Bewertungen",
     nav_contacts: "Kontakte",
-    // Новые ключи для формы заказа:
+    btn_order: "🛒 Bestellung",
+    btn_callback: "📞 Rückruf anfordern",
     manager_status: "● Online. Ich finde Ersatzteile in 10 Minuten",
     branch_westerkappeln: "Westerkappeln",
     branch_rheine: "Rheine",
@@ -187,7 +188,6 @@ const translations = {
     method_vin: "VIN / Frame-Code",
     privacy_text: "Ich stimme der Datenschutzerklärung zu",
     btn_submit_order: "Liste per WhatsApp senden",
-    // Плейсхолдеры
     ph_parts_list:
       "Liste der benötigten Ersatzteile (z. B. Bremsbeläge vorne, Ölfilter)",
     ph_client_name: "Ihr Name",
@@ -195,8 +195,6 @@ const translations = {
     ph_car_model: "Modell (z. B. X5)",
     ph_car_year: "Jahr",
     ph_vin_code: "VIN-Code eingeben (17 Zeichen)",
-
-    // Ошибки валидации
     err_select_branch:
       "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
     err_describe_parts:
@@ -215,19 +213,16 @@ const translations = {
       "Die VIN enthält unzulässige Zeichen (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
     err_missing_phone:
       "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
-
-    // Заголовки сообщения для WhatsApp
     wa_order: "Bestellung",
     wa_branch: "Filiale",
     wa_client: "Kunde",
+    wa_phone: "Telefon",
     wa_car_data: "Fahrzeugdaten",
     wa_make: "Marke",
     wa_model: "Modell",
     wa_year: "Jahr",
     wa_vin: "VIN-Code",
     wa_want_to_order: "Ich möchte bestellen",
-    btn_callback: "📞 Rückruf anfordern",
-    btn_order: "🛒 Bestellung",
     hero_slide1_title: "Hochwertige Autoteile für Ihr Fahrzeug",
     hero_slide1_desc:
       "Direktlieferungen von Ersatzteilen und Zubehör. Schneller Versand und Qualitätsgarantie.",
@@ -236,36 +231,23 @@ const translations = {
       "Flexible Logistik und zuverlässige Partner für den Transport aller Teile.",
     btn_catalog: "Katalog anzeigen",
     btn_contact: "Kontaktieren Sie uns",
-    promo_tag: "Aktion",
-    promo_text: "10% Rabatt auf die erste Großbestellung!",
-    hero_title:
-      "Zuverlässige Autoteile für Einzelhandel und Werkstätten in ganz Europa",
-    hero_subtitle:
-      "Direktlieferungen vom Hersteller. Über 50.000 Artikel auf Lager.",
-    hero_cta: "Kosten berechnen",
-    tab_by_car: "Nach Automarke",
-    tab_by_vin: "Nach VIN-Code",
-    label_car: "Marke, Modell, Baujahr *",
-    label_vin: "VIN / Fahrgestellnummer *",
-    label_parts: "Benötigte Ersatzteile *",
-    label_name: "Ihr Name *",
-    label_phone: "Telefonnummer *",
-    gdpr_agree: "Ich stimme der",
-    gdpr_privacy_link: "Datenschutzerklärung",
-    btn_whatsapp: "Per WhatsApp senden",
-    btn_send: "Senden",
     counter_1: "Ersatzteile auf Lager",
     counter_2: "Durchschnittliche Antwortzeit",
     counter_3: "Jahre Erfahrung im EU-Markt",
+    counter_4: "Support und Beratung",
     conditions_title: "Konditionen der Zusammenarbeit",
-    b2c_title: "Für Einzelhandelskunden",
-    b2c_item_1: "Verkauf ab 1 Stück",
-    b2c_item_2: "Bequeme Zahlung per Karte oder Überweisung",
-    b2c_item_3: "Schnelle Kurierlieferung",
-    b2b_title: "Für Werkstätten und Großhändler",
-    b2b_item_1: "Arbeit nach offiziellem Vertrag",
-    b2b_item_2: "Zahlung mit/ohne MwSt.",
-    b2b_item_3: "Persönlicher Manager und Mengenrabatte",
+    condition_1_title: "Schnelle Lieferung",
+    condition_1_desc:
+      "Wir versenden Bestellungen am Tag der Anfrage. Lieferung bundesweit mit geprüften Logistikpartnern.",
+    condition_2_title: "Qualitätsgarantie",
+    condition_2_desc:
+      "Alle Teile durchlaufen eine Prüfung vor dem Verkauf. Wir gewähren die offizielle Herstellergarantie.",
+    condition_3_title: "Flexibles Rabattsystem",
+    condition_3_desc:
+      "Sonderpreise für Großabnehmer und Stammkunden. Individuelle Kalkulation für jede Bestellung.",
+    condition_4_title: "Auswahl per VIN-Code",
+    condition_4_desc:
+      "Unsere Spezialisten wählen das 100% passende Teil für Ihre Marke und Ihr Modell aus.",
     timeline_title: "Ablauf der Zusammenarbeit",
     step_1_title: "Anfrage",
     step_1_desc: "Senden Sie eine Anfrage über die Website oder WhatsApp",
@@ -275,12 +257,15 @@ const translations = {
     step_3_desc: "Bestätigung von Details und Zahlungsbedingungen",
     step_4_title: "Erhalt",
     step_4_desc: "Selbstabholung vom Lager oder Lieferung an die Tür",
+    brands_title: "Unsere Partner",
     reviews_title: "Kundenbewertungen",
     review_1_text:
       "Toller Service, BMW-Teile kamen am nächsten Tag an. Alles Originalteile.",
     review_2_text:
       "Wir arbeiten seit einem halben Jahr im Großhandel zusammen. Keine Beanstandungen.",
-    reviews_google_btn: "Alle Bewertungen auf Google Maps anzeigen",
+    review_3_text:
+      "Wir arbeiten seit über einem Jahr im Großhandel zusammen. Lieferungen ohne Verzögerung, Garantiefragen werden sofort gelöst. Ein zuverlässiger Partner für die Werkstatt.",
+    google_reviews_btn: "Alle Bewertungen auf Google Maps anzeigen",
     faq_title: "Häufig gestellte Fragen",
     faq_q1: "Wie wähle ich das richtige Ersatzteil per VIN-Code aus?",
     faq_a1:
@@ -295,28 +280,373 @@ const translations = {
     faq_a4:
       "Ja, wir arbeiten mit Werkstätten, Fuhrparks und Firmen auf Rechnung mit MwSt. Für Stammkunden gibt es ein flexibles Rabattsystem.",
     contacts_title: "Unsere Filialen",
-    branch_westerkappeln: "Westerkappeln",
-    branch_rheine: "Rheine",
     address_label: "Adresse:",
     phone_label: "Telefon:",
     email_label: "Email",
     hours_label: "Öffnungszeiten:",
+    hours_value: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
     link_impressum: "Impressum",
     link_datenschutz: "Datenschutz",
     modal_callback_title: "Svetlana",
     btn_wait_call: "Ich warte auf einen Anruf!",
-    cookie_text:
-      "Wir verwenden Cookies, um die Nutzung der Website zu verbessern.",
-    cookie_accept: "Akzeptieren",
-    cookie_reject: "Ablehnen",
-    privacy_text: "Ich stimme der Datenschutzerklärung zu",
+    cookie_accept: "Alle akzeptieren",
+    cookie_reject: "Nur notwendige",
     select_method_title: "Wählen Sie eine Filiale aus",
-    hours_value: "Mo-Fr: 09:00 - 18:00, Sa: 09:00 - 14:00",
   },
 };
 
+const ORDER_I18N = {
+  selectBranch: {
+    ru: "Выберите филиал для отправки заказа",
+    ru_manager: "Укажите филиал для оформления заявки",
+    de: "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
+    de_manager: "Bitte wählen Sie die Filiale für die Bestellung aus",
+  },
+  describeParts: {
+    ru: "Опишите необходимые запчасти (минимум 3 символа)",
+    ru_manager: "Введите список запчастей клиента (минимум 3 символа)",
+    de: "Bitte beschreiben Sie die benötigten Teile (mindestens 3 Zeichen)",
+    de_manager: "Geben Sie die Teileliste des Kunden ein (mindestens 3 Zeichen)",
+  },
+  partsValidation: {
+    ru: "Описание должно содержать буквы или цифры",
+    ru_manager: "Список запчастей должен содержать буквы или цифры",
+    de: "Die Beschreibung muss Buchstaben oder Zahlen enthalten",
+    de_manager: "Die Teileliste muss Buchstaben oder Zahlen enthalten",
+  },
+  specifyName: {
+    ru: "Укажите ваше имя",
+    ru_manager: "Укажите имя клиента",
+    de: "Bitte geben Sie Ihren Namen an",
+    de_manager: "Bitte geben Sie den Kundennamen an",
+  },
+  nameValidation: {
+    ru: "Имя содержит недопустимые символы (цифры или знаки)",
+    ru_manager: "Имя клиента содержит недопустимые символы",
+    de: "Der Name enthält unzulässige Zeichen (Zahlen oder Sonderzeichen)",
+    de_manager: "Der Kundenname enthält unzulässige Zeichen",
+  },
+  phoneLabel: {
+    ru: "📞 Телефон клиента:",
+    de: "📞 Telefonnummer des Kunden:",
+  },
+  specifyPhone: {
+    ru: "Укажите ваш номер телефона",
+    ru_manager: "Укажите номер телефона клиента",
+    de: "Bitte geben Sie Ihre Telefonnummer an",
+    de_manager: "Bitte geben Sie die Telefonnummer des Kunden an",
+  },
+  phoneValidation: {
+    ru: "Введите корректный номер телефона",
+    ru_manager: "Введите корректный номер телефона клиента",
+    de: "Bitte geben Sie eine gültige Telefonnummer ein",
+    de_manager: "Bitte geben Sie eine gültige Kundentelefonnummer ein",
+  },
+  specifyMake: {
+    ru: "Укажите марку автомобиля",
+    ru_manager: "Выберите или введите марку авто клиента",
+    de: "Bitte geben Sie die Automarke an",
+    de_manager: "Bitte geben Sie die Automarke des Kunden an",
+  },
+  specifyModel: {
+    ru: "Укажите модель автомобиля",
+    ru_manager: "Укажите модель авто клиента",
+    de: "Bitte geben Sie das Automodell an",
+    de_manager: "Bitte geben Sie das Automodell des Kunden an",
+  },
+  invalidYear: {
+    ru: "Введите корректный год (4 цифры)",
+    ru_manager: "Укажите корректный год выпуска авто (4 цифры)",
+    de: "Bitte geben Sie ein gültiges Jahr ein (4 Ziffern)",
+    de_manager: "Bitte geben Sie ein gültiges Baujahr an (4 Ziffern)",
+  },
+  vinLength: {
+    ru: (len) => `VIN должен быть ровно 17 символов (сейчас: ${len})`,
+    ru_manager: (len) =>
+      `VIN клиента должен быть ровно 17 символов (сейчас: ${len})`,
+    de: (len) => `Die VIN muss genau 17 Zeichen lang sein (aktuell: ${len})`,
+    de_manager: (len) =>
+      `Die Kunden-VIN muss genau 17 Zeichen lang sein (aktuell: ${len})`,
+  },
+  vinValidation: {
+    ru: "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
+    ru_manager: "Ошибка в VIN клиента (только латиница и цифры, без I, O, Q)",
+    de: "Die VIN enthält unzulässige Zeichen (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
+    de_manager:
+      "Ungültige Kunden-VIN (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
+  },
+  missingPhoneError: {
+    ru: "Ошибка: Не найден номер телефона для выбранного филиала.",
+    de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
+  },
+  waOrder: { ru: "Заказ", de: "Bestellung" },
+  waBranch: { ru: "Филиал", de: "Filiale" },
+  waClient: { ru: "Клиент", de: "Kunde" },
+  waPhone: { ru: "Телефон", de: "Telefon" },
+  waCarData: { ru: "Данные авто", de: "Fahrzeugdaten" },
+  waMake: { ru: "Марка", de: "Marke" },
+  waModel: { ru: "Модель", de: "Modell" },
+  waYear: { ru: "Год", de: "Jahr" },
+  waVinCode: { ru: "VIN-код", de: "VIN-Code" },
+  waWantToOrder: { ru: "Запрошенные детали", de: "Angefragte Teile" },
+  waClientConfirmHeader: { ru: "👋 Здравствуйте", de: "👋 Hallo" },
+  waClientConfirmSub: {
+    ru: "Спасибо за обращение! Мы получили ваш заказ",
+    de: "Vielen Dank für Ihre Anfrage! Wir haben Ihre Bestellung erhalten",
+  },
+  waClientListLabel: {
+    ru: "📋 Запрошенные детали",
+    de: "📋 Angefragte Teile",
+  },
+  waClientConfirmFooter: {
+    ru: "⏱️ Скоро свяжемся с вами по поводу наличия и цены!",
+    de: "⏱️ Wir melden uns in Kürze mit Preisen und Verfügbarkeit!",
+  },
+  waClientThanks: {
+    ru: "🤝 Спасибо, что выбрали SFR Carparts!",
+    de: "🤝 Vielen Dank, dass Sie sich für SFR Carparts entschieden haben!",
+  },
+  waOpenClientChat: {
+    ru: "💬 Отправить подтверждение клиенту:",
+    de: "💬 Bestätigung an den Kunden senden:",
+  },
+  placeholders: {
+    partsList: {
+      ru: "Например: Передние тормозные колодки, масляный фильтр...",
+      ru_manager: "Список деталей клиента / Артикулы...",
+      de: "Z.B.: Bremsbeläge vorne, Ölfilter...",
+      de_manager: "Teileliste des Kunden / Artikelnummern...",
+    },
+    clientName: {
+      ru: "Ваше имя",
+      ru_manager: "Имя клиента",
+      de: "Ihr Name",
+      de_manager: "Kundenname",
+    },
+    clientPhone: {
+      ru: "+49...",
+      ru_manager: "+49... (номер клиента)",
+      de: "+49...",
+      de_manager: "+49... (Kundennummer)",
+    },
+    carMake: {
+      ru: "Марка (напр. Audi)",
+      ru_manager: "Марка авто клиента",
+      de: "Marke (z.B. Audi)",
+      de_manager: "Automarke des Kunden",
+    },
+    carModel: {
+      ru: "Модель (напр. A4)",
+      ru_manager: "Модель авто клиента",
+      de: "Modell (z.B. A4)",
+      de_manager: "Automodell des Kunden",
+    },
+    carYear: {
+      ru: "Год",
+      ru_manager: "Год авто",
+      de: "Jahr",
+      de_manager: "Baujahr",
+    },
+    vinCode: {
+      ru: "VIN-код (17 символов)",
+      ru_manager: "VIN-код клиента (17 символов)",
+      de: "VIN-Code (17 Zeichen)",
+      de_manager: "Kunden-VIN (17 Zeichen)",
+    },
+  },
+};
+
+const POPULAR_MAKES = [
+  "Audi",
+  "BMW",
+  "Chery",
+  "Chevrolet",
+  "Ford",
+  "Geely",
+  "Honda",
+  "Hyundai",
+  "Kia",
+  "Mazda",
+  "Mercedes-Benz",
+  "Mitsubishi",
+  "Nissan",
+  "Opel",
+  "Peugeot",
+  "Renault",
+  "Skoda",
+  "Toyota",
+  "Volkswagen",
+  "Volvo",
+];
+
+const CAR_MODELS = {
+  Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
+  BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
+  Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
+  Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
+  Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
+  Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
+  Honda: ["Civic", "Accord", "CR-V", "HR-V"],
+  Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
+  Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
+  Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
+  "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
+  Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
+  Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
+  Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
+  Peugeot: ["308", "408", "3008", "5008"],
+  Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
+  Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
+  Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
+  Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
+  Volvo: ["XC40", "XC60", "XC90", "S60"],
+};
+
 /* ==========================================================================
-THEME SWITCHER
+HELPERS
+============================================================================= */
+function t(key, lang = state.currentLang) {
+  return translations[lang]?.[key] || translations.ru?.[key] || "";
+}
+
+function getLocalizedMapUrl(baseUrl, lang) {
+  if (!baseUrl) return "";
+  const targetLang = lang === "de" ? "de" : "ru";
+  let src = baseUrl;
+
+  if (src.includes("hl=")) {
+    src = src.replace(/hl=[a-z]{2}/gi, `hl=${targetLang}`);
+  } else {
+    src += (src.includes("?") ? "&" : "?") + `hl=${targetLang}`;
+  }
+
+  src = src.replace(/!1s[a-z]{2}/gi, `!1s${targetLang}`);
+  src = src.replace(/!2s[a-z]{2}/gi, `!2s${targetLang}`);
+
+  return src;
+}
+
+function updateBranchInfo(branchId = state.activeBranch) {
+  if (branchData[branchId]) {
+    state.activeBranch = branchId;
+  }
+
+  const lang = state.currentLang;
+
+  Object.keys(branchData).forEach((id) => {
+    const panel = document.getElementById(`branch-${id}`);
+    const data = branchData[id];
+    if (!panel || !data) return;
+
+    const addressEl = panel.querySelector(".js-branch-address");
+    const hoursEl = panel.querySelector(".js-branch-hours");
+    const phoneEl = panel.querySelector(".js-branch-phone");
+
+    if (addressEl) {
+      addressEl.textContent = data.address[lang] || data.address.de;
+    }
+    if (hoursEl) {
+      hoursEl.textContent = data.hours[lang] || data.hours.de;
+    }
+    if (phoneEl) {
+      phoneEl.textContent = data.phone;
+      phoneEl.href = `tel:${data.phone.replace(/\s+/g, "")}`;
+    }
+  });
+
+  const mapIframe = document.getElementById("branch-map");
+  const currentData = branchData[state.activeBranch];
+  if (mapIframe && currentData?.mapUrl) {
+    const localizedSrc = getLocalizedMapUrl(currentData.mapUrl, lang);
+    if (mapIframe.src !== localizedSrc) {
+      mapIframe.src = localizedSrc;
+    }
+  }
+}
+
+function applyLanguage(lang) {
+  const nextLang = LANGUAGES.includes(lang) ? lang : "de";
+  state.currentLang = nextLang;
+  localStorage.setItem("sfr_lang", nextLang);
+  document.documentElement.lang = nextLang;
+
+  document.querySelectorAll("[data-lang-key]").forEach((el) => {
+    if (el.querySelector("span, a, strong, em")) return;
+    const key = el.getAttribute("data-lang-key");
+    const value = t(key, nextLang);
+    if (value) el.textContent = value;
+  });
+
+  document.querySelectorAll("[data-lang-ph]").forEach((el) => {
+    const key = el.getAttribute("data-lang-ph");
+    const value = t(key, nextLang);
+    if (value) el.setAttribute("placeholder", value);
+  });
+
+  const langToggleText = document.getElementById("langToggleText");
+  if (langToggleText) {
+    langToggleText.textContent = nextLang.toUpperCase();
+  }
+
+  document.querySelectorAll(".callback-subtitle[lang]").forEach((el) => {
+    el.hidden = el.getAttribute("lang") !== nextLang;
+  });
+
+  updateBranchInfo(state.activeBranch);
+  document.dispatchEvent(
+    new CustomEvent("language:changed", { detail: { lang: nextLang } }),
+  );
+}
+
+function initSuggestions(input, boxId, getItems, onSelect) {
+  if (!input) return;
+
+  let box = document.getElementById(boxId);
+  if (!box) {
+    box = document.createElement("div");
+    box.id = boxId;
+    box.className = "suggestions-box";
+    input.parentNode.style.position = "relative";
+    input.parentNode.appendChild(box);
+  }
+
+  function hide() {
+    box.classList.remove("is-visible");
+  }
+
+  input.addEventListener("input", function () {
+    const items = getItems(this.value);
+    box.innerHTML = "";
+
+    if (!items.length) {
+      hide();
+      return;
+    }
+
+    items.forEach((text) => {
+      const item = document.createElement("div");
+      item.className = "suggestion-item";
+      item.textContent = text;
+      box.appendChild(item);
+    });
+
+    box.classList.add("is-visible");
+  });
+
+  box.addEventListener("mousedown", function (e) {
+    if (!e.target.classList.contains("suggestion-item")) return;
+    input.value = e.target.textContent;
+    hide();
+    if (typeof onSelect === "function") onSelect(input);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (e.target !== input) hide();
+  });
+}
+
+/* ==========================================================================
+THEME
 ============================================================================= */
 function initThemeSwitcher() {
   const themeBtn = document.getElementById("theme-toggle-btn");
@@ -335,164 +665,38 @@ function initThemeSwitcher() {
 
   applyTheme(state.currentTheme);
 
-  if (themeBtn) {
-    themeBtn.addEventListener("click", () => {
-      applyTheme(state.currentTheme === "light" ? "dark" : "light");
-    });
-  }
+  themeBtn?.addEventListener("click", () => {
+    applyTheme(state.currentTheme === "light" ? "dark" : "light");
+  });
 }
 
 /* ==========================================================================
-MULTI-LANGUAGE MODULE & BRANCH HELPER
+LANGUAGE
 ============================================================================= */
-// Вспомогательная функция для обновления языка у карты Google Maps
-function updateMapLanguage(lang) {
-  const mapIframe = document.getElementById("branch-map");
-  if (!mapIframe || !mapIframe.src) return;
-
-  const targetLang = lang === "de" ? "de" : "ru";
-  let src = mapIframe.src;
-
-  // 1. Обновляем параметр hl в URL
-  if (src.includes("hl=")) {
-    src = src.replace(/hl=[a-z]{2}/gi, `hl=${targetLang}`);
-  } else {
-    src += (src.includes("?") ? "&" : "?") + `hl=${targetLang}`;
-  }
-
-  // 2. Обновляем зашитые языковые маркеры Google
-  src = src.replace(/!2s[a-z]{2}/gi, `!2s${targetLang}`);
-  src = src.replace(/!1s[a-z]{2}/gi, `!1s${targetLang}`);
-
-  if (mapIframe.src !== src) {
-    mapIframe.src = src;
-  }
-}
-
-// Обновление информации о филиале (Адрес, Часы, Карта)
-function getLocalizedMapUrl(baseUrl, lang) {
-  if (!baseUrl) return "";
-  const targetLang = lang === "de" ? "de" : "ru";
-
-  let src = baseUrl;
-
-  // 1. Заменяем параметры hl и language
-  if (src.includes("hl=")) {
-    src = src.replace(/hl=[a-z]{2}/gi, `hl=${targetLang}`);
-  } else {
-    src += (src.includes("?") ? "&" : "?") + `hl=${targetLang}`;
-  }
-
-  // 2. Меняем зашитые локали в pb-цепочке Google (1sru/2sru/1sde/2sde)
-  src = src.replace(/!1s[a-z]{2}/gi, `!1s${targetLang}`);
-  src = src.replace(/!2s[a-z]{2}/gi, `!2s${targetLang}`);
-
-  return src;
-}
-
-function updateBranchInfo(branchId) {
-  state.activeBranch = branchId;
-  const currentData = branchData[branchId];
-  if (!currentData) return;
-
-  // 1. Обновляем адрес и часы
-  const addressEl = document.querySelector("#branch-address-text");
-  const hoursEl = document.querySelector("#branch-hours-text");
-  const phoneEl = document.querySelector("#branch-phone-link");
-
-  if (addressEl) {
-    addressEl.textContent =
-      currentData.address[state.currentLang] || currentData.address.ru;
-  }
-  if (hoursEl) {
-    hoursEl.textContent =
-      currentData.hours[state.currentLang] || currentData.hours.ru;
-  }
-
-  // Обновляем телефон
-  if (phoneEl) {
-    phoneEl.textContent = currentData.phone;
-    phoneEl.href = `tel:${currentData.phone.replace(/\s+/g, "")}`;
-  }
-
-  // 2. Формируем сразу ЛОКАЛИЗОВАННУЮ ссылку под текущий активный язык
-  const mapIframe = document.getElementById("branch-map");
-  if (mapIframe && currentData.mapUrl) {
-    const localizedSrc = getLocalizedMapUrl(
-      currentData.mapUrl,
-      state.currentLang,
-    );
-
-    // Обновляем src только если адрес реально изменился
-    if (mapIframe.src !== localizedSrc) {
-      mapIframe.src = localizedSrc;
-    }
-  }
-}
-
-// Применение выбранного языка
-function applyLanguage(lang) {
-  state.currentLang = lang;
-  localStorage.setItem("sfr_lang", lang);
-  document.documentElement.lang = lang;
-
-  // 1. Обновляем все элементы с переводами через data-lang-key
-  const elements = document.querySelectorAll("[data-lang-key]");
-  elements.forEach((el) => {
-    const key = el.getAttribute("data-lang-key");
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    }
-  });
-
-  // 2. Обновляем placeholders у полей ввода формы через data-lang-ph
-  const placeholders = document.querySelectorAll("[data-lang-ph]");
-  placeholders.forEach((el) => {
-    const key = el.getAttribute("data-lang-ph");
-    if (translations[lang] && translations[lang][key]) {
-      el.setAttribute("placeholder", translations[lang][key]);
-    }
-  });
-
-  // 3. Менявм текст на кнопке переключения языка
-  const langToggleText = document.getElementById("langToggleText");
-  if (langToggleText) {
-    langToggleText.textContent = lang.toUpperCase();
-  }
-
-  // 4. Обновляем информацию активного филиала и локализуем карту
-  updateBranchInfo(state.activeBranch);
-}
-
-// Инициализация переключателя языков
 function initLanguageSwitcher() {
   const langToggleBtn = document.getElementById("langToggleBtn");
-  const languages = ["ru", "de"];
 
   langToggleBtn?.addEventListener("click", () => {
-    const currentIndex = languages.indexOf(state.currentLang);
-    const nextIndex = (currentIndex + 1) % languages.length;
-    const nextLang = languages[nextIndex];
-
-    applyLanguage(nextLang);
+    const currentIndex = LANGUAGES.indexOf(state.currentLang);
+    const nextIndex = (currentIndex + 1) % LANGUAGES.length;
+    applyLanguage(LANGUAGES[nextIndex]);
   });
 
   const savedLang = localStorage.getItem("sfr_lang");
   const initialLang =
-    savedLang && languages.includes(savedLang)
+    savedLang && LANGUAGES.includes(savedLang)
       ? savedLang
-      : state.currentLang || "ru";
+      : state.currentLang || "de";
 
   applyLanguage(initialLang);
 }
 
 /* ==========================================================================
-BURDER MENU
+BURGER MENU
 ============================================================================= */
-document.addEventListener("DOMContentLoaded", () => {
+function initBurgerMenu() {
   const burgerBtn = document.getElementById("burgerToggleBtn");
   const mobileMenu = document.getElementById("mobileMenu");
-
   if (!burgerBtn || !mobileMenu) return;
 
   function toggleMenu(open) {
@@ -501,28 +705,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     burgerBtn.classList.toggle("is-active", isActive);
     mobileMenu.classList.toggle("is-active", isActive);
-
-    // Блокируем прокрутку страницы при открытом меню
     document.body.style.overflow = isActive ? "hidden" : "";
   }
 
   burgerBtn.addEventListener("click", () => toggleMenu());
 
-  // Закрываем меню при клике на любую ссылку или кнопку модалки внутри
   mobileMenu.querySelectorAll("a, button").forEach((element) => {
     element.addEventListener("click", () => toggleMenu(false));
   });
 
-  // Закрываем меню при изменении размера экрана на десктоп
   window.addEventListener("resize", () => {
     if (window.innerWidth > 991 && mobileMenu.classList.contains("is-active")) {
       toggleMenu(false);
     }
   });
-});
+}
 
 /* ==========================================================================
-HERO SLIDER MODULE
+HERO SLIDER
 ============================================================================= */
 function initHeroSlider() {
   const slides = document.querySelectorAll(".hero-slide");
@@ -544,7 +744,6 @@ function initHeroSlider() {
     slides.forEach((slide, i) => {
       slide.classList.toggle("active", i === currentIndex);
     });
-
     dots.forEach((dot, i) => {
       dot.classList.toggle("active", i === currentIndex);
     });
@@ -558,16 +757,21 @@ function initHeroSlider() {
     showSlide(currentIndex - 1);
   }
 
+  function startAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(nextSlide, 5000);
+  }
+
   nextBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     nextSlide();
-    resetAutoplay();
+    startAutoplay();
   });
 
   prevBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     prevSlide();
-    resetAutoplay();
+    startAutoplay();
   });
 
   dots.forEach((dot) => {
@@ -575,33 +779,20 @@ function initHeroSlider() {
       const slideIndex = parseInt(dot.getAttribute("data-slide"), 10);
       if (!isNaN(slideIndex)) {
         showSlide(slideIndex);
-        resetAutoplay();
+        startAutoplay();
       }
     });
   });
 
-  function startAutoplay() {
-    // Очищаем существующий таймер перед запуском нового, чтобы избежать дублирования
-    clearInterval(autoplayTimer);
-    autoplayTimer = setInterval(nextSlide, 5000);
-  }
-
-  function resetAutoplay() {
-    startAutoplay();
-  }
-
-  // --- Пауза при наведении мыши ---
   if (sliderEl) {
     sliderEl.addEventListener("mouseenter", () => {
       clearInterval(autoplayTimer);
     });
-
     sliderEl.addEventListener("mouseleave", () => {
       startAutoplay();
     });
   }
 
-  // Touch Swipe Support
   let startX = 0;
   sliderEl?.addEventListener(
     "touchstart",
@@ -616,11 +807,10 @@ function initHeroSlider() {
     (e) => {
       const endX = e.changedTouches[0].clientX;
       const diff = startX - endX;
-
       if (Math.abs(diff) > 40) {
         if (diff > 0) nextSlide();
         else prevSlide();
-        resetAutoplay();
+        startAutoplay();
       }
     },
     { passive: true },
@@ -631,134 +821,18 @@ function initHeroSlider() {
 }
 
 /* ==========================================================================
-BACK-TO-TOP BUTTON
+BACK-TO-TOP
 ============================================================================= */
 function initBackToTop() {
   const backBtn = document.getElementById("back-to-top-btn");
   if (!backBtn) return;
 
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      backBtn.classList.add("is-visible");
-    } else {
-      backBtn.classList.remove("is-visible");
-    }
+    backBtn.classList.toggle("is-visible", window.scrollY > 300);
   });
 
   backBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-}
-
-/* ==========================================================================
-FORM TABS & AUTOCOMPLETE & WHATSAPP
-============================================================================= */
-function initFormTabs() {
-  const tabBtns = document.querySelectorAll(".form-tabs .tab-btn");
-  const tabCar = document.getElementById("tab-car-content");
-  const tabVin = document.getElementById("tab-vin-content");
-
-  tabBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetTab = btn.getAttribute("data-tab");
-      state.activeTab = targetTab;
-
-      tabBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      if (targetTab === "car") {
-        tabCar?.classList.add("active");
-        tabVin?.classList.remove("active");
-      } else {
-        tabVin?.classList.add("active");
-        tabCar?.classList.remove("active");
-      }
-    });
-  });
-}
-
-function initAutocomplete() {
-  const input = document.getElementById("car-autocomplete-input");
-  const list = document.getElementById("autocomplete-list");
-  if (!input || !list) return;
-
-  input.addEventListener("input", () => {
-    const value = input.value.trim().toLowerCase();
-    list.innerHTML = "";
-
-    if (!value) {
-      list.classList.remove("is-open");
-      return;
-    }
-
-    const matches = carBrandsList.filter((item) =>
-      item.toLowerCase().includes(value),
-    );
-
-    if (matches.length > 0) {
-      matches.forEach((matchText) => {
-        const li = document.createElement("li");
-        li.className = "autocomplete-item";
-        li.textContent = matchText;
-        li.addEventListener("click", () => {
-          input.value = matchText;
-          list.classList.remove("is-open");
-        });
-        list.appendChild(li);
-      });
-      list.classList.add("is-open");
-    } else {
-      list.classList.remove("is-open");
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!input.contains(e.target) && !list.contains(e.target)) {
-      list.classList.remove("is-open");
-    }
-  });
-}
-
-function initWhatsAppForm() {
-  const form = document.getElementById("whatsapp-form");
-  const gdprCheckbox = document.getElementById("form-gdpr-checkbox");
-  const submitBtn = document.getElementById("whatsapp-submit-btn");
-
-  if (!form || !gdprCheckbox || !submitBtn) return;
-
-  gdprCheckbox.addEventListener("change", () => {
-    submitBtn.disabled = !gdprCheckbox.checked;
-  });
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    if (!gdprCheckbox.checked) return;
-
-    const userName = document.getElementById("user-name-input")?.value.trim();
-    const partsList = document.getElementById("parts-list-input")?.value.trim();
-    let queryDetails = "";
-
-    if (state.activeTab === "car") {
-      const carVal = document
-        .getElementById("car-autocomplete-input")
-        ?.value.trim();
-      queryDetails = `*Марка/Модель:* ${carVal || "Не указано"}`;
-    } else {
-      const vinVal = document.getElementById("vin-input")?.value.trim();
-      queryDetails = `*VIN-код:* ${vinVal || "Не указано"}`;
-    }
-
-    const messageText =
-      `🚗 *Новая заявка с сайта SFR Carparts*\n\n` +
-      `*Имя:* ${userName || "Не указано"}\n` +
-      `${queryDetails}\n` +
-      `*Список запчастей:* ${partsList || "Не указано"}`;
-
-    // const phoneNumber = "380988737379";
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageText)}`;
-
-    window.open(whatsappUrl, "_blank");
   });
 }
 
@@ -797,7 +871,6 @@ function initReviewsSlider() {
   });
 
   let startX = 0;
-  let endX = 0;
 
   track.addEventListener(
     "touchstart",
@@ -810,7 +883,7 @@ function initReviewsSlider() {
   track.addEventListener(
     "touchend",
     (e) => {
-      endX = e.changedTouches[0].clientX;
+      const endX = e.changedTouches[0].clientX;
       const threshold = 40;
       if (startX - endX > threshold && currentIndex < cards.length - 1) {
         currentIndex++;
@@ -827,11 +900,10 @@ function initReviewsSlider() {
 }
 
 /* ==========================================================================
-FAQ ACCORDION
+FAQ
 ============================================================================= */
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll(".faq-item");
-
   if (!faqItems.length) return;
 
   faqItems.forEach((item) => {
@@ -864,13 +936,6 @@ function initBranchSwitcher() {
 
   if (!tabs.length || !mapIframe) return;
 
-  const mapSources = {
-    westerkappeln:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.178292070856!2d7.877986176521058!3d52.31276717200771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b9dab12812124d%3A0x7bee7f03ab8bd596!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498202868!5m2!1sru!2sus",
-    rheine:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2440.1692109225246!2d7.446642076519947!3d52.294783172002965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b82d8aaea5d03d%3A0x453ebd43ee7ce2ae!2sSFR%20Carparts%20GmbH!5e0!3m2!1sru!2sus!4v1788498498224!5m2!1sru!2sus",
-  };
-
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const targetBranch = tab.getAttribute("data-branch");
@@ -883,18 +948,10 @@ function initBranchSwitcher() {
       tab.setAttribute("aria-selected", "true");
 
       panels.forEach((panel) => {
-        panel.classList.remove("active");
-        if (panel.id === `branch-${targetBranch}`) {
-          panel.classList.add("active");
-        }
+        panel.classList.toggle("active", panel.id === `branch-${targetBranch}`);
       });
 
-      if (targetBranch === "westerkappeln") updateBranchInfo("1");
-      if (targetBranch === "rheine") updateBranchInfo("2");
-
-      if (mapSources[targetBranch]) {
-        mapIframe.src = mapSources[targetBranch];
-      }
+      updateBranchInfo(targetBranch);
     });
   });
 }
@@ -906,19 +963,14 @@ function initCookieBanner() {
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("cookie-accept-btn");
   const rejectBtn = document.getElementById("cookie-reject-btn");
-
-  if (!banner) {
-    console.warn("Cookie banner element not found!");
-    return;
-  }
+  if (!banner) return;
 
   const cookieChoice = localStorage.getItem("sfr_cookie_consent");
 
-  // Если выбора нет — показываем баннер сразу
   if (!cookieChoice) {
     banner.classList.add("is-visible");
   } else if (cookieChoice === "accepted") {
-    if (typeof state !== "undefined") state.gdprConsented = true;
+    state.gdprConsented = true;
   }
 
   function handleChoice(accepted) {
@@ -926,29 +978,19 @@ function initCookieBanner() {
       "sfr_cookie_consent",
       accepted ? "accepted" : "rejected",
     );
-    if (typeof state !== "undefined") state.gdprConsented = accepted;
+    state.gdprConsented = accepted;
     banner.classList.remove("is-visible");
   }
 
-  if (acceptBtn) {
-    acceptBtn.addEventListener("click", () => handleChoice(true));
-  }
-  if (rejectBtn) {
-    rejectBtn.addEventListener("click", () => handleChoice(false));
-  }
+  acceptBtn?.addEventListener("click", () => handleChoice(true));
+  rejectBtn?.addEventListener("click", () => handleChoice(false));
 }
 
-// Запускаем при загрузке DOM
-document.addEventListener("DOMContentLoaded", () => {
-  initCookieBanner();
-});
-
 /* ==========================================================================
-УНИВЕРСАЛЬНЫЙ МОДУЛЬ МОДАЛЬНЫХ ОКНА
+MODALS
 ============================================================================= */
-(function initGlobalModals() {
-  // Открытие любого модального окна по его ID
-  window.openModalById = function (modalId) {
+function initGlobalModals() {
+  window.openModalById = function (modalId, triggerEvent = null) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
 
@@ -956,11 +998,14 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
 
-    // Генерируем событие, чтобы конкретная форма узнала об открытии
-    modal.dispatchEvent(new CustomEvent("modal:opened", { bubbles: true }));
+    modal.dispatchEvent(
+      new CustomEvent("modal:opened", {
+        bubbles: true,
+        detail: { originalEvent: triggerEvent },
+      }),
+    );
   };
 
-  // Закрытие активного окна (или конкретно переданного)
   window.closeModal = function (targetModal) {
     const activeModal = targetModal || document.querySelector(".modal.is-open");
     if (!activeModal) return;
@@ -968,43 +1013,33 @@ document.addEventListener("DOMContentLoaded", () => {
     activeModal.classList.remove("is-open");
     activeModal.setAttribute("aria-hidden", "true");
 
-    // Снимаем блокировку прокрутки, только если больше нет открытых окон
     if (!document.querySelector(".modal.is-open")) {
       document.body.classList.remove("modal-open");
     }
 
-    // Генерируем событие закрытия для сброса ошибок или полей
     activeModal.dispatchEvent(
       new CustomEvent("modal:closed", { bubbles: true }),
     );
   };
 
-  // 1. Делегирование ОТКРЫТИЯ (для кнопок в слайдерах, шапке, подвале)
   document.addEventListener("click", function (e) {
     const trigger = e.target.closest("[data-open-modal]");
     if (trigger) {
       e.preventDefault();
-      const modalId = trigger.getAttribute("data-open-modal");
-      window.openModalById(modalId);
+      window.openModalById(trigger.getAttribute("data-open-modal"), e);
+      return;
     }
-  });
 
-  // 2. Делегирование ЗАКРЫТИЯ (крестик, оверлей или кнопки с data-close)
-  document.addEventListener("click", function (e) {
     const closeBtn = e.target.closest("[data-close]");
     if (closeBtn) {
-      const modal = closeBtn.closest(".modal");
-      window.closeModal(modal);
+      window.closeModal(closeBtn.closest(".modal"));
     }
   });
 
-  // 3. Закрытие по клавише Escape
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      window.closeModal();
-    }
+    if (e.key === "Escape") window.closeModal();
   });
-})();
+}
 
 /* ==========================================================================
 ORDER MODAL
@@ -1015,110 +1050,24 @@ function initOrderFormLogic() {
 
   const submitBtn = orderModal.querySelector("#submitBtn");
   const privacyCheckbox = orderModal.querySelector("#privacyCheckbox");
+  const phoneBlock = document.getElementById("managerPhoneBlock");
 
   let currentOrderMethod = "by-car";
-
-  // --- 1. Номера телефонов филиалов ---
-  const BRANCH_PHONES = {
-    westerkappeln: "491754247818",
-    rheine: "4915221025874",
-  };
-
-  // --- 2. Данные менеджеров по филиалам ---
-  const BRANCH_MANAGERS = {
-    westerkappeln: {
-      name: { ru: "Светлана", de: "Svetlana" },
-      avatar: "./assets/images/member-svetlana.jpg", // Укажи точный путь к фото
-      status: {
-        ru: "💬 Нужна деталь? Пришлите VIN — отвечу через 10 минут!",
-        de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
-      },
-    },
-    rheine: {
-      name: { ru: "Сергей", de: "Sergey" },
-      avatar: "./assets/images/userpic.jpg", // Укажи точный путь к фото
-      status: {
-        ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
-        de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
-      },
-    },
-  };
-
-  // --- 3. Словарь переводов ---
-  const orderTranslations = {
-    selectBranch: {
-      ru: "Выберите филиал для отправки заказа",
-      de: "Bitte wählen Sie eine Filiale aus, um die Bestellung zu senden",
-    },
-    describeParts: {
-      ru: "Опишите необходимые запчасти (минимум 3 символа)",
-      de: "Bitte beschreiben Sie die benötigten Teile (mindestens 3 Zeichen)",
-    },
-    partsValidation: {
-      ru: "Описание должно содержать буквы или цифры",
-      de: "Die Beschreibung muss Buchstaben oder Zahlen enthalten",
-    },
-    specifyName: {
-      ru: "Укажите ваше имя",
-      de: "Bitte geben Sie Ihren Namen an",
-    },
-    nameValidation: {
-      ru: "Имя содержит недопустимые символы (цифры или знаки)",
-      de: "Der Name enthält unzulässige Zeichen (Zahlen oder Sonderzeichen)",
-    },
-    specifyMake: {
-      ru: "Укажите марку автомобиля",
-      de: "Bitte geben Sie die Automarke an",
-    },
-    specifyModel: {
-      ru: "Укажите модель автомобиля",
-      de: "Bitte geben Sie das Automodell an",
-    },
-    invalidYear: {
-      ru: "Введите корректный год (4 цифры)",
-      de: "Bitte geben Sie ein gültiges Jahr ein (4 Ziffern)",
-    },
-    vinLength: {
-      ru: (len) => `VIN должен быть ровно 17 символов (сейчас: ${len})`,
-      de: (len) => `Die VIN muss genau 17 Zeichen lang sein (aktuell: ${len})`,
-    },
-    vinValidation: {
-      ru: "VIN содержит недопустимые символы (только латиница и цифры, без I, O, Q)",
-      de: "Die VIN enthält unzulässige Zeichen (nur lateinische Buchstaben und Zahlen, ohne I, O, Q)",
-    },
-    missingPhoneError: {
-      ru: "Ошибка: Не найден номер телефона для выбранного филиала.",
-      de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
-    },
-
-    // Сообщения WhatsApp
-    waOrder: { ru: "Заказ", de: "Bestellung" },
-    waBranch: { ru: "Филиал", de: "Filiale" },
-    waClient: { ru: "Клиент", de: "Kunde" },
-    waCarData: { ru: "Данные авто", de: "Fahrzeugdaten" },
-    waMake: { ru: "Марка", de: "Marke" },
-    waModel: { ru: "Модель", de: "Modell" },
-    waYear: { ru: "Год", de: "Jahr" },
-    waVinCode: { ru: "VIN-код", de: "VIN-Code" },
-    waWantToOrder: { ru: "Хочу заказать", de: "Ich möchte bestellen" },
-  };
+  let isManagerMode = false;
 
   function getCurrentLang() {
-    return (
-      (window.state && window.state.currentLang) ||
-      document.documentElement.lang ||
-      "ru"
-    );
+    return state.currentLang || document.documentElement.lang || "ru";
   }
 
   function getOrderText(key, param = null) {
     const lang = getCurrentLang();
+    const modeKey = isManagerMode ? `${lang}_manager` : lang;
 
     let translation =
-      orderTranslations[key]?.[lang] ||
-      orderTranslations[key]?.["ru"] ||
-      (window.translations && window.translations[lang]?.[key]) ||
-      (window.translations && window.translations["ru"]?.[key]) ||
+      ORDER_I18N[key]?.[modeKey] ||
+      ORDER_I18N[key]?.[lang] ||
+      ORDER_I18N[key]?.ru_manager ||
+      ORDER_I18N[key]?.ru ||
       key;
 
     if (typeof translation === "function") {
@@ -1137,68 +1086,71 @@ function initOrderFormLogic() {
     return translation;
   }
 
-  // --- 4. Динамическое обновление блока менеджера ---
+  function updateFormPlaceholders() {
+    const lang = getCurrentLang();
+    const modeKey = isManagerMode ? `${lang}_manager` : lang;
+    const placeholdersDict = ORDER_I18N.placeholders;
+
+    Object.keys(placeholdersDict).forEach((fieldId) => {
+      const inputEl = document.getElementById(fieldId);
+      if (!inputEl) return;
+      inputEl.placeholder =
+        placeholdersDict[fieldId][modeKey] ||
+        placeholdersDict[fieldId][lang] ||
+        placeholdersDict[fieldId].ru;
+    });
+
+    const phoneLabel = phoneBlock?.querySelector(".manager-phone-label");
+    if (phoneLabel) {
+      phoneLabel.textContent = getOrderText("phoneLabel");
+    }
+  }
+
   function renderManagerBadge(branchId) {
     const managerBlock = orderModal.querySelector(".manager-badge");
     if (!managerBlock) return;
 
     const lang = getCurrentLang();
-    const managerData = BRANCH_MANAGERS[branchId];
-
+    const managerData = branchData[branchId]?.manager;
     const nameEl = managerBlock.querySelector(".manager-name");
     const statusEl = managerBlock.querySelector(".manager-status");
     const avatarWrap = managerBlock.querySelector(".manager-avatar");
     const avatarImg = managerBlock.querySelector(".manager-avatar img");
 
-    // Если филиал не выбран
     if (!branchId || !managerData) {
-      if (avatarWrap) avatarWrap.classList.add("is-hidden"); // Скрываем кружок фото
-      if (nameEl)
+      if (avatarWrap) avatarWrap.style.display = "none";
+      if (nameEl) {
         nameEl.textContent =
           lang === "de" ? "Filiale wählen" : "Выберите филиал";
-      if (statusEl)
+      }
+      if (statusEl) {
         statusEl.textContent =
           lang === "de"
             ? "Manager erscheint nach der Auswahl"
             : "Менеджер появится после выбора филиала";
+      }
       return;
     }
 
-    // Если филиал выбран — показываем фото и подставляем данные
-    if (avatarWrap) avatarWrap.classList.remove("is-hidden");
+    if (avatarWrap) avatarWrap.style.display = "block";
     if (avatarImg) avatarImg.src = managerData.avatar;
-    if (nameEl)
-      nameEl.textContent = managerData.name[lang] || managerData.name["ru"];
-    if (statusEl)
-      statusEl.textContent =
-        managerData.status[lang] || managerData.status["ru"];
-
-    if (typeof window.updateBranchInfo === "function") {
-      window.updateBranchInfo(branchId);
+    if (nameEl) nameEl.textContent = managerData.name[lang] || managerData.name.ru;
+    if (statusEl) {
+      statusEl.textContent = managerData.status[lang] || managerData.status.ru;
     }
   }
 
   function toggleSubmitButton() {
-    if (!submitBtn) return;
-    if (privacyCheckbox) {
-      submitBtn.disabled = !privacyCheckbox.checked;
-    }
+    if (!submitBtn || !privacyCheckbox) return;
+    submitBtn.disabled = !privacyCheckbox.checked;
   }
 
-  function handleMethodChange(selectedValue) {
-    currentOrderMethod = selectedValue;
-    const carBlock = document.getElementById("carFieldsBlock");
-    const vinBlock = document.getElementById("vinFieldsBlock");
-
-    clearErrors();
-
-    if (selectedValue === "by-car") {
-      if (vinBlock) vinBlock.classList.remove("active-field");
-      if (carBlock) carBlock.classList.add("active-field");
-    } else {
-      if (carBlock) carBlock.classList.remove("active-field");
-      if (vinBlock) vinBlock.classList.add("active-field");
-    }
+  function isPhoneBlockVisible() {
+    return (
+      phoneBlock &&
+      phoneBlock.style.display !== "none" &&
+      !phoneBlock.classList.contains("is-hidden")
+    );
   }
 
   function clearErrors() {
@@ -1207,21 +1159,22 @@ function initOrderFormLogic() {
       .forEach((el) => el.classList.remove("has-error"));
     orderModal
       .querySelectorAll(".field-error-text, .error-message")
-      .forEach((el) => (el.style.display = "none"));
+      .forEach((el) => {
+        el.style.display = "none";
+      });
   }
 
   function clearFieldError(inputElement) {
     if (!inputElement) return;
     const group =
       inputElement.closest(".form-group") || inputElement.parentElement;
-    if (group) {
-      group.classList.remove("has-error");
-      const err = group.querySelector(".field-error-text, .error-message");
-      if (err) err.style.display = "none";
-    }
+    if (!group) return;
+    group.classList.remove("has-error");
+    const err = group.querySelector(".field-error-text, .error-message");
+    if (err) err.style.display = "none";
   }
 
-  function showError(inputElement, message) {
+  function showFieldError(inputElement, message) {
     if (!inputElement) return;
     const group =
       inputElement.closest(".form-group") || inputElement.parentElement;
@@ -1245,7 +1198,35 @@ function initOrderFormLogic() {
     }
   }
 
-  // --- 5. Валидация и отправка ---
+  function handleMethodChange(selectedValue) {
+    currentOrderMethod = selectedValue || "by-car";
+    const carBlock = document.getElementById("carFieldsBlock");
+    const vinBlock = document.getElementById("vinFieldsBlock");
+
+    clearErrors();
+
+    const showCar = currentOrderMethod === "by-car";
+    if (vinBlock) {
+      vinBlock.classList.toggle("is-hidden", showCar);
+      vinBlock.style.display = showCar ? "none" : "block";
+    }
+    if (carBlock) {
+      carBlock.classList.toggle("is-hidden", !showCar);
+      carBlock.style.display = showCar ? "block" : "none";
+    }
+  }
+
+  function setPhoneBlockVisibility(show) {
+    isManagerMode = Boolean(show);
+
+    if (phoneBlock) {
+      phoneBlock.classList.toggle("is-hidden", !isManagerMode);
+      phoneBlock.style.display = isManagerMode ? "block" : "none";
+    }
+
+    updateFormPlaceholders();
+  }
+
   function validateAndSend() {
     clearErrors();
 
@@ -1256,25 +1237,25 @@ function initOrderFormLogic() {
       const branchContainer =
         orderModal.querySelector(".branch-options") ||
         orderModal.querySelector(".branch-selection");
-      showError(branchContainer, getOrderText("selectBranch"));
+      showFieldError(branchContainer, getOrderText("selectBranch"));
       return;
     }
 
     const partsInput = document.getElementById("partsList");
     const nameInput = document.getElementById("clientName");
+    const phoneInput = document.getElementById("clientPhone");
 
     if (
       !partsInput ||
       !partsInput.value.trim() ||
       partsInput.value.trim().length < 3
     ) {
-      showError(partsInput, getOrderText("describeParts"));
+      showFieldError(partsInput, getOrderText("describeParts"));
       return;
     }
 
-    const partsRegex = /[a-zA-Zа-яА-ЯёЁäöüÄÖÜß0-9]/;
-    if (!partsRegex.test(partsInput.value)) {
-      showError(partsInput, getOrderText("partsValidation"));
+    if (!/[a-zA-Zа-яА-ЯёЁäöüÄÖÜß0-9]/.test(partsInput.value)) {
+      showFieldError(partsInput, getOrderText("partsValidation"));
       return;
     }
 
@@ -1283,14 +1264,29 @@ function initOrderFormLogic() {
       !nameInput.value.trim() ||
       nameInput.value.trim().length < 2
     ) {
-      showError(nameInput, getOrderText("specifyName"));
+      showFieldError(nameInput, getOrderText("specifyName"));
       return;
     }
 
-    const nameRegex = /^[a-zA-Zа-яА-ЯёЁäöüÄÖÜß\s\-\']+$/;
-    if (!nameRegex.test(nameInput.value.trim())) {
-      showError(nameInput, getOrderText("nameValidation"));
+    if (!/^[a-zA-Zа-яА-ЯёЁäöüÄÖÜß\s\-']+$/.test(nameInput.value.trim())) {
+      showFieldError(nameInput, getOrderText("nameValidation"));
       return;
+    }
+
+    if (isPhoneBlockVisible() && phoneInput) {
+      if (!phoneInput.value.trim()) {
+        showFieldError(phoneInput, getOrderText("specifyPhone"));
+        return;
+      }
+
+      const phoneDigits = phoneInput.value.replace(/\D/g, "");
+      if (
+        !/^[\d+\-()\s]{7,20}$/.test(phoneInput.value.trim()) ||
+        phoneDigits.length < 7
+      ) {
+        showFieldError(phoneInput, getOrderText("phoneValidation"));
+        return;
+      }
     }
 
     if (currentOrderMethod === "by-car") {
@@ -1299,13 +1295,12 @@ function initOrderFormLogic() {
       const yearInput = document.getElementById("carYear");
       const currentYear = new Date().getFullYear();
 
-      if (!makeInput || !makeInput.value.trim()) {
-        showError(makeInput, getOrderText("specifyMake"));
+      if (!makeInput?.value.trim()) {
+        showFieldError(makeInput, getOrderText("specifyMake"));
         return;
       }
-
-      if (!modelInput || !modelInput.value.trim()) {
-        showError(modelInput, getOrderText("specifyModel"));
+      if (!modelInput?.value.trim()) {
+        showFieldError(modelInput, getOrderText("specifyModel"));
         return;
       }
 
@@ -1318,21 +1313,19 @@ function initOrderFormLogic() {
         yearValue < 1900 ||
         yearValue > currentYear
       ) {
-        showError(yearInput, getOrderText("invalidYear"));
+        showFieldError(yearInput, getOrderText("invalidYear"));
         return;
       }
     } else {
       const vinInput = document.getElementById("vinCode");
       const vinValue = vinInput ? vinInput.value.replace(/\s+/g, "") : "";
-      const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i;
 
       if (!vinInput || vinValue.length !== 17) {
-        showError(vinInput, getOrderText("vinLength", vinValue.length));
+        showFieldError(vinInput, getOrderText("vinLength", vinValue.length));
         return;
       }
-
-      if (!vinRegex.test(vinValue)) {
-        showError(vinInput, getOrderText("vinValidation"));
+      if (!/^[A-HJ-NPR-Z0-9]{17}$/i.test(vinValue)) {
+        showFieldError(vinInput, getOrderText("vinValidation"));
         return;
       }
     }
@@ -1340,14 +1333,9 @@ function initOrderFormLogic() {
     executeWhatsAppSend(selectedBranchRadio);
   }
 
-  function encodeForWhatsApp(str) {
-    // normalize("NFC") гарантирует, что 4-байтовые эмодзи корректно собранны перед кодированием
-    return encodeURIComponent(str.normalize("NFC"));
-  }
-
   function executeWhatsAppSend(selectedBranchRadio) {
     const selectedBranch = selectedBranchRadio ? selectedBranchRadio.value : "";
-    const phone = BRANCH_PHONES[selectedBranch];
+    const phone = branchData[selectedBranch]?.whatsapp;
 
     if (!phone) {
       alert(getOrderText("missingPhoneError"));
@@ -1359,7 +1347,11 @@ function initOrderFormLogic() {
       : selectedBranch.toUpperCase();
 
     const name = document.getElementById("clientName").value.trim();
+    const phoneInput = document.getElementById("clientPhone");
+    const rawClientPhone =
+      isPhoneBlockVisible() && phoneInput ? phoneInput.value.trim() : "";
     const parts = document.getElementById("partsList").value.trim();
+
     const now = new Date();
     const day = String(now.getDate()).padStart(2, "0");
     const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -1372,46 +1364,68 @@ function initOrderFormLogic() {
       const make = document.getElementById("carMake").value.trim();
       const model = document.getElementById("carModel").value.trim();
       const year = document.getElementById("carYear").value.trim();
-
-      vehicleBlock = `🚗 ${getOrderText("waCarData")}:\n• ${getOrderText("waMake")}: ${make}\n• ${getOrderText("waModel")}: ${model}\n• ${getOrderText("waYear")}: ${year}`;
+      vehicleBlock = `🚗 *${getOrderText("waCarData")}*:\r\n• *${getOrderText("waMake")}*: ${make}\r\n• *${getOrderText("waModel")}*: ${model}\r\n• *${getOrderText("waYear")}*: ${year}`;
     } else {
-      const vin = document
-        .getElementById("vinCode")
-        .value.replace(/\s+/g, "")
-        .toUpperCase();
-      vehicleBlock = `🔑 ${getOrderText("waVinCode")}:\n${vin}`;
+      const vinInput = document.getElementById("vinCode");
+      const vin = vinInput
+        ? vinInput.value.replace(/\s+/g, "").toUpperCase()
+        : "";
+      vehicleBlock = `🔑 *${getOrderText("waVinCode")}*:\r\n${vin}`;
     }
 
-    const message =
-      `📦 ${getOrderText("waOrder")} № ${orderNumber}\n` +
-      `🏢 ${getOrderText("waBranch")}: ${branchLabel}\n` +
-      `👤 ${getOrderText("waClient")}: ${name}\n` +
-      `_________________________\n\n` +
-      `${vehicleBlock}\n` +
-      `_________________________\n\n` +
-      `📋 ${getOrderText("waWantToOrder")}:\n${parts}`;
+    let phoneLine = "";
+    let clientChatLink = "";
 
-    const encodedMessage = encodeForWhatsApp(message);
+    if (rawClientPhone) {
+      const cleanPhone = rawClientPhone.replace(/\D/g, "");
+      phoneLine = `\r\n*${getOrderText("waPhone")}*: ${rawClientPhone}`;
 
-    // Используем api.whatsapp.com для гарантированной передачи параметров на ПК и мобильных
+      const clientMessageText =
+        `${getOrderText("waClientConfirmHeader")}, ${name}!\r\n` +
+        `${getOrderText("waClientConfirmSub")} (№ ${orderNumber}).\r\n\r\n` +
+        `${getOrderText("waClientListLabel")}:\r\n${parts}\r\n\r\n` +
+        `${getOrderText("waClientConfirmFooter")}\r\n` +
+        `${getOrderText("waClientThanks")}`;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(clientMessageText);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = clientMessageText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+
+      clientChatLink =
+        `\r\n-------------------------\r\n\r\n` +
+        `*${getOrderText("waOpenClientChat")}*\r\n` +
+        `https://wa.me/${cleanPhone}`;
+    }
+
+    const fullMessage =
+      `📦 *${getOrderText("waOrder")}* № ${orderNumber}\r\n` +
+      `🏢 *${getOrderText("waBranch")}*: ${branchLabel}\r\n` +
+      `👤 *${getOrderText("waClient")}*: ${name}${phoneLine}\r\n` +
+      `-------------------------\r\n\r\n` +
+      `${vehicleBlock}\r\n` +
+      `-------------------------\r\n\r\n` +
+      `📋 *${getOrderText("waWantToOrder")}*:\r\n${parts}` +
+      `${clientChatLink}`;
+
     window.open(
-      `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`,
+      `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(fullMessage.normalize("NFC"))}`,
       "_blank",
     );
   }
 
-  // --- 6. Навешивание слушателей ---
+  privacyCheckbox?.addEventListener("change", toggleSubmitButton);
 
-  if (privacyCheckbox) {
-    privacyCheckbox.addEventListener("change", toggleSubmitButton);
-  }
-
-  if (submitBtn) {
-    submitBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      validateAndSend();
-    });
-  }
+  submitBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    validateAndSend();
+  });
 
   orderModal.querySelectorAll("input, textarea").forEach((input) => {
     input.addEventListener("input", function () {
@@ -1419,18 +1433,13 @@ function initOrderFormLogic() {
     });
   });
 
-  // Отслеживание кликов и изменений (включая выбор филиала)
   orderModal.addEventListener("change", (e) => {
     if (e.target.name === "carSpecification") {
       handleMethodChange(e.target.value);
     }
 
     if (e.target.name === "branch") {
-      const selectedBranch = e.target.value;
-
-      // Вызываем смену менеджера
-      renderManagerBadge(selectedBranch);
-
+      renderManagerBadge(e.target.value);
       const group =
         e.target.closest(".form-group") ||
         e.target.closest(".branch-selection") ||
@@ -1443,372 +1452,97 @@ function initOrderFormLogic() {
     }
   });
 
-  orderModal.addEventListener("modal:opened", () => {
+  orderModal.addEventListener("modal:opened", (e) => {
+    const origEvent = e.detail?.originalEvent;
+    const isCtrlPressed = Boolean(
+      origEvent && (origEvent.ctrlKey || origEvent.metaKey),
+    );
+
+    setPhoneBlockVisibility(isCtrlPressed);
+
     const checkedRadio = orderModal.querySelector(
       'input[name="carSpecification"]:checked',
     );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
 
-    // Проверяем текущий филиал при открытии
     const selectedBranchRadio = orderModal.querySelector(
       'input[name="branch"]:checked',
     );
     renderManagerBadge(selectedBranchRadio ? selectedBranchRadio.value : null);
-
     toggleSubmitButton();
   });
 
   orderModal.addEventListener("modal:closed", () => {
     clearErrors();
+    setPhoneBlockVisibility(false);
   });
 
-  // Инициализация менеджера при первичной загрузке
-  const initialBranchRadio = orderModal.querySelector(
-    'input[name="branch"]:checked',
-  );
-  renderManagerBadge(initialBranchRadio ? initialBranchRadio.value : null);
+  document.addEventListener("language:changed", () => {
+    if (orderModal.classList.contains("is-open") || isManagerMode) {
+      updateFormPlaceholders();
+    }
+  });
 
+  handleMethodChange("by-car");
+  setPhoneBlockVisibility(false);
   toggleSubmitButton();
 
-  // --- 7. Автокомплиты (Марка, Год, Модель) ---
-
-  const popularMakes = [
-    "Audi",
-    "BMW",
-    "Chery",
-    "Chevrolet",
-    "Ford",
-    "Geely",
-    "Honda",
-    "Hyundai",
-    "Kia",
-    "Mazda",
-    "Mercedes-Benz",
-    "Mitsubishi",
-    "Nissan",
-    "Opel",
-    "Peugeot",
-    "Renault",
-    "Skoda",
-    "Toyota",
-    "Volkswagen",
-    "Volvo",
-  ];
-
-  const carModelsDatabase = {
-    Audi: ["A3", "A4", "A5", "A6", "Q3", "Q5", "Q7"],
-    BMW: ["Series 3", "Series 5", "X3", "X5", "X6"],
-    Chery: ["Tiggo 4", "Tiggo 7", "Tiggo 8", "Arrizo 8"],
-    Chevrolet: ["Cruze", "Aveo", "Lacetti", "Captiva", "Tracker"],
-    Ford: ["Focus", "Mondeo", "Fiesta", "Kuga", "Explorer"],
-    Geely: ["Coolray", "Monjaro", "Atlas", "Tugella"],
-    Honda: ["Civic", "Accord", "CR-V", "HR-V"],
-    Hyundai: ["Solaris", "Elantra", "Sonata", "Tucson", "Santa Fe"],
-    Kia: ["Rio", "Ceed", "Sportage", "Sorento", "K5"],
-    Mazda: ["Mazda 3", "Mazda 6", "CX-5", "CX-9"],
-    "Mercedes-Benz": ["C-Class", "E-Class", "GLC", "GLE", "S-Class"],
-    Mitsubishi: ["Lancer", "Outlander", "Pajero", "ASX"],
-    Nissan: ["Almera", "Qashqai", "X-Trail", "Teana", "Murano"],
-    Opel: ["Astra", "Corsa", "Zafira", "Mokka"],
-    Peugeot: ["308", "408", "3008", "5008"],
-    Renault: ["Logan", "Sandero", "Duster", "Kaptor", "Arkana"],
-    Skoda: ["Octavia", "Rapid", "Superb", "Kodiaq", "Karoq"],
-    Toyota: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Highlander"],
-    Volkswagen: ["Polo", "Golf", "Passat", "Tiguan", "Touareg"],
-    Volvo: ["XC40", "XC60", "XC90", "S60"],
-  };
-
   const makeInput = document.getElementById("carMake");
-  if (makeInput) {
-    let makeBox = document.getElementById("makeSuggestions");
-    if (!makeBox) {
-      makeBox = document.createElement("div");
-      makeBox.id = "makeSuggestions";
-      makeBox.className = "suggestions-box";
-      makeInput.parentNode.style.position = "relative";
-      makeInput.parentNode.appendChild(makeBox);
-    }
-
-    makeInput.addEventListener("input", function () {
-      const val = this.value.trim().toLowerCase();
-      makeBox.innerHTML = "";
-
-      if (val === "") {
-        makeBox.classList.remove("is-visible");
-        return;
-      }
-
-      const filtered = popularMakes.filter((make) =>
-        make.toLowerCase().startsWith(val),
-      );
-
-      if (filtered.length === 0) {
-        makeBox.classList.remove("is-visible");
-        return;
-      }
-
-      filtered.forEach((make) => {
-        const item = document.createElement("div");
-        item.className = "suggestion-item";
-        item.textContent = make;
-        makeBox.appendChild(item);
-      });
-
-      makeBox.classList.add("is-visible");
-    });
-
-    makeBox.addEventListener("mousedown", function (e) {
-      if (e.target.classList.contains("suggestion-item")) {
-        makeInput.value = e.target.textContent;
-        makeBox.classList.remove("is-visible");
-        clearFieldError(makeInput);
-      }
-    });
-
-    document.addEventListener("click", function (e) {
-      if (e.target !== makeInput) {
-        makeBox.classList.remove("is-visible");
-      }
-    });
-  }
-
-  const yearInput = document.getElementById("carYear");
-  if (yearInput) {
-    let yearBox = document.getElementById("yearSuggestions");
-    if (!yearBox) {
-      yearBox = document.createElement("div");
-      yearBox.id = "yearSuggestions";
-      yearBox.className = "suggestions-box";
-      yearInput.parentNode.style.position = "relative";
-      yearInput.parentNode.appendChild(yearBox);
-    }
-
-    const currentYear = new Date().getFullYear();
-    const yearsList = [];
-    for (let y = currentYear; y >= currentYear - 30; y--) {
-      yearsList.push(y.toString());
-    }
-
-    yearInput.addEventListener("input", function () {
-      const val = this.value.trim();
-      yearBox.innerHTML = "";
-
-      if (val === "") {
-        yearBox.classList.remove("is-visible");
-        return;
-      }
-
-      const filtered = yearsList.filter((y) => y.startsWith(val));
-
-      if (filtered.length === 0) {
-        yearBox.classList.remove("is-visible");
-        return;
-      }
-
-      filtered.forEach((year) => {
-        const item = document.createElement("div");
-        item.className = "suggestion-item";
-        item.textContent = year;
-        yearBox.appendChild(item);
-      });
-
-      yearBox.classList.add("is-visible");
-    });
-
-    yearBox.addEventListener("mousedown", function (e) {
-      if (e.target.classList.contains("suggestion-item")) {
-        yearInput.value = e.target.textContent;
-        yearBox.classList.remove("is-visible");
-        clearFieldError(yearInput);
-      }
-    });
-
-    document.addEventListener("click", function (e) {
-      if (e.target !== yearInput) {
-        yearBox.classList.remove("is-visible");
-      }
-    });
-  }
-
   const modelInput = document.getElementById("carModel");
-  if (modelInput && makeInput) {
-    let modelBox = document.getElementById("modelSuggestions");
-    if (!modelBox) {
-      modelBox = document.createElement("div");
-      modelBox.id = "modelSuggestions";
-      modelBox.className = "suggestions-box";
-      modelInput.parentNode.style.position = "relative";
-      modelInput.parentNode.appendChild(modelBox);
-    }
+  const yearInput = document.getElementById("carYear");
 
-    modelInput.addEventListener("input", function () {
-      const val = this.value.trim().toLowerCase();
-      const selectedMake = makeInput.value.trim();
-      modelBox.innerHTML = "";
+  initSuggestions(
+    makeInput,
+    "makeSuggestions",
+    (value) => {
+      const val = value.trim().toLowerCase();
+      if (!val) return [];
+      return POPULAR_MAKES.filter((make) => make.toLowerCase().startsWith(val));
+    },
+    clearFieldError,
+  );
 
-      if (val === "" || !selectedMake || !carModelsDatabase[selectedMake]) {
-        modelBox.classList.remove("is-visible");
-        return;
-      }
+  const currentYear = new Date().getFullYear();
+  const yearsList = [];
+  for (let y = currentYear; y >= currentYear - 30; y--) {
+    yearsList.push(String(y));
+  }
 
-      const availableModels = carModelsDatabase[selectedMake];
-      const filtered = availableModels.filter((model) =>
+  initSuggestions(
+    yearInput,
+    "yearSuggestions",
+    (value) => {
+      const val = value.trim();
+      if (!val) return [];
+      return yearsList.filter((year) => year.startsWith(val));
+    },
+    clearFieldError,
+  );
+
+  initSuggestions(
+    modelInput,
+    "modelSuggestions",
+    (value) => {
+      const val = value.trim().toLowerCase();
+      const selectedMake = makeInput ? makeInput.value.trim() : "";
+      if (!val || !selectedMake || !CAR_MODELS[selectedMake]) return [];
+      return CAR_MODELS[selectedMake].filter((model) =>
         model.toLowerCase().startsWith(val),
       );
-
-      if (filtered.length === 0) {
-        modelBox.classList.remove("is-visible");
-        return;
-      }
-
-      filtered.forEach((model) => {
-        const item = document.createElement("div");
-        item.className = "suggestion-item";
-        item.textContent = model;
-        modelBox.appendChild(item);
-      });
-
-      modelBox.classList.add("is-visible");
-    });
-
-    modelBox.addEventListener("mousedown", function (e) {
-      if (e.target.classList.contains("suggestion-item")) {
-        modelInput.value = e.target.textContent;
-        modelBox.classList.remove("is-visible");
-        clearFieldError(modelInput);
-      }
-    });
-
-    document.addEventListener("click", function (e) {
-      if (e.target !== modelInput) {
-        modelBox.classList.remove("is-visible");
-      }
-    });
-  }
+    },
+    clearFieldError,
+  );
 }
-
-document.addEventListener("DOMContentLoaded", initOrderFormLogic);
 
 /* ==========================================================================
 CALLBACK MODAL
 ============================================================================= */
-document.addEventListener("DOMContentLoaded", () => {
+function initCallbackForm() {
   const callbackForm = document.getElementById("callback-form");
+  if (!callbackForm) return;
 
-  if (callbackForm) {
-    callbackForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const phoneInput = document.getElementById("callback-phone");
-      let phone = phoneInput.value.trim();
-
-      // Удаляем старый кастомный тултип/ошибку, если был
-      const existingError = callbackForm.querySelector(".form-error-msg");
-      if (existingError) existingError.remove();
-      phoneInput.classList.remove("is-invalid");
-
-      // 1. Проверка на пустоту
-      if (!phone) {
-        showError(phoneInput, callbackForm, "required");
-        return;
-      }
-      // 2. Проверка на буквы
-      else if (/[a-zA-Zа-яА-ЯäöüßÄÖÜ]/.test(phone)) {
-        showError(phoneInput, callbackForm, "noLetters");
-        return;
-      }
-      // 3. Строгая проверка начала номера (для Германии: должен начинаться с +49, 49 или с 0)
-      else if (
-        !phone.startsWith("+49") &&
-        !phone.startsWith("49") &&
-        !phone.startsWith("0")
-      ) {
-        showError(phoneInput, callbackForm, "invalidStart");
-        return;
-      }
-
-      // Очищаем для дальнейшей проверки длины
-      let phoneClean = phone.replace(/\D/g, "");
-
-      // Проверка на ошибку «+490...» или «490...»
-      if (phone.startsWith("+0") || phoneClean.startsWith("490")) {
-        showError(phoneInput, callbackForm, "noZeroAfterCode");
-        return;
-      }
-
-      // Нормализация (если с 0, меняем на 49)
-      if (phone.startsWith("0")) {
-        phoneClean = "49" + phoneClean.slice(1);
-      }
-
-      // 4. Проверка итоговой длины (для Германии с учетом кода 49)
-      if (phoneClean.length < 10 || phoneClean.length > 15) {
-        // Передаем текущую длину как параметр для динамической ошибки
-        showError(phoneInput, callbackForm, "invalidLength", phoneClean.length);
-        return;
-      }
-      // 5. Защита от одинаковых цифр
-      else if (/^(\d)\1+$/.test(phoneClean)) {
-        showError(phoneInput, callbackForm, "sameDigits");
-        return;
-      }
-
-      // Финальный номер для отправки (всегда с плюсом)
-      const formattedPhone = "+" + phoneClean;
-
-      // Отправка в WhatsApp
-      const phoneOwner = "491754247818";
-
-      // Текст сообщения с переводом
-      const currentLang = document.documentElement.lang || "ru";
-      const titleText =
-        currentLang === "de" ? "Rückrufanfrage" : "Запрос на обратный звонок";
-      const phoneLabel = currentLang === "de" ? "Telefon" : "Телефон";
-
-      // Собираем сообщение с эмодзи
-      const rawMessage = `📞 ${titleText}\n👤 ${phoneLabel}: ${formattedPhone}`;
-
-      // Нормализация и безопасное кодирование UTF-8
-      const encodedMessage = encodeURIComponent(rawMessage.normalize("NFC"));
-
-      // Переход на api.whatsapp.com/send устраняет потерю эмодзи на ПК
-      window.open(
-        `https://api.whatsapp.com/send?phone=${phoneOwner}&text=${encodedMessage}`,
-        "_blank",
-      );
-
-      // Закрытие модалки
-      const modal = callbackForm.closest(".modal");
-      if (modal && typeof window.closeModal === "function") {
-        window.closeModal(modal);
-      } else if (modal) {
-        modal.classList.remove("is-open");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-      }
-
-      callbackForm.reset();
-    });
-
-    // Убираем ошибку при вводе
-    const phoneInput = document.getElementById("callback-phone");
-    if (phoneInput) {
-      phoneInput.addEventListener("input", () => {
-        phoneInput.classList.remove("is-invalid");
-        const existingError = callbackForm.querySelector(".form-error-msg");
-        if (existingError) existingError.remove();
-      });
-    }
-  }
-});
-
-// Вспомогательная функция для вывода ошибок (теперь с поддержкой языков)
-function showError(inputElement, formElement, errorKey, currentLength = 0) {
-  // 1. Определяем текущий язык страницы из <html lang="...">
-  const currentLang = document.documentElement.lang || "ru";
-
-  // 2. Словарь всех ошибок на двух языках
-  const translations = {
+  const phoneInput = document.getElementById("callback-phone");
+  const callbackErrors = {
     required: {
       ru: "Пожалуйста, введите номер телефона",
       de: "Bitte geben Sie eine Telefonnummer ein",
@@ -1826,8 +1560,10 @@ function showError(inputElement, formElement, errorKey, currentLength = 0) {
       de: "Ungültiges Format: Nach der Landesvorwahl wird keine Null benötigt",
     },
     invalidLength: {
-      ru: `Неверная длина номера (сейчас ${currentLength} цифр, а нужно от 10 до 15)`,
-      de: `Ungültige Nummernlänge (aktuell ${currentLength} Ziffern, erforderlich sind 10 bis 15)`,
+      ru: (len) =>
+        `Неверная длина номера (сейчас ${len} цифр, а нужно от 10 до 15)`,
+      de: (len) =>
+        `Ungültige Nummernlänge (aktuell ${len} Ziffern, erforderlich sind 10 bis 15)`,
     },
     sameDigits: {
       ru: "Номер не может состоять из одинаковых цифр",
@@ -1835,41 +1571,116 @@ function showError(inputElement, formElement, errorKey, currentLength = 0) {
     },
   };
 
-  // 3. Вытаскиваем нужную строку (если языка нет в базе, берем русский 'ru')
-  const message =
-    translations[errorKey]?.[currentLang] || translations[errorKey]["ru"];
+  function showCallbackError(errorKey, currentLength = 0) {
+    const currentLang = document.documentElement.lang || "ru";
+    const entry = callbackErrors[errorKey];
+    const message =
+      typeof entry?.[currentLang] === "function"
+        ? entry[currentLang](currentLength)
+        : entry?.[currentLang] || entry?.ru;
 
-  // 4. Отрисовка ошибки на странице
-  inputElement.classList.add("is-invalid");
-  const errorMsg = document.createElement("div");
-  errorMsg.className = "form-error-msg";
-  errorMsg.textContent = message;
-  errorMsg.style.cssText =
-    "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
+    phoneInput.classList.add("is-invalid");
+    const errorMsg = document.createElement("div");
+    errorMsg.className = "form-error-msg";
+    errorMsg.textContent = message;
+    errorMsg.style.cssText =
+      "color: var(--accent-color, #ff3366); font-size: 12px; margin-top: 6px; text-align: center;";
 
-  const fieldContainer = inputElement.closest(".callback-field");
-  if (fieldContainer) {
-    fieldContainer.appendChild(errorMsg);
+    phoneInput.closest(".callback-field")?.appendChild(errorMsg);
+    phoneInput.focus();
   }
 
-  inputElement.focus();
+  function clearCallbackError() {
+    phoneInput.classList.remove("is-invalid");
+    callbackForm.querySelector(".form-error-msg")?.remove();
+  }
+
+  callbackForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    let phone = phoneInput.value.trim();
+    clearCallbackError();
+
+    if (!phone) {
+      showCallbackError("required");
+      return;
+    }
+    if (/[a-zA-Zа-яА-ЯäöüßÄÖÜ]/.test(phone)) {
+      showCallbackError("noLetters");
+      return;
+    }
+    if (
+      !phone.startsWith("+49") &&
+      !phone.startsWith("49") &&
+      !phone.startsWith("0")
+    ) {
+      showCallbackError("invalidStart");
+      return;
+    }
+
+    let phoneClean = phone.replace(/\D/g, "");
+
+    if (phone.startsWith("+0") || phoneClean.startsWith("490")) {
+      showCallbackError("noZeroAfterCode");
+      return;
+    }
+
+    if (phone.startsWith("0")) {
+      phoneClean = "49" + phoneClean.slice(1);
+    }
+
+    if (phoneClean.length < 10 || phoneClean.length > 15) {
+      showCallbackError("invalidLength", phoneClean.length);
+      return;
+    }
+    if (/^(\d)\1+$/.test(phoneClean)) {
+      showCallbackError("sameDigits");
+      return;
+    }
+
+    const formattedPhone = "+" + phoneClean;
+    const phoneOwner = branchData.westerkappeln.whatsapp;
+    const currentLang = document.documentElement.lang || "ru";
+    const titleText =
+      currentLang === "de" ? "Rückrufanfrage" : "Запрос на обратный звонок";
+    const phoneLabel = currentLang === "de" ? "Telefon" : "Телефон";
+    const rawMessage = `📞 ${titleText}\n👤 ${phoneLabel}: ${formattedPhone}`;
+    const encodedMessage = encodeURIComponent(rawMessage.normalize("NFC"));
+
+    window.open(
+      `https://api.whatsapp.com/send?phone=${phoneOwner}&text=${encodedMessage}`,
+      "_blank",
+    );
+
+    const modal = callbackForm.closest(".modal");
+    if (modal && typeof window.closeModal === "function") {
+      window.closeModal(modal);
+    } else if (modal) {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    callbackForm.reset();
+  });
+
+  phoneInput?.addEventListener("input", clearCallbackError);
 }
 
 /* ==========================================================================
 APP INITIALIZATION
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  initGlobalModals();
   initThemeSwitcher();
-  initLanguageSwitcher();
+  initBurgerMenu();
   initHeroSlider();
   initBackToTop();
-  initFormTabs();
-  initAutocomplete();
-  initWhatsAppForm();
   initReviewsSlider();
   initFaqAccordion();
   initBranchSwitcher();
-  initModals();
   initCookieBanner();
   initOrderFormLogic();
+  initCallbackForm();
+  initLanguageSwitcher();
 });
