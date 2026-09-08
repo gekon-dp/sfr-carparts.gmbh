@@ -1758,16 +1758,25 @@ body.modal-open {
 /* ==========================================================================
 ORDER MODAL
 ============================================================================= */
+/* ==========================================================================
+ORDER MODAL
+============================================================================= */
+
+/* Вспомогательный класс для скрытия блоков из JS */
+.is-hidden {
+  display: none !important;
+}
+
 .form-container {
   max-width: 100%;
   margin: 0;
   padding: 30px;
-  /* Убрал дублирующий фон, так как он есть на modal-container */
   background: transparent;
   color: var(--text-color);
   box-sizing: border-box;
 }
 
+/* БЛОК МЕНЕДЖЕРА */
 .manager-badge {
   display: flex;
   align-items: center;
@@ -1790,11 +1799,13 @@ ORDER MODAL
   display: flex;
   flex-direction: column;
 }
+
 .manager-name {
   font-weight: bold;
   font-size: 16px;
   color: var(--text-color);
 }
+
 .manager-status {
   font-size: 12px;
   color: var(--primary-color); /* Статус "онлайн" */
@@ -1805,6 +1816,7 @@ ORDER MODAL
   display: none;
 }
 
+/* ВЫБОР ФИЛИАЛА */
 .branch-options {
   display: flex;
   gap: 10px;
@@ -1847,6 +1859,7 @@ ORDER MODAL
   border-color: var(--primary-color);
 }
 
+/* ЭЛЕМЕНТЫ ФОРМЫ И ИНПУТЫ */
 .form-group {
   margin-bottom: 16px;
   position: relative;
@@ -1854,6 +1867,7 @@ ORDER MODAL
 }
 
 .form-container input[type="text"],
+.form-container input[type="tel"],
 .form-container textarea {
   width: 100%;
   padding: 14px;
@@ -1863,7 +1877,7 @@ ORDER MODAL
   color: var(--text-color);
   font-size: 15px;
   font-family: inherit;
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
@@ -1874,11 +1888,24 @@ ORDER MODAL
   resize: vertical;
 }
 
-/* ФОКУС ИСПОЛЬЗУЕТ ТВОЙ PRIMARY COLOR */
+/* Фокус инпутов */
 .form-container input:focus,
 .form-container textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+}
+
+/* БЛОК СКРЫТОГО ТЕЛЕФОНА (CTRL / CMD) */
+#managerPhoneBlock {
+  margin-bottom: 16px;
+}
+
+#managerPhoneBlock .manager-phone-label {
+  display: block;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 /* ОШИБКИ ВАЛИДАЦИИ */
@@ -1887,11 +1914,14 @@ ORDER MODAL
   color: #dc3545; /* Красный для ошибок */
   font-size: 12px;
   padding-left: 2px;
+  margin-top: 4px;
 }
+
 .has-error input,
 .has-error textarea {
-  border-color: var(--primary-color) !important;
+  border-color: #dc3545 !important;
 }
+
 .has-error .error-message {
   display: block;
 }
@@ -1906,15 +1936,13 @@ ORDER MODAL
   gap: 12px;
 }
 
-/* Элемент-обертка label */
 .radio-label {
   position: relative;
-  flex: 1; /* Опционально: растягивает кнопки равномерно по ширине */
+  flex: 1;
   cursor: pointer;
   user-select: none;
 }
 
-/* Скрываем дефолтный круглый инпут */
 .radio-label input[type="radio"] {
   position: absolute;
   opacity: 0;
@@ -1923,7 +1951,6 @@ ORDER MODAL
   pointer-events: none;
 }
 
-/* Стилизуем <span> внутри label как кнопку-таб */
 .radio-label span {
   display: flex;
   align-items: center;
@@ -1939,18 +1966,17 @@ ORDER MODAL
   transition: all 0.25s ease;
 }
 
-/* Ховер на активную невыбранную плашку */
 .radio-label:hover span {
   border-color: var(--primary-color);
 }
 
-/* Состояние, когда радиокнопка выбрана (:checked) */
 .radio-label input[type="radio"]:checked + span {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
   color: #ffffff;
 }
 
+/* АНИМАЦИИ И СЕТКА АВТО */
 @keyframes fadeInField {
   from {
     opacity: 0;
@@ -1966,9 +1992,15 @@ ORDER MODAL
   display: none;
   width: 100%;
 }
+
 .animated-field-block.active-field {
   display: block;
   animation: fadeInField 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+#carFieldsBlock:not(.is-hidden) {
+  position: relative;
+  z-index: 10;
 }
 
 .car-inputs-grid {
@@ -1978,10 +2010,11 @@ ORDER MODAL
   width: 100%;
 }
 
-/* ВЫПАДАЮЩИЙ СПИСОК МАРОК АВТО */
+/* ВЫПАДАЮЩИЕ СПИСКИ АВТОКОМПЛИТА */
 .suggestion-wrapper {
   position: relative;
 }
+
 .suggestions-box {
   position: absolute;
   top: calc(100% + 4px);
@@ -1996,9 +2029,11 @@ ORDER MODAL
   z-index: 999;
   box-shadow: var(--shadow);
 }
+
 .suggestions-box.is-visible {
   display: block;
 }
+
 .suggestion-item {
   padding: 11px 15px;
   cursor: pointer;
@@ -2008,18 +2043,20 @@ ORDER MODAL
     background 0.15s,
     color 0.15s;
 }
+
 .suggestion-item:hover {
   background: var(--primary-color);
   color: #ffffff;
 }
 
-/* СОГЛАСИЕ И ЧЕКБОКС */
+/* ЧЕКБОКС И СОГЛАСИЕ */
 .privacy-agreement {
+  position: relative;
+  z-index: 1;
   margin-top: 0px;
   margin-bottom: 20px;
 }
 
-/* Контейнер label */
 .privacy-agreement .checkbox-label {
   display: inline-flex;
   align-items: center;
@@ -2027,20 +2064,6 @@ ORDER MODAL
   user-select: none;
 }
 
-/* Поднимаем контекст всего анимированного блока, когда он активен,
-   чтобы его внутренние абсолютные элементы перекрывали всё, что ниже */
-#carFieldsBlock:not(.is-hidden) {
-  position: relative;
-  z-index: 10;
-}
-
-/* На всякий случай фиксируем, что блок согласия лежит на базовом слое */
-.privacy-agreement {
-  position: relative;
-  z-index: 1;
-}
-
-/* Скрываем стандартный инпут браузера */
 .privacy-agreement input[type="checkbox"] {
   position: absolute;
   opacity: 0;
@@ -2049,17 +2072,15 @@ ORDER MODAL
   pointer-events: none;
 }
 
-/* Текст и кастомный квадратик */
 .privacy-text {
   position: relative;
-  padding-left: 30px; /* Отступ под квадратик */
+  padding-left: 30px;
   font-size: 0.88rem;
   line-height: 1.4;
   color: var(--text-color);
   transition: color 0.3s ease;
 }
 
-/* Кастомный квадратик (создается через ::before) */
 .privacy-text::before {
   content: "";
   position: absolute;
@@ -2074,7 +2095,6 @@ ORDER MODAL
   transition: all 0.2s ease;
 }
 
-/* Галочка (создается через ::after) */
 .privacy-text::after {
   content: "";
   position: absolute;
@@ -2088,24 +2108,22 @@ ORDER MODAL
   transition: transform 0.2s ease;
 }
 
-/* Ховер при наведении */
 .checkbox-label:hover .privacy-text::before {
   border-color: var(--primary-hover);
   background-color: rgba(37, 99, 235, 0.08);
 }
 
-/* Активное состояние (:checked) */
 input[type="checkbox"]:checked + .privacy-text::before {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
-/* Показываем галочку, когда чекбокс выбран */
 input[type="checkbox"]:checked + .privacy-text::after {
   transform: translateY(-50%) rotate(45deg) scale(1);
 }
 
+/* КНОПКА ОТПРАВКИ */
 .submit-btn {
   width: 100%;
   padding: 15px;
@@ -2144,6 +2162,7 @@ input[type="checkbox"]:checked + .privacy-text::after {
   fill: currentColor;
 }
 
+/* АДАПТИВНОСТЬ */
 @media (max-width: 480px) {
   .car-inputs-grid {
     grid-template-columns: 1fr;

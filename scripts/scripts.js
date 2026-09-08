@@ -947,8 +947,7 @@ document.addEventListener("DOMContentLoaded", () => {
 УНИВЕРСАЛЬНЫЙ МОДУЛЬ МОДАЛЬНЫХ ОКНА
 ============================================================================= */
 (function initGlobalModals() {
-  // Открытие любого модального окна по его ID
-  window.openModalById = function (modalId) {
+  window.openModalById = function (modalId, triggerEvent = null) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
 
@@ -956,11 +955,15 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
 
-    // Генерируем событие, чтобы конкретная форма узнала об открытии
-    modal.dispatchEvent(new CustomEvent("modal:opened", { bubbles: true }));
+    // Передаем исходный объект события в detail
+    modal.dispatchEvent(
+      new CustomEvent("modal:opened", {
+        bubbles: true,
+        detail: { originalEvent: triggerEvent },
+      }),
+    );
   };
 
-  // Закрытие активного окна (или конкретно переданного)
   window.closeModal = function (targetModal) {
     const activeModal = targetModal || document.querySelector(".modal.is-open");
     if (!activeModal) return;
@@ -968,28 +971,26 @@ document.addEventListener("DOMContentLoaded", () => {
     activeModal.classList.remove("is-open");
     activeModal.setAttribute("aria-hidden", "true");
 
-    // Снимаем блокировку прокрутки, только если больше нет открытых окон
     if (!document.querySelector(".modal.is-open")) {
       document.body.classList.remove("modal-open");
     }
 
-    // Генерируем событие закрытия для сброса ошибок или полей
     activeModal.dispatchEvent(
       new CustomEvent("modal:closed", { bubbles: true }),
     );
   };
 
-  // 1. Делегирование ОТКРЫТИЯ (для кнопок в слайдерах, шапке, подвале)
+  // Делегирование ОТКРЫТИЯ
   document.addEventListener("click", function (e) {
     const trigger = e.target.closest("[data-open-modal]");
     if (trigger) {
       e.preventDefault();
       const modalId = trigger.getAttribute("data-open-modal");
-      window.openModalById(modalId);
+      window.openModalById(modalId, e);
     }
   });
 
-  // 2. Делегирование ЗАКРЫТИЯ (крестик, оверлей или кнопки с data-close)
+  // Делегирование ЗАКРЫТИЯ
   document.addEventListener("click", function (e) {
     const closeBtn = e.target.closest("[data-close]");
     if (closeBtn) {
@@ -998,7 +999,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. Закрытие по клавише Escape
+  // Закрытие по клавише Escape
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       window.closeModal();
@@ -1015,6 +1016,7 @@ function initOrderFormLogic() {
 
   const submitBtn = orderModal.querySelector("#submitBtn");
   const privacyCheckbox = orderModal.querySelector("#privacyCheckbox");
+  const phoneBlock = document.getElementById("managerPhoneBlock");
 
   let currentOrderMethod = "by-car";
 
@@ -1064,7 +1066,15 @@ function initOrderFormLogic() {
     },
     nameValidation: {
       ru: "Имя содержит недопустимые символы (цифры или знаки)",
-      de: "Der Name enthält unzulässige Zeichen (Zahlen oder Sonderzeichen)",
+      de: "Der Name enthält unzulässige Zeichen (Zahlen или Sonderzeichen)",
+    },
+    specifyPhone: {
+      ru: "Укажите номер телефона клиента",
+      de: "Bitte geben Sie die Telefonnummer des Kunden an.",
+    },
+    phoneValidation: {
+      ru: "Введите корректный номер телефона",
+      de: "Bitte geben Sie eine gültige Telefonnummer ein",
     },
     specifyMake: {
       ru: "Укажите марку автомобиля",
@@ -1095,6 +1105,7 @@ function initOrderFormLogic() {
     waOrder: { ru: "Заказ", de: "Bestellung" },
     waBranch: { ru: "Филиал", de: "Filiale" },
     waClient: { ru: "Клиент", de: "Kunde" },
+    waPhone: { ru: "Телефон", de: "Telefon" },
     waCarData: { ru: "Данные авто", de: "Fahrzeugdaten" },
     waMake: { ru: "Марка", de: "Marke" },
     waModel: { ru: "Модель", de: "Modell" },
@@ -1152,7 +1163,7 @@ function initOrderFormLogic() {
 
     // Если филиал не выбран
     if (!branchId || !managerData) {
-      if (avatarWrap) avatarWrap.classList.add("is-hidden"); // Скрываем кружок фото
+      if (avatarWrap) avatarWrap.style.display = "none";
       if (nameEl)
         nameEl.textContent =
           lang === "de" ? "Filiale wählen" : "Выберите филиал";
@@ -1165,7 +1176,7 @@ function initOrderFormLogic() {
     }
 
     // Если филиал выбран — показываем фото и подставляем данные
-    if (avatarWrap) avatarWrap.classList.remove("is-hidden");
+    if (avatarWrap) avatarWrap.style.display = "block";
     if (avatarImg) avatarImg.src = managerData.avatar;
     if (nameEl)
       nameEl.textContent = managerData.name[lang] || managerData.name["ru"];
@@ -1185,19 +1196,45 @@ function initOrderFormLogic() {
     }
   }
 
+  // Управление отображением блоков выбора (Марка/Модель vs VIN)
   function handleMethodChange(selectedValue) {
-    currentOrderMethod = selectedValue;
+    currentOrderMethod = selectedValue || "by-car";
+
     const carBlock = document.getElementById("carFieldsBlock");
     const vinBlock = document.getElementById("vinFieldsBlock");
 
     clearErrors();
 
-    if (selectedValue === "by-car") {
-      if (vinBlock) vinBlock.classList.remove("active-field");
-      if (carBlock) carBlock.classList.add("active-field");
+    if (currentOrderMethod === "by-car") {
+      if (vinBlock) {
+        vinBlock.classList.add("is-hidden");
+        vinBlock.style.display = "none";
+      }
+      if (carBlock) {
+        carBlock.classList.remove("is-hidden");
+        carBlock.style.display = "block";
+      }
     } else {
-      if (carBlock) carBlock.classList.remove("active-field");
-      if (vinBlock) vinBlock.classList.add("active-field");
+      if (carBlock) {
+        carBlock.classList.add("is-hidden");
+        carBlock.style.display = "none";
+      }
+      if (vinBlock) {
+        vinBlock.classList.remove("is-hidden");
+        vinBlock.style.display = "block";
+      }
+    }
+  }
+
+  // Управление отображением поля телефона
+  function setPhoneBlockVisibility(show) {
+    if (!phoneBlock) return;
+    if (show) {
+      phoneBlock.classList.remove("is-hidden");
+      phoneBlock.style.display = "block";
+    } else {
+      phoneBlock.classList.add("is-hidden");
+      phoneBlock.style.display = "none";
     }
   }
 
@@ -1262,6 +1299,7 @@ function initOrderFormLogic() {
 
     const partsInput = document.getElementById("partsList");
     const nameInput = document.getElementById("clientName");
+    const phoneInput = document.getElementById("clientPhone");
 
     if (
       !partsInput ||
@@ -1291,6 +1329,26 @@ function initOrderFormLogic() {
     if (!nameRegex.test(nameInput.value.trim())) {
       showError(nameInput, getOrderText("nameValidation"));
       return;
+    }
+
+    // Телефон проверяется, только если блок виден
+    const isPhoneVisible =
+      phoneBlock &&
+      phoneBlock.style.display !== "none" &&
+      !phoneBlock.classList.contains("is-hidden");
+
+    if (isPhoneVisible && phoneInput) {
+      if (!phoneInput.value.trim()) {
+        showError(phoneInput, getOrderText("specifyPhone"));
+        return;
+      }
+
+      const phoneDigits = phoneInput.value.replace(/\D/g, "");
+      const phoneRegex = /^[\d\+\-\(\)\s]{7,20}$/;
+      if (!phoneRegex.test(phoneInput.value.trim()) || phoneDigits.length < 7) {
+        showError(phoneInput, getOrderText("phoneValidation"));
+        return;
+      }
     }
 
     if (currentOrderMethod === "by-car") {
@@ -1341,7 +1399,6 @@ function initOrderFormLogic() {
   }
 
   function encodeForWhatsApp(str) {
-    // normalize("NFC") гарантирует, что 4-байтовые эмодзи корректно собранны перед кодированием
     return encodeURIComponent(str.normalize("NFC"));
   }
 
@@ -1359,6 +1416,16 @@ function initOrderFormLogic() {
       : selectedBranch.toUpperCase();
 
     const name = document.getElementById("clientName").value.trim();
+    const phoneInput = document.getElementById("clientPhone");
+
+    const isPhoneVisible =
+      phoneBlock &&
+      phoneBlock.style.display !== "none" &&
+      !phoneBlock.classList.contains("is-hidden");
+
+    const clientPhone =
+      isPhoneVisible && phoneInput ? phoneInput.value.trim() : "";
+
     const parts = document.getElementById("partsList").value.trim();
     const now = new Date();
     const day = String(now.getDate()).padStart(2, "0");
@@ -1382,10 +1449,14 @@ function initOrderFormLogic() {
       vehicleBlock = `🔑 ${getOrderText("waVinCode")}:\n${vin}`;
     }
 
+    const phoneLine = clientPhone
+      ? `\n📞 ${getOrderText("waPhone")}: ${clientPhone}`
+      : "";
+
     const message =
       `📦 ${getOrderText("waOrder")} № ${orderNumber}\n` +
       `🏢 ${getOrderText("waBranch")}: ${branchLabel}\n` +
-      `👤 ${getOrderText("waClient")}: ${name}\n` +
+      `👤 ${getOrderText("waClient")}: ${name}${phoneLine}\n` +
       `_________________________\n\n` +
       `${vehicleBlock}\n` +
       `_________________________\n\n` +
@@ -1393,14 +1464,13 @@ function initOrderFormLogic() {
 
     const encodedMessage = encodeForWhatsApp(message);
 
-    // Используем api.whatsapp.com для гарантированной передачи параметров на ПК и мобильных
     window.open(
       `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`,
       "_blank",
     );
   }
 
-  // --- 6. Навешивание слушателей ---
+  // --- 6. Навешивание событий ---
 
   if (privacyCheckbox) {
     privacyCheckbox.addEventListener("change", toggleSubmitButton);
@@ -1419,7 +1489,6 @@ function initOrderFormLogic() {
     });
   });
 
-  // Отслеживание кликов и изменений (включая выбор филиала)
   orderModal.addEventListener("change", (e) => {
     if (e.target.name === "carSpecification") {
       handleMethodChange(e.target.value);
@@ -1427,8 +1496,6 @@ function initOrderFormLogic() {
 
     if (e.target.name === "branch") {
       const selectedBranch = e.target.value;
-
-      // Вызываем смену менеджера
       renderManagerBadge(selectedBranch);
 
       const group =
@@ -1443,13 +1510,25 @@ function initOrderFormLogic() {
     }
   });
 
-  orderModal.addEventListener("modal:opened", () => {
+  // --- СОБЫТИЕ ОТКРЫТИЯ МОДАЛКИ ---
+  orderModal.addEventListener("modal:opened", (e) => {
+    const origEvent = e.detail?.originalEvent;
+
+    // Проверяем нажатие Ctrl или Cmd при клике открытия
+    const isCtrlPressed = Boolean(
+      origEvent && (origEvent.ctrlKey || origEvent.metaKey),
+    );
+
+    // Управляем видимостью телефона
+    setPhoneBlockVisibility(isCtrlPressed);
+
+    // Управляем видимостью полей авто по текущему радиобаттону
     const checkedRadio = orderModal.querySelector(
       'input[name="carSpecification"]:checked',
     );
     handleMethodChange(checkedRadio ? checkedRadio.value : "by-car");
 
-    // Проверяем текущий филиал при открытии
+    // Обновляем плашку менеджера
     const selectedBranchRadio = orderModal.querySelector(
       'input[name="branch"]:checked',
     );
@@ -1458,16 +1537,15 @@ function initOrderFormLogic() {
     toggleSubmitButton();
   });
 
+  // --- СОБЫТИЕ ЗАКРЫТИЯ МОДАЛКИ ---
   orderModal.addEventListener("modal:closed", () => {
     clearErrors();
+    setPhoneBlockVisibility(false);
   });
 
-  // Инициализация менеджера при первичной загрузке
-  const initialBranchRadio = orderModal.querySelector(
-    'input[name="branch"]:checked',
-  );
-  renderManagerBadge(initialBranchRadio ? initialBranchRadio.value : null);
-
+  // Инициализация по умолчанию
+  handleMethodChange("by-car");
+  setPhoneBlockVisibility(false);
   toggleSubmitButton();
 
   // --- 7. Автокомплиты (Марка, Год, Модель) ---
