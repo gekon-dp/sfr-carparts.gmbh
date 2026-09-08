@@ -1078,7 +1078,7 @@ function initOrderFormLogic() {
       ru: "Имя содержит недопустимые символы (цифры или знаки)",
       ru_manager: "Имя клиента содержит недопустимые символы",
       de: "Der Name содержит unzulässige Zeichen (Zahlen oder Sonderzeichen)",
-      de_manager: "Der Kundenname enthält unzulässige Zeichen",
+      de_manager: "Der Kundenname содержит unzulässige Zeichen",
     },
     phoneLabel: {
       ru: "📞 Телефон клиента:",
@@ -1134,30 +1134,42 @@ function initOrderFormLogic() {
       de: "Fehler: Die Telefonnummer für die ausgewählte Filiale wurde nicht gefunden.",
     },
 
-    // Ключи сообщения клиенту вынесены НА ВЕРХНИЙ УРОВЕНЬ
+    // Менеджерская часть
+    waOrder: { ru: "Заказ", de: "Bestellung" },
+    waBranch: { ru: "Филиал", de: "Filiale" },
+    waClient: { ru: "Клиент", de: "Kunde" },
+    waPhone: { ru: "Телефон", de: "Telefon" },
+    waCarData: { ru: "Данные авто", de: "Fahrzeugdaten" },
+    waMake: { ru: "Марка", de: "Marke" },
+    waModel: { ru: "Модель", de: "Modell" },
+    waYear: { ru: "Год", de: "Jahr" },
+    waVinCode: { ru: "VIN-код", de: "VIN-Code" },
+    waWantToOrder: { ru: "Запрошенные детали", de: "Angefragte Teile" },
+
+    // Сообщение клиенту (с эмодзи)
     waClientConfirmHeader: {
-      ru: "Здравствуйте",
-      de: "Hallo",
+      ru: "👋 Здравствуйте",
+      de: "👋 Hallo",
     },
     waClientConfirmSub: {
-      ru: "Спасибо за ваш запрос! Мы получили ваш заказ",
+      ru: "Спасибо за обращение! Мы получили ваш заказ",
       de: "Vielen Dank für Ihre Anfrage! Wir haben Ihre Bestellung erhalten",
     },
     waClientListLabel: {
-      ru: "Список деталей",
-      de: "Bestellte Teile",
+      ru: "📋 Запрошенные детали",
+      de: "📋 Angefragte Teile",
     },
     waClientConfirmFooter: {
-      ru: "Мы свяжемся с вами в ближайшее время с информацией о ценах и наличии",
-      de: "Wir melden uns in Kürze mit Preisen und Verfügbarkeit",
+      ru: "⏱️ Скоро свяжемся с вами по поводу наличия и цены!",
+      de: "⏱️ Wir melden uns in Kürze mit Preisen und Verfügbarkeit!",
     },
     waClientThanks: {
-      ru: "Спасибо, что выбрали SFR Carparts!",
-      de: "Vielen Dank, dass Sie sich für SFR Carparts entschieden haben!",
+      ru: "🤝 Спасибо, что выбрали SFR Carparts!",
+      de: "🤝 Vielen Dank, dass Sie sich für SFR Carparts entschieden haben!",
     },
     waOpenClientChat: {
-      ru: "Написать клиенту в WhatsApp",
-      de: "Kunden auf WhatsApp anschreiben",
+      ru: "💬 Отправить подтверждение клиенту:",
+      de: "💬 Bestätigung an den Kunden senden:",
     },
 
     placeholders: {
@@ -1203,34 +1215,6 @@ function initOrderFormLogic() {
         de: "VIN-Code (17 Zeichen)",
         de_manager: "Kunden-VIN (17 Zeichen)",
       },
-    },
-
-    waOrder: { ru: "Заказ", de: "Bestellung" },
-    waBranch: { ru: "Филиал", de: "Filiale" },
-    waClient: { ru: "Клиент", de: "Kunde" },
-    waPhone: { ru: "Телефон", de: "Telefon" },
-    waCarData: { ru: "Данные авто", de: "Fahrzeugdaten" },
-    waMake: { ru: "Марка", de: "Marke" },
-    waModel: { ru: "Модель", de: "Modell" },
-    waYear: { ru: "Год", de: "Jahr" },
-    waVinCode: { ru: "VIN-код", de: "VIN-Code" },
-    waWantToOrder: { ru: "Запрошенные детали", de: "Angefragte Teile" },
-
-    waClientConfirmHeader: {
-      ru: "Здравствуйте",
-      de: "Hallo",
-    },
-    waClientConfirmSub: {
-      ru: "Спасибо за обращение! Мы получили ваш заказ",
-      de: "Vielen Dank für Ihre Anfrage! Wir haben Ihre Bestellung erhalten",
-    },
-    waClientConfirmFooter: {
-      ru: "Скоро свяжемся с вами по поводу наличия и цены!",
-      de: "Wir melden uns in Kürze mit Preisen und Verfügbarkeit!",
-    },
-    waOpenClientChat: {
-      ru: "💬 Отправить подтверждение клиенту:",
-      de: "💬 Bestätigung an den Kunden senden:",
     },
   };
 
@@ -1566,6 +1550,7 @@ function initOrderFormLogic() {
     const phoneInput = document.getElementById("clientPhone");
 
     const isPhoneVisible =
+      typeof phoneBlock !== "undefined" &&
       phoneBlock &&
       phoneBlock.style.display !== "none" &&
       !phoneBlock.classList.contains("is-hidden");
@@ -1582,18 +1567,21 @@ function initOrderFormLogic() {
     const orderNumber = `${day}${month}-${hours}${minutes}`;
 
     let vehicleBlock = "";
-    if (currentOrderMethod === "by-car") {
+    if (
+      typeof currentOrderMethod !== "undefined" &&
+      currentOrderMethod === "by-car"
+    ) {
       const make = document.getElementById("carMake").value.trim();
       const model = document.getElementById("carModel").value.trim();
       const year = document.getElementById("carYear").value.trim();
 
-      vehicleBlock = `🚗 *${getOrderText("waCarData")}*:\n• *${getOrderText("waMake")}*: ${make}\n• *${getOrderText("waModel")}*: ${model}\n• *${getOrderText("waYear")}*: ${year}`;
+      vehicleBlock = `🚗 *${getOrderText("waCarData")}*:\r\n• *${getOrderText("waMake")}*: ${make}\r\n• *${getOrderText("waModel")}*: ${model}\r\n• *${getOrderText("waYear")}*: ${year}`;
     } else {
-      const vin = document
-        .getElementById("vinCode")
-        .value.replace(/\s+/g, "")
-        .toUpperCase();
-      vehicleBlock = `🔑 *${getOrderText("waVinCode")}*:\n${vin}`;
+      const vinInput = document.getElementById("vinCode");
+      const vin = vinInput
+        ? vinInput.value.replace(/\s+/g, "").toUpperCase()
+        : "";
+      vehicleBlock = `🔑 *${getOrderText("waVinCode")}*:\r\n${vin}`;
     }
 
     let phoneLine = "";
@@ -1601,48 +1589,57 @@ function initOrderFormLogic() {
 
     if (rawClientPhone) {
       const cleanPhone = rawClientPhone.replace(/\D/g, "");
-      phoneLine = `\n*${getOrderText("phoneLabel")}* ${rawClientPhone}`;
+      phoneLine = `\r\n*${getOrderText("waPhone")}*: ${rawClientPhone}`;
 
+      // Переводы для клиента подтягиваются из вашего словаря orderTranslations
       const headerText = getOrderText("waClientConfirmHeader");
       const subText = getOrderText("waClientConfirmSub");
       const listLabel = getOrderText("waClientListLabel");
       const footerText = getOrderText("waClientConfirmFooter");
       const thanksText = getOrderText("waClientThanks");
 
+      // Формируем чистый текст для клиента с переносами \r\n
       const clientMessageText =
-        `*${headerText}, ${name}!*\n` +
-        `${subText} (№ ${orderNumber}).\n` +
-        `*${listLabel}*:\n${parts}\n\n` +
-        `${footerText}.\n` +
+        `${headerText}, ${name}!\r\n` +
+        `${subText} (№ ${orderNumber}).\r\n\r\n` +
+        `${listLabel}:\r\n${parts}\r\n\r\n` +
+        `${footerText}\r\n` +
         `${thanksText}`;
 
-      const encodedClientText = encodeURIComponent(clientMessageText);
-      const waLink = `https://wa.me/${cleanPhone}?text=${encodedClientText}`;
+      // Копирование в буфер обмена
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(clientMessageText);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = clientMessageText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+
+      const waLink = `https://wa.me/${cleanPhone}`;
 
       clientChatLink =
-        `\n-------------------------\n\n` +
-        `*${getOrderText("waOpenClientChat")}*\n` +
+        `\r\n-------------------------\r\n\r\n` +
+        `*${getOrderText("waOpenClientChat")}*\r\n` +
         `${waLink}`;
     }
 
-    // Сообщение для менеджера
+    // Сообщение менеджеру
     const fullMessage =
-      `📦 *${getOrderText("waOrder")}* № ${orderNumber}\n` +
-      `🏢 *${getOrderText("waBranch")}*: ${branchLabel}\n` +
-      `👤 *${getOrderText("waClient")}*: ${name}${phoneLine}\n` +
-      `-------------------------\n\n` +
-      `${vehicleBlock}\n` +
-      `-------------------------\n\n` +
-      `📋 *${getOrderText("waWantToOrder")}*:\n${parts}` +
+      `📦 *${getOrderText("waOrder")}* № ${orderNumber}\r\n` +
+      `🏢 *${getOrderText("waBranch")}*: ${branchLabel}\r\n` +
+      `👤 *${getOrderText("waClient")}*: ${name}${phoneLine}\r\n` +
+      `-------------------------\r\n\r\n` +
+      `${vehicleBlock}\r\n` +
+      `-------------------------\r\n\r\n` +
+      `📋 *${getOrderText("waWantToOrder")}*:\r\n${parts}` +
       `${clientChatLink}`;
 
-    // Кодируем финальный текст ОДИН раз перед отправкой
-    const finalEncodedMessage = encodeURIComponent(fullMessage);
+    const targetUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(fullMessage)}`;
 
-    window.open(
-      `https://api.whatsapp.com/send?phone=${phone}&text=${finalEncodedMessage}`,
-      "_blank",
-    );
+    window.open(targetUrl, "_blank");
   }
 
   // --- 6. Навешивание событий ---
