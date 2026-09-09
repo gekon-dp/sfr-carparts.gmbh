@@ -3,6 +3,15 @@ GLOBAL CONFIG
 ============================================================================= */
 const LANGUAGES = ["ru", "de"];
 
+const GENERAL_SCHEDULE = {
+  workDays: [1, 2, 3, 4, 5], // Пн-Пт
+  open: "09:00",
+  close: "18:00",
+  hasSaturday: true,
+  satOpen: "09:00",
+  satClose: "14:00",
+};
+
 const state = {
   currentLang: localStorage.getItem("sfr_lang") || "de",
   currentTheme: localStorage.getItem("sfr_theme") || "light",
@@ -306,7 +315,8 @@ const ORDER_I18N = {
     ru: "Опишите необходимые запчасти (минимум 3 символа)",
     ru_manager: "Введите список запчастей клиента (минимум 3 символа)",
     de: "Bitte beschreiben Sie die benötigten Teile (mindestens 3 Zeichen)",
-    de_manager: "Geben Sie die Teileliste des Kunden ein (mindestens 3 Zeichen)",
+    de_manager:
+      "Geben Sie die Teileliste des Kunden ein (mindestens 3 Zeichen)",
   },
   partsValidation: {
     ru: "Описание должно содержать буквы или цифры",
@@ -502,6 +512,93 @@ const CAR_MODELS = {
   Volvo: ["XC40", "XC60", "XC90", "S60"],
 };
 
+function getManagerStatus(activeBranchKey = state.activeBranch) {
+  const config = GENERAL_SCHEDULE;
+  const lang = state.currentLang || "ru";
+
+  const now = new Date();
+  const day = now.getDay();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  let isWorkDay = config.workDays.includes(day);
+  let openStr = config.open;
+  let closeStr = config.close;
+
+  if (day === 6 && config.hasSaturday) {
+    isWorkDay = true;
+    openStr = config.satOpen;
+    closeStr = config.satClose;
+  }
+
+  const toMins = (timeStr) => {
+    const [h, m] = timeStr.split(":").map(Number);
+    return h * 60 + m;
+  };
+
+  const openMins = toMins(openStr);
+  const closeMins = toMins(closeStr);
+
+  const isOpenNow =
+    isWorkDay && currentMinutes >= openMins && currentMinutes < closeMins;
+
+  if (isOpenNow) {
+    const branch = branchData[activeBranchKey] || branchData.westerkappeln;
+    return {
+      isOpen: true,
+      text: branch.manager.status[lang] || branch.manager.status.ru,
+    };
+  }
+
+  const dict = {
+    ru: {
+      closedTodayLater: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время сегодня с ${openStr}`,
+      closedTomorrow: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время завтра с ${config.open}`,
+      closedMonday: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время в понедельник с ${config.open}`,
+    },
+    de: {
+      closedTodayLater: `🔴 Geschlossen. Der Manager wird Ihre Bestellung heute ab ${openStr} bearbeiten`,
+      closedTomorrow: `🔴 Geschlossen. Der Manager wird Ihre Bestellung morgen ab ${config.open} bearbeiten`,
+      closedMonday: `🔴 Geschlossen. Der Manager wird Ihre Bestellung am Montag ab ${config.open} bearbeiten`,
+    },
+  };
+
+  const t = dict[lang] || dict.ru;
+  let closedText = t.closedTomorrow;
+
+  if (isWorkDay && currentMinutes < openMins) {
+    closedText = t.closedTodayLater;
+  } else if (day === 0 || (day === 6 && !config.hasSaturday)) {
+    closedText = t.closedMonday;
+  }
+
+  return {
+    isOpen: false,
+    text: closedText,
+  };
+}
+
+function updateManagerStatusDisplay() {
+  const managerStatusEl = document.querySelector(".manager-status");
+  if (!managerStatusEl) return;
+
+  const selectedBranchInput = document.querySelector(
+    'input[name="branch"]:checked',
+  );
+  const activeBranch = selectedBranchInput
+    ? selectedBranchInput.value
+    : state.activeBranch;
+
+  const status = getManagerStatus(activeBranch);
+
+  managerStatusEl.textContent = status.text;
+
+  if (!status.isOpen) {
+    managerStatusEl.style.color = "#ef4444";
+  } else {
+    managerStatusEl.style.color = "";
+  }
+}
+
 /* ==========================================================================
 HELPERS
 ============================================================================= */
@@ -562,6 +659,7 @@ function updateBranchInfo(branchId = state.activeBranch) {
       mapIframe.src = localizedSrc;
     }
   }
+  updateManagerStatusDisplay();
 }
 
 function applyLanguage(lang) {
@@ -990,6 +1088,7 @@ function initCookieBanner() {
 MODALS
 ============================================================================= */
 function initGlobalModals() {
+  updateManagerStatusDisplay();
   window.openModalById = function (modalId, triggerEvent = null) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -1039,6 +1138,7 @@ function initGlobalModals() {
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") window.closeModal();
   });
+  updateManagerStatusDisplay();
 }
 
 /* ==========================================================================
@@ -1134,7 +1234,8 @@ function initOrderFormLogic() {
 
     if (avatarWrap) avatarWrap.style.display = "block";
     if (avatarImg) avatarImg.src = managerData.avatar;
-    if (nameEl) nameEl.textContent = managerData.name[lang] || managerData.name.ru;
+    if (nameEl)
+      nameEl.textContent = managerData.name[lang] || managerData.name.ru;
     if (statusEl) {
       statusEl.textContent = managerData.status[lang] || managerData.status.ru;
     }
@@ -1683,4 +1784,20 @@ document.addEventListener("DOMContentLoaded", () => {
   initOrderFormLogic();
   initCallbackForm();
   initLanguageSwitcher();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  // ... все ваши существующие вызовы (initThemeSwitcher и т.д.) ...
+
+  // === ВСТАВИТЬ СЮДА ===
+  updateManagerStatusDisplay();
+
+  document.addEventListener("change", (e) => {
+    if (e.target && e.target.name === "branch") {
+      updateManagerStatusDisplay();
+    }
+  });
+
+  setInterval(updateManagerStatusDisplay, 60000);
+  // =====================
 });
