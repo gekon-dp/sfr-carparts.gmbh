@@ -36,6 +36,10 @@ const branchData = {
     manager: {
       name: { ru: "Светлана", de: "Svetlana" },
       avatar: "./assets/images/member-svetlana.jpg",
+      role: {
+        ru: "Менеджер",
+        de: "Managerin", // <-- Женский род
+      },
       status: {
         ru: "💬 Нужна деталь? Пришлите VIN — отвечу через 10 минут!",
         de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
@@ -58,6 +62,10 @@ const branchData = {
     manager: {
       name: { ru: "Сергей", de: "Sergey" },
       avatar: "./assets/images/userpic.jpg",
+      role: {
+        ru: "Менеджер",
+        de: "Manager", // <-- Мужской род
+      },
       status: {
         ru: "⏱️ Онлайн. Подберу запчасти за 10 минут. Без ошибок.",
         de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
@@ -515,6 +523,15 @@ const CAR_MODELS = {
 function getManagerStatus(activeBranchKey = state.activeBranch) {
   const config = GENERAL_SCHEDULE;
   const lang = state.currentLang || "ru";
+  const branch = branchData[activeBranchKey] || branchData.westerkappeln || {};
+
+  // Безопасное получение данных
+  const managerName =
+    branch.manager?.name?.[lang] || branch.manager?.name?.ru || "";
+  const managerRole =
+    branch.manager?.role?.[lang] ||
+    branch.manager?.role?.ru ||
+    (lang === "de" ? "Manager" : "Менеджер");
 
   const now = new Date();
   const day = now.getDay();
@@ -531,6 +548,7 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
   }
 
   const toMins = (timeStr) => {
+    if (!timeStr) return 0;
     const [h, m] = timeStr.split(":").map(Number);
     return h * 60 + m;
   };
@@ -542,23 +560,22 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
     isWorkDay && currentMinutes >= openMins && currentMinutes < closeMins;
 
   if (isOpenNow) {
-    const branch = branchData[activeBranchKey] || branchData.westerkappeln;
     return {
       isOpen: true,
-      text: branch.manager.status[lang] || branch.manager.status.ru,
+      text: branch.manager?.status?.[lang] || branch.manager?.status?.ru || "",
     };
   }
 
   const dict = {
     ru: {
-      closedTodayLater: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время сегодня с ${openStr}`,
-      closedTomorrow: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время завтра с ${config.open}`,
-      closedMonday: `🔴 Закрыто. Менеджер обработает ваш заказ в рабочее время в понедельник с ${config.open}`,
+      closedTodayLater: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
+      closedTomorrow: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
+      closedMonday: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
     },
     de: {
-      closedTodayLater: `🔴 Geschlossen. Der Manager wird Ihre Bestellung heute ab ${openStr} bearbeiten`,
-      closedTomorrow: `🔴 Geschlossen. Der Manager wird Ihre Bestellung morgen ab ${config.open} bearbeiten`,
-      closedMonday: `🔴 Geschlossen. Der Manager wird Ihre Bestellung am Montag ab ${config.open} bearbeiten`,
+      closedTodayLater: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
+      closedTomorrow: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
+      closedMonday: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
     },
   };
 
@@ -578,25 +595,39 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
 }
 
 function updateManagerStatusDisplay() {
-  const managerStatusEl = document.querySelector(".manager-status");
-  if (!managerStatusEl) return;
-
-  const selectedBranchInput = document.querySelector(
-    'input[name="branch"]:checked',
+  const managerStatusEls = document.querySelectorAll(
+    ".manager-status, .js-manager-status",
   );
-  const activeBranch = selectedBranchInput
-    ? selectedBranchInput.value
-    : state.activeBranch;
+  if (!managerStatusEls.length) return;
 
+  // Ищем ТОЛЬКО выбранную пользователем радиокнопку филиала
+  const selectedBranchInput =
+    document.querySelector('input[name="branch"]:checked') ||
+    document.querySelector('input[name="modal-branch"]:checked');
+
+  // Если радиокнопка НЕ выбрана пользователем (первое открытие модалки)
+  if (!selectedBranchInput) {
+    const lang = state.currentLang || "ru";
+    const defaultText = {
+      ru: "🔴 Закрыто. Выберите филиал, чтобы узнать время работы менеджера",
+      de: "🔴 Geschlossen. Wählen Sie eine Filiale, um die Arbeitszeiten zu sehen",
+    };
+
+    managerStatusEls.forEach((el) => {
+      el.textContent = defaultText[lang] || defaultText.ru;
+      el.style.color = "#ef4444";
+    });
+    return;
+  }
+
+  // Когда филиал ВЫБРАН — рассчитываем точный статус для этого филиала
+  const activeBranch = selectedBranchInput.value;
   const status = getManagerStatus(activeBranch);
 
-  managerStatusEl.textContent = status.text;
-
-  if (!status.isOpen) {
-    managerStatusEl.style.color = "#ef4444";
-  } else {
-    managerStatusEl.style.color = "";
-  }
+  managerStatusEls.forEach((el) => {
+    el.textContent = status.text;
+    el.style.color = status.isOpen ? "" : "#ef4444";
+  });
 }
 
 /* ==========================================================================
@@ -1088,7 +1119,6 @@ function initCookieBanner() {
 MODALS
 ============================================================================= */
 function initGlobalModals() {
-  updateManagerStatusDisplay();
   window.openModalById = function (modalId, triggerEvent = null) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -1096,6 +1126,9 @@ function initGlobalModals() {
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
+
+    // Обновляем статус прямо перед отправкой события
+    updateManagerStatusDisplay();
 
     modal.dispatchEvent(
       new CustomEvent("modal:opened", {
@@ -1121,6 +1154,12 @@ function initGlobalModals() {
     );
   };
 
+  // Если другой скрипт перерисовывает содержимое модалки по событию modal:opened,
+  // принудительно возвращаем актуальный статус рабочей смены после всех подстановок:
+  document.addEventListener("modal:opened", function () {
+    setTimeout(updateManagerStatusDisplay, 0);
+  });
+
   document.addEventListener("click", function (e) {
     const trigger = e.target.closest("[data-open-modal]");
     if (trigger) {
@@ -1138,7 +1177,6 @@ function initGlobalModals() {
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") window.closeModal();
   });
-  updateManagerStatusDisplay();
 }
 
 /* ==========================================================================
