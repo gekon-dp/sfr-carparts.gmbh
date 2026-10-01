@@ -22,8 +22,8 @@ const state = {
 const branchData = {
   westerkappeln: {
     address: {
-      ru: "Оснабрюк штрассе 10, 49492 Вестеркаппельн, Германия",
-      de: "Osnabrücker Straße 10, 49492 Westerkappeln, Deutschland",
+      ru: "Гартенкамп 13, 49492 Вестеркаппельн, Германия",
+      de: "Gartenkamp 13, 49492 Westerkappeln, Deutschland",
     },
     phone: "+4954048999397",
     whatsapp: "491754247818",
@@ -576,31 +576,31 @@ function getManagerStatus(
   const dict = {
     ru: {
       closedTodayLater: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
+        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
+        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
       closedTomorrow: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
+        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
+        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
       closedTomorrowSat: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
+        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
+        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
       closedMonday: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
+        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
+        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
     },
     de: {
       closedTodayLater: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
+        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
+        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
       closedTomorrow: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
+        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
+        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
       closedTomorrowSat: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
+        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
+        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
       closedMonday: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
+        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
+        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
     },
   };
 
@@ -665,8 +665,8 @@ function updateManagerStatusDisplay() {
     } else {
       // Нерабочее время: информируем о закрытии
       const defaultClosedText = {
-        ru: "🔴 Закрыто. Выберите филиал, чтобы узнать время работы менеджера",
-        de: "🔴 Geschlossen. Wählen Sie eine Filiale, um die Arbeitszeiten zu sehen",
+        ru: " Закрыто. Выберите филиал, чтобы узнать время работы менеджера",
+        de: " Geschlossen. Wählen Sie eine Filiale, um die Arbeitszeiten zu sehen",
       };
 
       managerStatusEls.forEach((el) => {
@@ -1761,7 +1761,7 @@ function updateCallbackManagerStatusDisplay() {
         'Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von <span class="highlight">5 Minuten</span> zu einem Beratungsgespräch zurück.';
     }
   } else {
-    // 🔴 В нерабочее время выводим статус закрытия (getManagerStatus уже вернет нужный язык)
+    //  В нерабочее время выводим статус закрытия (getManagerStatus уже вернет нужный язык)
     if (ruEl) {
       ruEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${status.text}</span>`;
     }
