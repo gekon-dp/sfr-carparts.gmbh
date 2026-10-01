@@ -520,10 +520,14 @@ const CAR_MODELS = {
   Volvo: ["XC40", "XC60", "XC90", "S60"],
 };
 
-function getManagerStatus(activeBranchKey = state.activeBranch) {
+function getManagerStatus(
+  activeBranchKey = state?.activeBranch,
+  context = "order",
+) {
   const config = GENERAL_SCHEDULE;
-  const lang = state.currentLang || "ru";
-  const branch = branchData[activeBranchKey] || branchData.westerkappeln || {};
+  const lang = state?.currentLang || "ru";
+  const branch =
+    branchData?.[activeBranchKey] || branchData?.westerkappeln || {};
 
   // Безопасное получение данных
   const managerName =
@@ -534,6 +538,7 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
     (lang === "de" ? "Manager" : "Менеджер");
 
   const now = new Date();
+  // const now = new Date("2026-10-03T19:30:00"); для проверки нерабочего времени
   const day = now.getDay();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -566,18 +571,36 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
     };
   }
 
+  const isCallback = context === "callback";
+
   const dict = {
     ru: {
-      closedTodayLater: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
-      closedTomorrow: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
-      closedTomorrowSat: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
-      closedMonday: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
+      closedTodayLater: isCallback
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
+      closedTomorrow: isCallback
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
+      closedTomorrowSat: isCallback
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
+      closedMonday: isCallback
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
     },
     de: {
-      closedTodayLater: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
-      closedTomorrow: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
-      closedTomorrowSat: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
-      closedMonday: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
+      closedTodayLater: isCallback
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
+      closedTomorrow: isCallback
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
+      closedTomorrowSat: isCallback
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
+      closedMonday: isCallback
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
     },
   };
 
@@ -1708,13 +1731,73 @@ function initOrderFormLogic() {
 }
 
 /* ==========================================================================
-CALLBACK MODAL
-============================================================================= */
+   CALLBACK MODAL & MANAGER STATUS
+   ============================================================================= */
+
+// Функция обновления статуса менеджера в окне обратного звонка (Вариант 1)
+function updateCallbackManagerStatusDisplay() {
+  const currentBranch = state?.activeBranch || "westerkappeln";
+
+  // Проверяем наличие getManagerStatus
+  if (typeof getManagerStatus !== "function") return;
+
+  const status = getManagerStatus(currentBranch, "callback");
+
+  const ruEl = document.querySelector(
+    '#modal-callback .callback-subtitle[lang="ru"]',
+  );
+  const deEl = document.querySelector(
+    '#modal-callback .callback-subtitle[lang="de"]',
+  );
+
+  if (status.isOpen) {
+    // 🟢 В рабочее время возвращаем стандартный текст с подсвеченным span
+    if (ruEl) {
+      ruEl.innerHTML =
+        'Закажи обратный звонок и я перезвоню для консультации в течение <span class="highlight">5 минут</span>.';
+    }
+    if (deEl) {
+      deEl.innerHTML =
+        'Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von <span class="highlight">5 Minuten</span> zu einem Beratungsgespräch zurück.';
+    }
+  } else {
+    // 🔴 В нерабочее время выводим статус закрытия (getManagerStatus уже вернет нужный язык)
+    if (ruEl) {
+      ruEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${status.text}</span>`;
+    }
+    if (deEl) {
+      deEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${status.text}</span>`;
+    }
+  }
+}
+
 function initCallbackForm() {
   const callbackForm = document.getElementById("callback-form");
   if (!callbackForm) return;
 
   const phoneInput = document.getElementById("callback-phone");
+  const modal = callbackForm.closest(".modal");
+
+  // Обновляем статус менеджера сразу при инициализации
+  updateCallbackManagerStatusDisplay();
+
+  // Если модалка открывается через класс 'is-open' или MutationObserver/события,
+  // подтягиваем актуальный статус при открытии
+  if (modal) {
+    const observer = new MutationObserver(() => {
+      if (
+        modal.classList.contains("is-open") ||
+        modal.getAttribute("aria-hidden") === "false"
+      ) {
+        updateCallbackManagerStatusDisplay();
+      }
+    });
+    observer.observe(modal, {
+      attributes: true,
+      attributeFilter: ["class", "aria-hidden"],
+    });
+  }
+
   const callbackErrors = {
     required: {
       ru: "Пожалуйста, введите номер телефона",
@@ -1825,7 +1908,6 @@ function initCallbackForm() {
       "_blank",
     );
 
-    const modal = callbackForm.closest(".modal");
     if (modal && typeof window.closeModal === "function") {
       window.closeModal(modal);
     } else if (modal) {
@@ -1844,6 +1926,7 @@ function initCallbackForm() {
 APP INITIALIZATION
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  // Инициализация модулей
   initGlobalModals();
   initThemeSwitcher();
   initBurgerMenu();
@@ -1856,20 +1939,22 @@ document.addEventListener("DOMContentLoaded", () => {
   initOrderFormLogic();
   initCallbackForm();
   initLanguageSwitcher();
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  // ... все ваши существующие вызовы (initThemeSwitcher и т.д.) ...
-
-  // === ВСТАВИТЬ СЮДА ===
+  // Первичный расчет статусов менеджера для обоих окон
   updateManagerStatusDisplay();
+  updateCallbackManagerStatusDisplay();
 
+  // Отслеживание смены филиала (обновляет оба статуса)
   document.addEventListener("change", (e) => {
     if (e.target && e.target.name === "branch") {
       updateManagerStatusDisplay();
+      updateCallbackManagerStatusDisplay();
     }
   });
 
-  setInterval(updateManagerStatusDisplay, 60000);
-  // =====================
+  // Периодическое обновление каждую минуту (на случай смены рабочего времени)
+  setInterval(() => {
+    updateManagerStatusDisplay();
+    updateCallbackManagerStatusDisplay();
+  }, 60000);
 });
