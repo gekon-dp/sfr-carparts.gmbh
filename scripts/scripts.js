@@ -570,11 +570,13 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
     ru: {
       closedTodayLater: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
       closedTomorrow: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
+      closedTomorrowSat: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
       closedMonday: `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
     },
     de: {
       closedTodayLater: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
       closedTomorrow: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
+      closedTomorrowSat: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
       closedMonday: `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
     },
   };
@@ -582,10 +584,24 @@ function getManagerStatus(activeBranchKey = state.activeBranch) {
   const t = dict[lang] || dict.ru;
   let closedText = t.closedTomorrow;
 
+  // 1. Утро до открытия (сегодня)
   if (isWorkDay && currentMinutes < openMins) {
     closedText = t.closedTodayLater;
-  } else if (day === 0 || (day === 6 && !config.hasSaturday)) {
+  }
+  // 2. Пятница вечер -> Суббота (если суббота рабочая)
+  else if (day === 5 && currentMinutes >= closeMins) {
+    closedText = config.hasSaturday ? t.closedTomorrowSat : t.closedMonday;
+  }
+  // 3. Суббота после 14:00 (или суббота без работы) -> Понедельник
+  else if (
+    (day === 6 && currentMinutes >= closeMins) ||
+    (day === 6 && !config.hasSaturday)
+  ) {
     closedText = t.closedMonday;
+  }
+  // 4. Воскресенье ИЛИ Пн-Чт вечер -> Завтра с 09:00 (для воскресенья "завтра" как раз понедельник!)
+  else {
+    closedText = t.closedTomorrow;
   }
 
   return {
@@ -600,27 +616,45 @@ function updateManagerStatusDisplay() {
   );
   if (!managerStatusEls.length) return;
 
-  // Ищем ТОЛЬКО выбранную пользователем радиокнопку филиала
+  // Ищем выбранную радиокнопку филиала
   const selectedBranchInput =
     document.querySelector('input[name="branch"]:checked') ||
     document.querySelector('input[name="modal-branch"]:checked');
 
-  // Если радиокнопка НЕ выбрана пользователем (первое открытие модалки)
+  // 1. ЕСЛИ ФИЛИАЛ ЕЩЕ НЕ ВЫБРАН (первое открытие модалки)
   if (!selectedBranchInput) {
     const lang = state.currentLang || "ru";
-    const defaultText = {
-      ru: "🔴 Закрыто. Выберите филиал, чтобы узнать время работы менеджера",
-      de: "🔴 Geschlossen. Wählen Sie eine Filiale, um die Arbeitszeiten zu sehen",
-    };
 
-    managerStatusEls.forEach((el) => {
-      el.textContent = defaultText[lang] || defaultText.ru;
-      el.style.color = "#ef4444";
-    });
+    // Проверяем общее рабочее время прямо сейчас
+    const tempStatus = getManagerStatus(state.activeBranch);
+
+    if (tempStatus.isOpen) {
+      // Рабочее время: нейтральная просьба выбрать филиал
+      const defaultOpenText = {
+        ru: "Выберите филиал для оформления заказа",
+        de: "Wählen Sie eine Filiale, um die Bestellung aufzugeben",
+      };
+
+      managerStatusEls.forEach((el) => {
+        el.textContent = defaultOpenText[lang] || defaultOpenText.ru;
+        el.style.color = ""; // Обычный цвет текста
+      });
+    } else {
+      // Нерабочее время: информируем о закрытии
+      const defaultClosedText = {
+        ru: "🔴 Закрыто. Выберите филиал, чтобы узнать время работы менеджера",
+        de: "🔴 Geschlossen. Wählen Sie eine Filiale, um die Arbeitszeiten zu sehen",
+      };
+
+      managerStatusEls.forEach((el) => {
+        el.textContent = defaultClosedText[lang] || defaultClosedText.ru;
+        el.style.color = "#ef4444"; // Красный цвет
+      });
+    }
     return;
   }
 
-  // Когда филиал ВЫБРАН — рассчитываем точный статус для этого филиала
+  // 2. КОГДА ФИЛИАЛ УЖЕ ВЫБРАН КЛИКОМ
   const activeBranch = selectedBranchInput.value;
   const status = getManagerStatus(activeBranch);
 
