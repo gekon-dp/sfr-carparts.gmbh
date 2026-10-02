@@ -45,6 +45,22 @@ const branchData = {
         de: "🚗 Ersatzteil gesucht? Schick mir den Schein – Antwort in 10 Minuten!",
       },
     },
+    offDays: [
+      // Ежегодные праздники (без года, формат MM-DD):
+      {
+        date: "10-03",
+        reason: {
+          ru: "День германского единства",
+          de: "Tag der Deutschen Einheit",
+        },
+      },
+      { date: "12-25", reason: { ru: "Рождество", de: "Weihnachten" } },
+      { date: "12-26", reason: { ru: "Рождество", de: "Weihnachten" } },
+      { date: "01-01", reason: { ru: "Новый год", de: "Neujahr" } },
+
+      // Разовые закрытия (с указанием конкретного года):
+      // { date: "2026-11-15", reason: { ru: "Технический день", de: "Ruhetag" } },
+    ],
   },
   rheine: {
     address: {
@@ -71,6 +87,22 @@ const branchData = {
         de: "⚙️ Online. Ich finde die passenden Teile in 10 Minuten. Garantiert fehlerfrei.",
       },
     },
+    offDays: [
+      // Ежегодные праздники (без года, формат MM-DD):
+      {
+        date: "10-03",
+        reason: {
+          ru: "День германского единства",
+          de: "Tag der Deutschen Einheit",
+        },
+      },
+      { date: "12-25", reason: { ru: "Рождество", de: "Weihnachten" } },
+      { date: "12-26", reason: { ru: "Рождество", de: "Weihnachten" } },
+      { date: "01-01", reason: { ru: "Новый год", de: "Neujahr" } },
+
+      // Разовые закрытия (с указанием конкретного года):
+      // { date: "2026-11-15", reason: { ru: "Технический день", de: "Ruhetag" } },
+    ],
   },
 };
 
@@ -538,7 +570,48 @@ function getManagerStatus(
     (lang === "de" ? "Manager" : "Менеджер");
 
   const now = new Date();
-  // const now = new Date("2026-10-03T19:30:00"); для проверки нерабочего времени
+  // const now = new Date("2029-12-26T12:00:00"); // Для проверки праздника (например, Tag der Deutschen Einheit)
+
+  // =========================================================================
+  // 1. ПРОВЕРКА СПЕЦИАЛЬНЫХ ДНЕЙ (ПРАЗДНИКИ / ВЫХОДНЫЕ ФИЛИАЛА)
+  // =========================================================================
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const dayNum = String(now.getDate()).padStart(2, "0");
+
+  const fullDateStr = `${year}-${month}-${dayNum}`; // "2026-10-03" (для разовых)
+  const monthDayStr = `${month}-${dayNum}`; // "10-03" (для ежегодных)
+
+  // Ищем совпадение либо по полной дате "YYYY-MM-DD", либо по ежегодной "MM-DD"
+  const offDaysList = branch.offDays || branch.manager?.offDays || [];
+  const specialOffDay = offDaysList.find(
+    (item) => item.date === fullDateStr || item.date === monthDayStr,
+  );
+
+  if (specialOffDay) {
+    const isCallback = context === "callback";
+    const reasonText =
+      specialOffDay.reason?.[lang] ||
+      specialOffDay.reason?.ru ||
+      (lang === "de" ? "Feiertag" : "Праздник");
+
+    const actionRu = isCallback
+      ? "свяжется с вами в следующий рабочий день"
+      : "обработает ваш заказ в следующий рабочий день";
+    const actionDe = isCallback
+      ? "ruft Sie am nächsten Werktag zurück"
+      : "bearbeitet Ihre Bestellung am nächsten Werktag";
+
+    return {
+      isOpen: false,
+      text:
+        lang === "de"
+          ? `🔴 Geschlossen (${reasonText}). ${managerRole} ${managerName} ${actionDe}.`
+          : `🔴 Закрыто (${reasonText}). ${managerRole} ${managerName} ${actionRu}.`,
+    };
+  }
+  // =========================================================================
+
   const day = now.getDay();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -576,31 +649,31 @@ function getManagerStatus(
   const dict = {
     ru: {
       closedTodayLater: isCallback
-        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
-        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
       closedTomorrow: isCallback
-        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
-        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
       closedTomorrowSat: isCallback
-        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
-        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
       closedMonday: isCallback
-        ? ` Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
-        : ` Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
+        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
+        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
     },
     de: {
       closedTodayLater: isCallback
-        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
-        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
       closedTomorrow: isCallback
-        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
-        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
       closedTomorrowSat: isCallback
-        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
-        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
       closedMonday: isCallback
-        ? ` Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
-        : ` Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
+        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
+        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
     },
   };
 
@@ -622,7 +695,7 @@ function getManagerStatus(
   ) {
     closedText = t.closedMonday;
   }
-  // 4. Воскресенье ИЛИ Пн-Чт вечер -> Завтра с 09:00 (для воскресенья "завтра" как раз понедельник!)
+  // 4. Воскресенье ИЛИ Пн-Чт вечер -> Завтра с 09:00
   else {
     closedText = t.closedTomorrow;
   }
@@ -1734,14 +1807,10 @@ function initOrderFormLogic() {
    CALLBACK MODAL & MANAGER STATUS
    ============================================================================= */
 
-// Функция обновления статуса менеджера в окне обратного звонка (Вариант 1)
 function updateCallbackManagerStatusDisplay() {
   const currentBranch = state?.activeBranch || "westerkappeln";
 
-  // Проверяем наличие getManagerStatus
   if (typeof getManagerStatus !== "function") return;
-
-  const status = getManagerStatus(currentBranch, "callback");
 
   const ruEl = document.querySelector(
     '#modal-callback .callback-subtitle[lang="ru"]',
@@ -1750,23 +1819,37 @@ function updateCallbackManagerStatusDisplay() {
     '#modal-callback .callback-subtitle[lang="de"]',
   );
 
-  if (status.isOpen) {
-    // 🟢 В рабочее время возвращаем стандартный текст с подсвеченным span
-    if (ruEl) {
+  // Временно запрашиваем статус под каждый язык
+  const originalLang = state?.currentLang;
+
+  // 1. Получаем статус для RU
+  if (state) state.currentLang = "ru";
+  const statusRu = getManagerStatus(currentBranch, "callback");
+
+  // 2. Получаем статус для DE
+  if (state) state.currentLang = "de";
+  const statusDe = getManagerStatus(currentBranch, "callback");
+
+  // Восстанавливаем текущий язык в state
+  if (state) state.currentLang = originalLang;
+
+  // Обновляем RU элемент
+  if (ruEl) {
+    if (statusRu.isOpen) {
       ruEl.innerHTML =
         'Закажи обратный звонок и я перезвоню для консультации в течение <span class="highlight">5 минут</span>.';
+    } else {
+      ruEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${statusRu.text}</span>`;
     }
-    if (deEl) {
+  }
+
+  // Обновляем DE элемент
+  if (deEl) {
+    if (statusDe.isOpen) {
       deEl.innerHTML =
         'Bitten Sie um einen Rückruf, und ich rufe Sie innerhalb von <span class="highlight">5 Minuten</span> zu einem Beratungsgespräch zurück.';
-    }
-  } else {
-    //  В нерабочее время выводим статус закрытия (getManagerStatus уже вернет нужный язык)
-    if (ruEl) {
-      ruEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${status.text}</span>`;
-    }
-    if (deEl) {
-      deEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${status.text}</span>`;
+    } else {
+      deEl.innerHTML = `<span style="color: #ef4444; font-weight: 500;">${statusDe.text}</span>`;
     }
   }
 }
