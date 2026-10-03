@@ -113,8 +113,8 @@ const translations = {
     nav_brands: "Партнеры",
     nav_reviews: "Отзывы",
     nav_contacts: "Контакты",
-    btn_order: "🛒 Заказать",
-    btn_callback: "📞 Перезвоните мне",
+    btn_order: "Заказать",
+    btn_callback: "Перезвоните мне",
     manager_status: "● Онлайн. Подберу запчасти за 10 минут",
     branch_westerkappeln: "Вестеркаппельн",
     branch_rheine: "Райне",
@@ -228,8 +228,8 @@ const translations = {
     nav_brands: "Partner",
     nav_reviews: "Bewertungen",
     nav_contacts: "Kontakte",
-    btn_order: "🛒 Bestellung",
-    btn_callback: "📞 Rückruf anfordern",
+    btn_order: "Bestellung",
+    btn_callback: "Rückruf anfordern",
     manager_status: "● Online. Ich finde Ersatzteile in 10 Minuten",
     branch_westerkappeln: "Westerkappeln",
     branch_rheine: "Rheine",
@@ -849,6 +849,89 @@ function updateManagerStatusDisplay() {
     el.style.color = status.isOpen ? "" : "#ef4444";
   });
 }
+
+/**
+ * Инициализация логики плавающей панели быстрых настроек (переключатель темы/языка).
+ * Отвечает за автопоказ при скролле, таймеры скрытия и адаптивное поведение.
+ */
+function initQuickControls() {
+  // Находим панель быстрых настроек в DOM
+  const quickControls = document.querySelector(".header__quick-controls");
+
+  // Если элемента нет на странице — прерываем выполнение, чтобы избежать ошибок
+  if (!quickControls) return;
+
+  // Идентификатор таймера для автоскрытия панели
+  let hideTimeout = null;
+
+  /**
+   * Обработчик события скролла страницы.
+   * Показывает панель и запускает 3-секундный таймер на ее скрытие.
+   */
+  const triggerOnScroll = () => {
+    // Игнорируем показ при скролле на мобильных устройствах (<= 860px)
+    // и когда открыто модальное окно (так как там работает принудительная фиксация через CSS)
+    if (
+      window.innerWidth <= 860 ||
+      document.body.classList.contains("modal-open")
+    ) {
+      return;
+    }
+
+    // Показываем панель, добавляя CSS-класс
+    quickControls.classList.add("is-visible");
+
+    // Сбрасываем предыдущий таймер скрытия, если он был запущен
+    if (hideTimeout) clearTimeout(hideTimeout);
+
+    // Запускаем новый таймер скрытия панели через 3 секунды (3000 мс)
+    hideTimeout = setTimeout(() => {
+      // Скрываем только если курсор мыши не находится над панелью И модалка не открыта
+      if (
+        !quickControls.matches(":hover") &&
+        !document.body.classList.contains("modal-open")
+      ) {
+        quickControls.classList.remove("is-visible");
+      }
+    }, 3000);
+  };
+
+  // Слушаем скролл окна. passive: true оптимизирует производительность скролла
+  window.addEventListener("scroll", triggerOnScroll, { passive: true });
+
+  /**
+   * Обработчик увода курсора мыши с плавающей панели.
+   * Запускает ускоренное скрытие панели через 1 секунду.
+   */
+  quickControls.addEventListener("mouseleave", () => {
+    // Не запускаем скрытие на мобильных и при открытом модальном окне
+    if (
+      window.innerWidth <= 860 ||
+      document.body.classList.contains("modal-open")
+    ) {
+      return;
+    }
+
+    if (hideTimeout) clearTimeout(hideTimeout);
+
+    hideTimeout = setTimeout(() => {
+      quickControls.classList.remove("is-visible");
+    }, 1000);
+  });
+
+  /**
+   * Обработчик изменения размера окна (resize).
+   * Автоматически убирает класс видимости при переходе на мобильное разрешение.
+   */
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 860) {
+      quickControls.classList.remove("is-visible");
+    }
+  });
+}
+
+// Запуск инициализации после полной загрузки DOM-дерева
+document.addEventListener("DOMContentLoaded", initQuickControls);
 
 /* ==========================================================================
 HELPERS

@@ -24,28 +24,44 @@
   <header class="header">
     <div class="container header__container">
 
+      <!-- 1. Логотип -->
       <div class="logo">
         <a href="/">
-          <!-- Логотип для светлой темы (тёмный шрифт) -->
           <img src="assets/images/new-sfr-logo.png" alt="SFR Carparts Logo" class="logo-img logo-light-theme" />
-          <!-- Логотип для тёмной темы (светлый/белый шрифт) -->
           <img src="assets/images/new-sfr-logo.png" alt="SFR Carparts Logo" class="logo-img logo-dark-theme" />
         </a>
       </div>
 
-      <!-- Панель быстрых действий (видима всегда, даже на мобильных) -->
-      <div class="header__quick-controls">
-        <div class="lang-switcher">
-          <button type="button" class="lang-btn-toggle" id="langToggleBtn" aria-label="Switch language">
-            <span class="lang-text" id="langToggleText">RU</span>
+      <!-- 2. Десктопная навигация -->
+      <nav class="header__nav desktop-only-nav">
+        <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
+        <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
+        <a href="#brands" data-lang-key="nav_brands">Партнеры</a>
+        <a href="#reviews" data-lang-key="nav_reviews">Отзывы</a>
+        <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
+      </nav>
+
+      <!-- 3. Правая панель (Контролы + Кнопки + Бургер) -->
+      <div class="header__right-panel">
+        <div class="header__quick-controls">
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn-toggle" id="langToggleBtn" aria-label="Switch language">
+              <span class="lang-text" id="langToggleText">RU</span>
+            </button>
+          </div>
+
+          <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
+            <span class="theme-toggle__icon">🌙</span>
           </button>
         </div>
 
-        <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle Theme">
-          <span class="theme-toggle__icon">🌙</span>
-        </button>
+        <div class="header__actions desktop-only-actions">
+          <button id="call-modal-btn" class="btn btn--outline btn-callback" data-open-modal="modal-callback"
+            data-lang-key="btn_callback">Заказать звонок</button>
+          <button id="order-modal-btn" class="btn btn--primary btn-order" data-open-modal="orderModal"
+            data-lang-key="btn_order">Заказ</button>
+        </div>
 
-        <!-- Кнопка Бургер для мобильных -->
         <button type="button" class="hamburger-btn" id="burgerToggleBtn" aria-label="Toggle Menu">
           <span></span>
           <span></span>
@@ -53,10 +69,9 @@
         </button>
       </div>
 
-      <!-- Мобильное выпадающее меню (Навигация + Кнопки) -->
+      <!-- 4. Мобильное выпадающее меню -->
       <div class="header__mobile-menu" id="mobileMenu">
-        <!-- Навигация по секциям -->
-        <nav class="header__nav">
+        <nav class="header__mobile-nav">
           <a href="#conditions" data-lang-key="nav_conditions">Условия</a>
           <a href="#timeline" data-lang-key="nav_timeline">Схема работы</a>
           <a href="#brands" data-lang-key="nav_brands">Партнеры</a>
@@ -64,14 +79,13 @@
           <a href="#contacts" data-lang-key="nav_contacts">Контакты</a>
         </nav>
 
-        <!-- Кнопки вызова модалок -->
-        <div class="header__actions">
-          <button id="call-modal-btn" class="btn btn--outline" data-open-modal="modal-callback"
-            data-lang-key="btn_callback"></button>
-          <button id="order-modal-btn" class="btn btn--outline" data-open-modal="orderModal"
-            data-lang-key="btn_order"></button>
+        <div class="header__mobile-actions">
+          <button class="btn btn--outline" data-open-modal="modal-callback" data-lang-key="btn_callback">Заказать
+            звонок</button>
+          <button class="btn btn--primary" data-open-modal="orderModal" data-lang-key="btn_order">Заказ</button>
         </div>
       </div>
+
     </div>
   </header>
   <!-- HERO SLIDER -->
