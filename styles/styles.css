@@ -1260,20 +1260,20 @@ REVIEWS SECTION
     display: none !important;
   }
 
-  /* Формирование одной строки на мобильных */
+  /* Нижняя панель управления и кнопка Google */
   .reviews-action {
-    margin-top: 20px;
-    flex-direction: row;
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap; /* Разрешаем перенос блоков на экранах меньше 480px */
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
     width: 100%;
   }
 
-  /* Отображение стрелок слева от кнопки Google */
   .reviews-mobile-controls {
     display: flex;
     gap: 8px;
-    flex-shrink: 0;
   }
 
   .reviews-slider__btn {
@@ -1285,7 +1285,22 @@ REVIEWS SECTION
   .google-reviews-btn {
     padding: 10px 16px;
     font-size: 13px;
-    white-space: nowrap;
+    white-space: normal; /* Разрешаем текст переноситься */
+    text-align: center;
+    max-width: 100%; /* Кнопка не сможет выйти за ширину экрана */
+  }
+}
+
+/* Дополнительный фикс для узких экранов (< 480px) */
+@media (max-width: 479px) {
+  .reviews-action {
+    flex-direction: column-reverse; /* Стрелки встают под кнопкой или над ней */
+    gap: 14px;
+  }
+
+  .google-reviews-btn {
+    width: 100%; /* На совсем узких смартфонах кнопка встает на всю ширину */
+    justify-content: center;
   }
 }
 
@@ -1512,14 +1527,20 @@ FOOTER & BRANCHES SECTION
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: stretch;
 }
 
 /* Панели с информацией */
+.branch-details {
+  display: flex;
+  flex-direction: column;
+}
+
 .branch-panel {
   display: none;
   flex-direction: column;
   gap: 24px;
+  height: 100%;
 }
 
 .branch-panel.active {
@@ -1540,6 +1561,7 @@ FOOTER & BRANCHES SECTION
   font-size: 22px;
   line-height: 1;
   margin-top: 2px;
+  color: var(--text-muted);
 }
 
 .info-item strong {
@@ -1576,28 +1598,34 @@ FOOTER & BRANCHES SECTION
   box-shadow: var(--shadow);
 }
 
-/* Нижняя полоса */
+.footer-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ==========================================
+     НИЖНЯЯ ПОЛОСА (FOOTER BOTTOM)
+     ========================================== */
+
 .footer-bottom {
   margin-top: 60px;
   padding-top: 24px;
   border-top: 1px solid var(--border-color);
-  display: flex;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 16px;
 }
 
-.copyright {
-  margin: 0;
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
+/* Левая часть (Ссылки) */
 .legal-links {
   display: flex;
   align-items: center;
   gap: 12px;
+  justify-self: start;
 }
 
 .legal-link {
@@ -1614,6 +1642,76 @@ FOOTER & BRANCHES SECTION
 .legal-separator {
   color: var(--border-color);
   font-size: 12px;
+  user-select: none;
+}
+
+/* Центральная часть (Копирайт и автор) */
+.footer-bottom-credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Разрешаем перенос на новую строку */
+  gap: 6px 8px; /* Отступы по вертикали и горизонтали */
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.copyright,
+.developer-credit {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.developer-link {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.developer-link:hover {
+  color: var(--primary-color);
+  border-bottom-style: solid;
+}
+
+.credit-separator {
+  color: var(--border-color);
+  font-size: 12px;
+  user-select: none;
+}
+
+/* Правая часть (Соцсети) */
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-self: end;
+}
+
+.social-link {
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.social-link svg {
+  fill: currentColor;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.social-link:hover {
+  color: var(--primary-color);
+  transform: translateY(-2px);
 }
 
 /* Применение тёмного стиля к карте */
@@ -1622,39 +1720,67 @@ body[data-theme="dark"] #branch-map {
   filter: invert(90%) hue-rotate(180deg) contrast(1.2) grayscale(0.15) !important;
 }
 
-/* ADAPTIVE / MOBILE */
-@media (max-width: 768px) {
-  .footer-section {
-    padding: 40px 0 24px 0;
+/* ==========================================
+     АДАПТИВНОСТЬ (МЕДИА-ЗАПРОСЫ)
+========================================== */
+
+/* 1. Планшеты (768px – 1024px) */
+@media (max-width: 1024px) {
+  .footer-grid {
+    gap: 20px;
   }
 
-  .footer-header {
-    margin-bottom: 28px;
+  .info-item {
+    padding: 14px 18px;
   }
+}
 
-  .footer-title {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-
+/* 2. Мобильные устройства и узкие планшеты (< 768px) */
+@media (max-width: 767px) {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
-  .info-item {
-    padding: 16px 20px;
-  }
-
   .footer-map {
-    height: 260px;
-    min-height: 260px;
+    height: 300px;
+    min-height: 300px;
   }
 
   .footer-bottom {
-    margin-top: 40px;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .legal-links,
+  .footer-socials {
+    justify-self: center;
+  }
+}
+
+/* 3. Маленькие смартфоны (< 480px) */
+@media (max-width: 479px) {
+  .footer-section {
+    padding: 50px 0 24px 0;
+  }
+
+  .footer-title {
+    font-size: 24px;
+  }
+
+  .branch-tabs {
+    width: 100%;
+  }
+
+  .branch-tab {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 14px;
   }
 }
 
