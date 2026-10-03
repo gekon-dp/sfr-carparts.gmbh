@@ -552,16 +552,51 @@ const CAR_MODELS = {
   Volvo: ["XC40", "XC60", "XC90", "S60"],
 };
 
+// Вспомогательная функция: ищет ближайший рабочий день с учетом праздников филиала/менеджера
+function getNextWorkingDay(startDate, branch, config) {
+  let checkDate = new Date(startDate);
+
+  for (let i = 0; i < 10; i++) {
+    checkDate.setDate(checkDate.getDate() + 1);
+
+    const year = checkDate.getFullYear();
+    const month = String(checkDate.getMonth() + 1).padStart(2, "0");
+    const dayNum = String(checkDate.getDate()).padStart(2, "0");
+
+    const fullDateStr = `${year}-${month}-${dayNum}`;
+    const monthDayStr = `${month}-${dayNum}`;
+
+    // 1. Проверяем праздники (если у Светланы/филиала в эти дни offDays)
+    const offDaysList = branch.offDays || branch.manager?.offDays || [];
+    const isHoliday = offDaysList.some(
+      (item) => item.date === fullDateStr || item.date === monthDayStr,
+    );
+    if (isHoliday) continue;
+
+    // 2. Проверяем дни недели
+    const dayOfWeek = checkDate.getDay(); // 0 = Воскресенье, 6 = Суббота
+    if (dayOfWeek === 0) continue;
+    if (dayOfWeek === 6 && !config.hasSaturday) continue;
+
+    return checkDate; // Нашли рабочий день!
+  }
+
+  return checkDate;
+}
+
 function getManagerStatus(
   activeBranchKey = state?.activeBranch,
   context = "order",
 ) {
   const config = GENERAL_SCHEDULE;
   const lang = state?.currentLang || "ru";
-  const branch =
-    branchData?.[activeBranchKey] || branchData?.westerkappeln || {};
 
-  // Безопасное получение данных
+  // 1. Фиксация Светланы для callback
+  const targetBranchKey =
+    context === "callback" ? "westerkappeln" : activeBranchKey;
+  const branch =
+    branchData?.[targetBranchKey] || branchData?.westerkappeln || {};
+
   const managerName =
     branch.manager?.name?.[lang] || branch.manager?.name?.ru || "";
   const managerRole =
@@ -570,19 +605,16 @@ function getManagerStatus(
     (lang === "de" ? "Manager" : "Менеджер");
 
   const now = new Date();
-  // const now = new Date("2029-12-26T12:00:00"); // Для проверки праздника (например, Tag der Deutschen Einheit)
+  // const now = new Date("2026-12-26T19:00:00"); // Для проверки праздника (например, Tag der Deutschen Einheit)
 
-  // =========================================================================
-  // 1. ПРОВЕРКА СПЕЦИАЛЬНЫХ ДНЕЙ (ПРАЗДНИКИ / ВЫХОДНЫЕ ФИЛИАЛА)
-  // =========================================================================
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const dayNum = String(now.getDate()).padStart(2, "0");
 
-  const fullDateStr = `${year}-${month}-${dayNum}`; // "2026-10-03" (для разовых)
-  const monthDayStr = `${month}-${dayNum}`; // "10-03" (для ежегодных)
+  const fullDateStr = `${year}-${month}-${dayNum}`;
+  const monthDayStr = `${month}-${dayNum}`;
 
-  // Ищем совпадение либо по полной дате "YYYY-MM-DD", либо по ежегодной "MM-DD"
+  // 2. ПРОВЕРКА: ЕСЛИ СЕГОДНЯ ПРАЗДНИК
   const offDaysList = branch.offDays || branch.manager?.offDays || [];
   const specialOffDay = offDaysList.find(
     (item) => item.date === fullDateStr || item.date === monthDayStr,
@@ -595,12 +627,59 @@ function getManagerStatus(
       specialOffDay.reason?.ru ||
       (lang === "de" ? "Feiertag" : "Праздник");
 
+    // Динамически ищем рабочий день после праздника
+    const nextWorkDate = getNextWorkingDay(now, branch, config);
+
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const isNextDayTomorrow =
+      nextWorkDate.getDate() === tomorrow.getDate() &&
+      nextWorkDate.getMonth() === tomorrow.getMonth();
+
+    const isNextDaySaturday = nextWorkDate.getDay() === 6;
+    let timeStr = config.open;
+    if (isNextDaySaturday) timeStr = config.satOpen;
+
+    let whenTextRu = "";
+    let whenTextDe = "";
+
+    if (isNextDayTomorrow) {
+      whenTextRu = `завтра с ${timeStr}`;
+      whenTextDe = `morgen ab ${timeStr}`;
+    } else {
+      const dayNamesRu = [
+        "в воскресенье",
+        "в понедельник",
+        "во вторник",
+        "в среду",
+        "в четверг",
+        "в пятницу",
+        "в субботу",
+      ];
+      const dayNamesDe = [
+        "am Sonntag",
+        "am Montag",
+        "am Dienstag",
+        "am Mittwoch",
+        "am Donnerstag",
+        "am Freitag",
+        "am Samstag",
+      ];
+
+      const targetDayNameRu = dayNamesRu[nextWorkDate.getDay()];
+      const targetDayNameDe = dayNamesDe[nextWorkDate.getDay()];
+
+      whenTextRu = `${targetDayNameRu} с ${timeStr}`;
+      whenTextDe = `${targetDayNameDe} ab ${timeStr}`;
+    }
+
     const actionRu = isCallback
-      ? "свяжется с вами в следующий рабочий день"
-      : "обработает ваш заказ в следующий рабочий день";
+      ? `свяжется с вами ${whenTextRu}`
+      : `обработает ваш заказ ${whenTextRu}`;
     const actionDe = isCallback
-      ? "ruft Sie am nächsten Werktag zurück"
-      : "bearbeitet Ihre Bestellung am nächsten Werktag";
+      ? `ruft Sie ${whenTextDe} zurück`
+      : `bearbeitet Ihre Bestellung ${whenTextDe}`;
 
     return {
       isOpen: false,
@@ -610,8 +689,8 @@ function getManagerStatus(
           : `🔴 Закрыто (${reasonText}). ${managerRole} ${managerName} ${actionRu}.`,
     };
   }
-  // =========================================================================
 
+  // 3. Рабочее время сегодня
   const day = now.getDay();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -644,66 +723,77 @@ function getManagerStatus(
     };
   }
 
+  // 4. Если сейчас закрыто — вычисляем следующий рабочий день
   const isCallback = context === "callback";
 
-  const dict = {
-    ru: {
-      closedTodayLater: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`,
-      closedTomorrow: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.open}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.open}`,
-      closedTomorrowSat: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${config.satOpen}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${config.satOpen}`,
-      closedMonday: isCallback
-        ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами в понедельник с ${config.open}`
-        : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ в понедельник с ${config.open}`,
-    },
-    de: {
-      closedTodayLater: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`,
-      closedTomorrow: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.open} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.open}`,
-      closedTomorrowSat: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${config.satOpen} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${config.satOpen}`,
-      closedMonday: isCallback
-        ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie am Montag ab ${config.open} zurück`
-        : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung am Montag ab ${config.open}`,
-    },
-  };
-
-  const t = dict[lang] || dict.ru;
-  let closedText = t.closedTomorrow;
-
-  // 1. Утро до открытия (сегодня)
   if (isWorkDay && currentMinutes < openMins) {
-    closedText = t.closedTodayLater;
-  }
-  // 2. Пятница вечер -> Суббота (если суббота рабочая)
-  else if (day === 5 && currentMinutes >= closeMins) {
-    closedText = config.hasSaturday ? t.closedTomorrowSat : t.closedMonday;
-  }
-  // 3. Суббота после 14:00 (или суббота без работы) -> Понедельник
-  else if (
-    (day === 6 && currentMinutes >= closeMins) ||
-    (day === 6 && !config.hasSaturday)
-  ) {
-    closedText = t.closedMonday;
-  }
-  // 4. Воскресенье ИЛИ Пн-Чт вечер -> Завтра с 09:00
-  else {
-    closedText = t.closedTomorrow;
+    const msgRu = isCallback
+      ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами сегодня с ${openStr}`
+      : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ сегодня с ${openStr}`;
+    const msgDe = isCallback
+      ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie heute ab ${openStr} zurück`
+      : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung heute ab ${openStr}`;
+
+    return { isOpen: false, text: lang === "de" ? msgDe : msgRu };
   }
 
-  return {
-    isOpen: false,
-    text: closedText,
-  };
+  const nextWorkDate = getNextWorkingDay(now, branch, config);
+
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const isNextDayTomorrow =
+    nextWorkDate.getDate() === tomorrow.getDate() &&
+    nextWorkDate.getMonth() === tomorrow.getMonth();
+
+  const isNextDaySaturday = nextWorkDate.getDay() === 6;
+
+  let timeStr = config.open;
+  if (isNextDaySaturday) timeStr = config.satOpen;
+
+  if (isNextDayTomorrow) {
+    const msgRu = isCallback
+      ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами завтра с ${timeStr}`
+      : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ завтра с ${timeStr}`;
+    const msgDe = isCallback
+      ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie morgen ab ${timeStr} zurück`
+      : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung morgen ab ${timeStr}`;
+
+    return { isOpen: false, text: lang === "de" ? msgDe : msgRu };
+  } else {
+    const dayNamesRu = [
+      "в воскресенье",
+      "в понедельник",
+      "во вторник",
+      "в среду",
+      "в четверг",
+      "в пятницу",
+      "в субботу",
+    ];
+    const dayNamesDe = [
+      "am Sonntag",
+      "am Montag",
+      "am Dienstag",
+      "am Mittwoch",
+      "am Donnerstag",
+      "am Freitag",
+      "am Samstag",
+    ];
+
+    const targetDayName =
+      lang === "de"
+        ? dayNamesDe[nextWorkDate.getDay()]
+        : dayNamesRu[nextWorkDate.getDay()];
+
+    const msgRu = isCallback
+      ? `🔴 Закрыто. ${managerRole} ${managerName} свяжется с вами ${targetDayName} с ${timeStr}`
+      : `🔴 Закрыто. ${managerRole} ${managerName} обработает ваш заказ ${targetDayName} с ${timeStr}`;
+    const msgDe = isCallback
+      ? `🔴 Geschlossen. ${managerRole} ${managerName} ruft Sie ${targetDayName} ab ${timeStr} zurück`
+      : `🔴 Geschlossen. ${managerRole} ${managerName} bearbeitet Ihre Bestellung ${targetDayName} ab ${timeStr}`;
+
+    return { isOpen: false, text: lang === "de" ? msgDe : msgRu };
+  }
 }
 
 function updateManagerStatusDisplay() {
